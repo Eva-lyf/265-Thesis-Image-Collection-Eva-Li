@@ -1,5 +1,5 @@
 import { analyzeImage, type RGB } from './color';
-export type Photo={id:string;title:string;url:string;rgb:RGB;source_url?:string;storage_path?:string;arena_id?:number;temporary?:boolean};
+export type Photo={id:string;title:string;url:string;rgb:RGB;source_url?:string;storage_path?:string;arena_id?:number;temporary?:boolean;bundled?:boolean};
 export type Config={url:string;key:string};
 export function configured(c:Config){return !!c.url&&!!c.key;}
 async function request(c:Config,path:string,options:RequestInit={},token?:string){const res=await fetch(`${c.url}${path}`,{...options,headers:{apikey:c.key,Authorization:`Bearer ${token||c.key}`,...options.headers}});if(!res.ok){let message='Unable to connect to the collection.';try{const e=await res.json() as {msg?:string;message?:string;error_description?:string};message=e.msg||e.message||e.error_description||message;}catch{}throw new Error(message);}return res;}

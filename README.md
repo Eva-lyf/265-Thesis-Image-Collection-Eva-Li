@@ -4,7 +4,7 @@ White, minimal color explorer based on Eva Li’s supplied sketch. Drag or use a
 
 ## Current data status
 
-The supplied Are.na channel returns 401/403 to anonymous requests. No photos have been copied or substituted. Until Supabase is configured, Collection offers explicitly temporary preview uploads, cleared on reload. The HEIC attachment was treated as a layout reference, not as gallery content.
+The private Are.na share link provided by the owner was used to collect all 132 channel images. The site carries local 600 px WebP copies so the collection remains visible without exposing the private share token in browser code. Average colors are generated ahead of time and saved with the image metadata. Until Supabase is configured, additional uploads are temporary and clear on reload. The HEIC attachment was treated as a layout reference, not as gallery content.
 
 ## Connect Supabase
 
@@ -12,7 +12,7 @@ The supplied Are.na channel returns 401/403 to anonymous requests. No photos hav
 2. Create your email/password account in Authentication → Users; add its UUID to `collection_editors` using the commented statement at the end of the SQL file. There is intentionally no public sign-up UI.
 3. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in `.env.local`. These are public project connection values, never the service-role key or database password. Set the same variables in the hosting environment and rebuild for deployment.
 4. Open Collection, sign in, and upload photos. They are stored in Supabase Storage with metadata and mean RGB in the database. Editor sessions remain in memory; reload or sign out to clear them. Expired sessions require signing in again.
-5. To import the existing channel, make it public in Are.na, then choose Import from Are.na. Import reads all pages up to 10,000 blocks, keeps image blocks, computes each image’s color, and skips existing Are.na IDs. Are.na imports reference their original image URLs, so those source files must remain available. If a source blocks cross-origin pixel reading, download the image and upload the file instead.
+5. The initial Are.na collection is already bundled with the site. After the Supabase project is connected, new uploads are stored in Supabase and merged with the 132 initial images.
 
 Deleting removes the collection record, not the original Are.na block. Uploaded storage objects are retained when a record is deleted, to avoid destructive file removal and permit manual recovery; clean unused objects in Supabase Storage when desired. Failed insert uploads attempt to clean up the newly uploaded file.
 
