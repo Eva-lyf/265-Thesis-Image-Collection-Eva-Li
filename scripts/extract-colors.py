@@ -8,6 +8,7 @@ records = json.loads(source_path.read_text())
 for record in records:
     path = Path('public') / record['url'].lstrip('/')
     with Image.open(path) as image:
+        record['width'], record['height'] = image.size
         image.thumbnail((160, 160))
         image = image.convert('RGBA')
         background = Image.new('RGBA', image.size, (255, 255, 255, 255))

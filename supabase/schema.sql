@@ -11,6 +11,8 @@ create table public.photos (
  title text not null check (char_length(title) between 1 and 500),
  url text not null check (url ~ '^https://'),
  rgb integer[] not null check (array_length(rgb,1)=3 and 0 <= all(rgb) and 255 >= all(rgb)),
+ width integer check (width > 0),
+ height integer check (height > 0),
  source_url text,
  storage_path text,
  arena_id bigint unique,
