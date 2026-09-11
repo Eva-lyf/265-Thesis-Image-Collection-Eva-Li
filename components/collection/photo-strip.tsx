@@ -22,16 +22,31 @@ export function PhotoStrip({
   revealKey,
   onSelect,
 }: PhotoStripProps) {
+  const thumbs = useRef<HTMLDivElement>(null);
   const photoButtons = useRef(new Map<string, HTMLButtonElement>());
 
   useEffect(() => {
     if (!currentId) return;
     photoButtons.current.get(currentId)?.scrollIntoView({
-      behavior: 'smooth',
+      behavior: 'auto',
       block: 'nearest',
       inline: 'center',
     });
   }, [currentId, revealKey]);
+
+  useEffect(() => {
+    if (!revealKey) return;
+    thumbs.current?.animate(
+      [
+        { opacity: 0.08, filter: 'blur(12px)', transform: 'scale(0.985)' },
+        { opacity: 1, filter: 'blur(0)', transform: 'scale(1)' },
+      ],
+      {
+        duration: 560,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      },
+    );
+  }, [revealKey]);
 
   return (
     <section
@@ -39,7 +54,7 @@ export function PhotoStrip({
       aria-label="Closest colors"
     >
       {photos.length ? (
-        <div className="thumbs" key={revealKey}>
+        <div className="thumbs" ref={thumbs}>
           {photos.map((photo) => (
             <button
               ref={(node) => {

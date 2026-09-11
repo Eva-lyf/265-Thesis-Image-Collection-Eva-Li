@@ -10,7 +10,7 @@ type ColorControlsProps = {
   onPreviewHue: (hue: number | null) => void;
   onColorChange: (color: RGB) => void;
   onColorCommit: () => void;
-  onToneAdjust: () => void;
+  onToneChange: (color: RGB) => void;
   onToneCommit: () => void;
 };
 
@@ -22,7 +22,7 @@ export function ColorControls({
   onPreviewHue,
   onColorChange,
   onColorCommit,
-  onToneAdjust,
+  onToneChange,
   onToneCommit,
 }: ColorControlsProps) {
   const committedColor = hex(hslToRgb(...hsl));
@@ -132,8 +132,7 @@ export function ColorControls({
           max={95}
           value={[hsl[2]]}
           onValueChange={(value) => {
-            onToneAdjust();
-            onColorChange([
+            onToneChange([
               hsl[0],
               hsl[1],
               Array.isArray(value) ? value[0] : value,
@@ -152,8 +151,7 @@ export function ColorControls({
           max={100}
           value={[hsl[1]]}
           onValueChange={(value) => {
-            onToneAdjust();
-            onColorChange([
+            onToneChange([
               hsl[0],
               Array.isArray(value) ? value[0] : value,
               hsl[2],

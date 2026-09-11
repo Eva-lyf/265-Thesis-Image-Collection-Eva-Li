@@ -69,9 +69,7 @@ export function PhotoViewer({
     <div className="photo-panel">
       <button
         className={`photo-stage image-stage ${frameRatio < 1 ? 'portrait' : 'landscape'} ${loadingColor ? 'is-loading' : ''}`}
-        onPointerEnter={(event) => {
-          if (event.pointerType === 'mouse') onHoverChange(true);
-        }}
+        onPointerEnter={() => onHoverChange(true)}
         onPointerLeave={() => onHoverChange(false)}
         onFocus={() => onHoverChange(true)}
         onBlur={() => onHoverChange(false)}
@@ -111,7 +109,6 @@ export function PhotoViewer({
           style={{ opacity: amount / 100, color: revealTextColor }}
         >
           <strong>{hex(photo.rgb)}</strong>
-          <small>ALL THE COLORS, BECOME ONE.</small>
         </span>
       </button>
     </div>

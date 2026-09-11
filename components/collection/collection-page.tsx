@@ -51,9 +51,11 @@ export default function CollectionPage({
     ),
   );
   const colorSettleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingColor = useRef<RGB | null>(null);
 
   const [photos, setPhotos] = useState<Photo[]>(initialPhotos);
   const [hsl, setHsl] = useState<RGB>([28, 46, 68]);
+  const [resultHsl, setResultHsl] = useState<RGB>([28, 46, 68]);
   const [previewHue, setPreviewHue] = useState<number | null>(null);
   const [stripRevealKey, setStripRevealKey] = useState(0);
   const [photoRevealKey, setPhotoRevealKey] = useState(0);
@@ -67,7 +69,7 @@ export default function CollectionPage({
   const [message, setMessage] = useState('');
   const [token, setToken] = useState('');
 
-  const selectedRgb = useMemo(() => hslToRgb(...hsl), [hsl]);
+  const selectedRgb = useMemo(() => hslToRgb(...resultHsl), [resultHsl]);
   const sortedPhotos = useMemo(
     () =>
       [...photos].sort(
@@ -75,15 +77,16 @@ export default function CollectionPage({
       ),
     [photos, selectedRgb],
   );
+  const anchorPhoto = sortedPhotos[0];
   const currentPhoto =
-    photos.find((photo) => photo.id === pickedId) ?? sortedPhotos[0];
-  const surroundingPhotos = currentPhoto
-    ? sortedPhotos.filter((photo) => photo.id !== currentPhoto.id)
+    photos.find((photo) => photo.id === pickedId) ?? anchorPhoto;
+  const surroundingPhotos = anchorPhoto
+    ? sortedPhotos.filter((photo) => photo.id !== anchorPhoto.id)
     : [];
-  const neighborhood = currentPhoto
+  const neighborhood = anchorPhoto
     ? [
         ...surroundingPhotos.filter((_, index) => index % 2 === 0).reverse(),
-        currentPhoto,
+        anchorPhoto,
         ...surroundingPhotos.filter((_, index) => index % 2 === 1),
       ]
     : [];
@@ -217,30 +220,48 @@ export default function CollectionPage({
     return () => life.abort();
   }, []);
 
-  const revealColorResults = () => {
+  const revealColorResults = (color = pendingColor.current) => {
     if (colorSettleTimer.current) clearTimeout(colorSettleTimer.current);
     colorSettleTimer.current = null;
+    pendingColor.current = null;
+    if (color) {
+      setPickedId(null);
+      setResultHsl(color);
+    }
     setColorResultsLoading(false);
     setStripRevealKey((key) => key + 1);
     setPhotoRevealKey((key) => key + 1);
   };
 
-  const scheduleColorResults = (delay: number) => {
+  const scheduleColorResults = (color: RGB, delay: number) => {
+    pendingColor.current = color;
     setColorResultsLoading(true);
     if (colorSettleTimer.current) clearTimeout(colorSettleTimer.current);
-    colorSettleTimer.current = setTimeout(revealColorResults, delay);
+    colorSettleTimer.current = setTimeout(
+      () => revealColorResults(color),
+      delay,
+    );
   };
 
   const selectPhoto = (photo: Photo) => {
     setPickedId(photo.id);
     setHsl(rgbToHsl(photo.rgb));
     setBlend(0);
-    revealColorResults();
+    revealColorResults(null);
   };
 
   const selectColor = (color: RGB) => {
+    if (colorSettleTimer.current) clearTimeout(colorSettleTimer.current);
+    colorSettleTimer.current = null;
+    pendingColor.current = null;
     setPickedId(null);
     setHsl(color);
+    setResultHsl(color);
+  };
+
+  const adjustTone = (color: RGB) => {
+    setHsl(color);
+    scheduleColorResults(color, 280);
   };
 
   const addFiles = async (files: FileList | null) => {
@@ -369,8 +390,12 @@ export default function CollectionPage({
           onPreviewHue={setPreviewHue}
           onColorChange={selectColor}
           onColorCommit={revealColorResults}
-          onToneAdjust={() => scheduleColorResults(280)}
-          onToneCommit={() => scheduleColorResults(90)}
+          onToneChange={adjustTone}
+          onToneCommit={() => {
+            if (pendingColor.current) {
+              scheduleColorResults(pendingColor.current, 90);
+            }
+          }}
         />
         <PhotoViewer
           photo={currentPhoto}
@@ -388,7 +413,6 @@ export default function CollectionPage({
 
       <footer>
         <span>265ThesisBrainstormCollectionEvaLI</span>
-        <span>Objects. Places. Little things worth keeping.</span>
         <button onClick={() => setManagerOpen(true)} className="status-button">
           <i className="online" />
           ARE.NA · {photos.length} IMAGES
