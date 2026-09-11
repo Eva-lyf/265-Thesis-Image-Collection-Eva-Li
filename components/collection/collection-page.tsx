@@ -45,6 +45,7 @@ export default function CollectionPage({
   const [photos, setPhotos] = useState<Photo[]>(initialPhotos);
   const [hsl, setHsl] = useState<RGB>([28, 46, 68]);
   const [previewHue, setPreviewHue] = useState<number | null>(null);
+  const [stripRevealKey, setStripRevealKey] = useState(0);
   const [pickedId, setPickedId] = useState<string | null>(null);
   const [hovering, setHovering] = useState(false);
   const [blend, setBlend] = useState(0);
@@ -154,6 +155,7 @@ export default function CollectionPage({
     setPickedId(photo.id);
     setHsl(rgbToHsl(photo.rgb));
     setBlend(0);
+    setStripRevealKey((key) => key + 1);
   };
 
   const selectColor = (color: RGB) => {
@@ -275,6 +277,8 @@ export default function CollectionPage({
         photos={neighborhood}
         currentId={currentPhoto?.id}
         loading={loading}
+        previewing={previewHue !== null}
+        revealKey={stripRevealKey}
         onSelect={selectPhoto}
       />
 
@@ -284,6 +288,7 @@ export default function CollectionPage({
           previewHue={previewHue}
           onPreviewHue={setPreviewHue}
           onColorChange={selectColor}
+          onColorCommit={() => setStripRevealKey((key) => key + 1)}
         />
         <PhotoViewer
           photo={currentPhoto}

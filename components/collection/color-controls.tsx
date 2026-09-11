@@ -9,6 +9,7 @@ type ColorControlsProps = {
   previewHue: number | null;
   onPreviewHue: (hue: number | null) => void;
   onColorChange: (color: RGB) => void;
+  onColorCommit: () => void;
 };
 
 const wheelHues = [0, 60, 120, 180, 240, 300, 360];
@@ -18,6 +19,7 @@ export function ColorControls({
   previewHue,
   onPreviewHue,
   onColorChange,
+  onColorCommit,
 }: ColorControlsProps) {
   const committedColor = hex(hslToRgb(...hsl));
   const displayHue = previewHue ?? hsl[0];
@@ -60,6 +62,7 @@ export function ColorControls({
           ? 359
           : (hsl[0] + direction * step + 360) % 360;
     onColorChange([hue, hsl[1], hsl[2]]);
+    onColorCommit();
   };
 
   return (
@@ -79,15 +82,11 @@ export function ColorControls({
             if (event.pointerType === 'mouse') onPreviewHue(pointerHue(event));
           }}
           onPointerLeave={() => onPreviewHue(null)}
-          onPointerDown={(event) => {
-            if (event.pointerType !== 'mouse') {
-              onColorChange([pointerHue(event), hsl[1], hsl[2]]);
-            }
-          }}
           onClick={(event) => {
             const hue = pointerHue(event);
-            onPreviewHue(hue);
+            onPreviewHue(null);
             onColorChange([hue, hsl[1], hsl[2]]);
+            onColorCommit();
           }}
           onKeyDown={(event) => {
             if (
@@ -118,9 +117,6 @@ export function ColorControls({
         <div className="wheel-center">
           <i style={{ background: displayColor }} />
           <span>{displayColor}</span>
-          <small>
-            {previewHue === null ? 'SELECTED COLOR' : 'CLICK TO SELECT'}
-          </small>
         </div>
       </div>
 

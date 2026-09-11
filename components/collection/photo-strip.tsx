@@ -9,6 +9,8 @@ type PhotoStripProps = {
   photos: Photo[];
   currentId?: string;
   loading: boolean;
+  previewing: boolean;
+  revealKey: number;
   onSelect: (photo: Photo) => void;
 };
 
@@ -16,6 +18,8 @@ export function PhotoStrip({
   photos,
   currentId,
   loading,
+  previewing,
+  revealKey,
   onSelect,
 }: PhotoStripProps) {
   const photoButtons = useRef(new Map<string, HTMLButtonElement>());
@@ -27,12 +31,15 @@ export function PhotoStrip({
       block: 'nearest',
       inline: 'center',
     });
-  }, [currentId]);
+  }, [currentId, revealKey]);
 
   return (
-    <section className="filmstrip" aria-label="Closest colors">
+    <section
+      className={`filmstrip ${previewing ? 'is-previewing' : ''}`}
+      aria-label="Closest colors"
+    >
       {photos.length ? (
-        <div className="thumbs">
+        <div className="thumbs" key={revealKey}>
           {photos.map((photo) => (
             <button
               ref={(node) => {
@@ -47,7 +54,6 @@ export function PhotoStrip({
               aria-pressed={currentId === photo.id}
             >
               <img src={photo.url} alt={photo.title} />
-              <i style={{ background: hex(photo.rgb) }} />
             </button>
           ))}
         </div>

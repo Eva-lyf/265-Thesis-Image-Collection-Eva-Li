@@ -203,7 +203,7 @@ button {
 .photo-stage {
   width: 100%;
   aspect-ratio: 1/1.08;
-  border-radius: 4px;
+  border-radius: 0;
   position: relative;
   overflow: hidden;
   background: #f8f8f7;
@@ -398,13 +398,6 @@ footer span:last-child {
   object-fit: cover;
   border-radius: 3px;
 }
-.thumbnail i {
-  display: block;
-  height: 3px;
-  margin: 6px auto 0;
-  border-radius: 4px;
-  width: 18px;
-}
 .thumbnail.selected:after {
   content: '';
   position: absolute;
@@ -432,8 +425,8 @@ footer span:last-child {
   gap: 15px;
 }
 .wheel-center i {
-  height: 28px;
-  width: 28px;
+  height: 42px;
+  width: 42px;
   border-radius: 50%;
   box-shadow: inset 0 0 0 1px #00000007;
 }
@@ -442,12 +435,6 @@ footer span:last-child {
   letter-spacing: 1px;
   font-weight: 300;
   font-variant-numeric: tabular-nums;
-}
-.wheel-center small {
-  font-size: 7px;
-  letter-spacing: 1.5px;
-  color: #aaa;
-  margin-top: -7px;
 }
 .tone-controls {
   display: flex;
@@ -878,8 +865,9 @@ footer span:last-child {
 .filmstrip {
   position: relative;
   gap: 0;
-  min-height: 88px;
+  min-height: 84px;
   overflow: hidden;
+  border: 0;
 }
 .filmstrip:before,
 .filmstrip:after {
@@ -888,24 +876,59 @@ footer span:last-child {
   z-index: 3;
   top: 0;
   bottom: 0;
-  width: clamp(38px, 7vw, 92px);
+  width: clamp(64px, 11vw, 150px);
   pointer-events: none;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .filmstrip:before {
   left: 0;
-  background: linear-gradient(90deg, #fff 4%, #ffffffe8 34%, transparent);
+  background: linear-gradient(90deg, #fff 0%, #ffffffd9 38%, transparent 100%);
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000e 22%,
+    #0006 62%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000e 22%,
+    #0006 62%,
+    transparent 100%
+  );
 }
 .filmstrip:after {
   right: 0;
-  background: linear-gradient(270deg, #fff 4%, #ffffffe8 34%, transparent);
+  background: linear-gradient(270deg, #fff 0%, #ffffffd9 38%, transparent 100%);
+  mask-image: linear-gradient(
+    270deg,
+    #000 0%,
+    #000e 22%,
+    #0006 62%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    270deg,
+    #000 0%,
+    #000e 22%,
+    #0006 62%,
+    transparent 100%
+  );
 }
 .thumbs {
-  gap: 10px;
-  padding: 8px 0;
+  align-items: center;
+  gap: 13px;
+  padding: 5px 0;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
+  animation: neighbor-fade-in 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    filter 360ms ease,
+    opacity 360ms ease,
+    transform 360ms ease;
 }
 .thumbs::-webkit-scrollbar {
   display: none;
@@ -915,43 +938,69 @@ footer span:last-child {
   display: none;
 }
 .thumbnail {
-  flex-basis: 54px;
-  opacity: 0.48;
+  flex: 0 0 44px;
+  width: 44px;
+  opacity: 0.38;
+  transition:
+    width 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    flex-basis 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 260ms ease,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .thumbnail img {
-  width: 54px;
-  height: 63px;
+  width: 44px;
+  height: 52px;
+  border-radius: 2px;
   filter: saturate(0.72);
   transition:
-    filter 0.25s,
-    box-shadow 0.25s;
+    width 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 360ms ease,
+    box-shadow 360ms ease;
 }
 .thumbnail:hover {
   opacity: 0.82;
 }
 .thumbnail.selected {
   z-index: 2;
+  flex-basis: 64px;
+  width: 64px;
   opacity: 1;
-  transform: translateY(-2px) scale(1.08);
+  transform: none;
 }
 .thumbnail.selected img {
+  width: 64px;
+  height: 74px;
   filter: saturate(1.08);
-  box-shadow: 0 6px 18px #00000024;
+  border-radius: 2px;
+  box-shadow:
+    0 0 0 1.5px #5c5c5c,
+    0 7px 20px #0000001f;
 }
 .thumbnail.selected:after {
-  inset: -5px -5px 7px;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 1.5px #606060;
-  border-radius: 7px;
+  display: none;
 }
-.thumbnail.selected i {
-  height: 4px;
-  width: 26px;
+.filmstrip.is-previewing .thumbs {
+  filter: blur(9px);
+  opacity: 0.22;
+  transform: scale(0.985);
+}
+@keyframes neighbor-fade-in {
+  from {
+    opacity: 0.08;
+    filter: blur(12px);
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
 }
 
 @media (min-width: 851px) {
   .filmstrip {
-    min-height: clamp(78px, 10.5vh, 90px);
+    min-height: clamp(78px, 10vh, 86px);
   }
   .explorer {
     --visual-limit: min(440px, 45vh);
@@ -978,11 +1027,20 @@ footer span:last-child {
     min-height: 76px;
   }
   .thumbnail {
-    flex-basis: 46px;
+    flex-basis: 40px;
+    width: 40px;
   }
   .thumbnail img {
-    width: 46px;
-    height: 54px;
+    width: 40px;
+    height: 48px;
+  }
+  .thumbnail.selected {
+    flex-basis: 54px;
+    width: 54px;
+  }
+  .thumbnail.selected img {
+    width: 54px;
+    height: 64px;
   }
   .thumbs {
     gap: 9px;
@@ -994,13 +1052,16 @@ footer span:last-child {
 }
 .thumbnail.selected {
   opacity: 1 !important;
-  transform: translateY(-2px) scale(1.16);
+  transform: none;
 }
 .thumbnail.selected img {
   opacity: 1;
 }
 
 @media (min-width: 851px) {
+  .masthead {
+    height: clamp(54px, 7.5vh, 64px);
+  }
   .explorer {
     padding-top: clamp(34px, 5vh, 48px);
   }
