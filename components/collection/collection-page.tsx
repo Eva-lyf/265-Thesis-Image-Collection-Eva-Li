@@ -16,7 +16,9 @@ import {
 import {
   configured,
   deletePhoto,
+  listArenaPhotos,
   listPhotos,
+  prepareArenaPhotos,
   uploadPhoto,
   type Config,
   type Photo,
@@ -41,6 +43,13 @@ export default function CollectionPage({
 }: CollectionPageProps) {
   const connected = configured(config);
   const temporaryUrls = useRef<string[]>([]);
+  const arenaPhotoCache = useRef(
+    new Map(
+      initialPhotos.flatMap((photo) =>
+        photo.arena_id ? ([[photo.arena_id, photo]] as const) : [],
+      ),
+    ),
+  );
   const colorSettleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [photos, setPhotos] = useState<Photo[]>(initialPhotos);
@@ -82,27 +91,74 @@ export default function CollectionPage({
   useEffect(() => {
     const cloudConfig = { url: config.url, key: config.key };
     const urls = temporaryUrls.current;
+    let cancelled = false;
+    let syncingArena = false;
 
-    if (connected) {
-      listPhotos(cloudConfig)
-        .then((cloudPhotos) => {
-          const merged = [...cloudPhotos, ...initialPhotos];
-          setPhotos(
-            merged.filter(
-              (photo, index) =>
-                merged.findIndex((candidate) =>
-                  photo.arena_id
-                    ? candidate.arena_id === photo.arena_id
-                    : candidate.id === photo.id,
-                ) === index,
-            ),
-          );
-        })
-        .catch((error) => setMessage(error.message))
-        .finally(() => setLoading(false));
-    }
+    const syncArena = async () => {
+      if (syncingArena) return;
+      syncingArena = true;
 
-    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+      try {
+        const sources = await listArenaPhotos();
+        const arenaPhotos = await prepareArenaPhotos(
+          sources,
+          arenaPhotoCache.current.values(),
+        );
+        if (cancelled) return;
+
+        arenaPhotoCache.current = new Map(
+          arenaPhotos.flatMap((photo) =>
+            photo.arena_id ? ([[photo.arena_id, photo]] as const) : [],
+          ),
+        );
+        setPhotos((current) => [
+          ...current.filter((photo) => !photo.arena_id),
+          ...arenaPhotos,
+        ]);
+      } catch (error) {
+        if (!initialPhotos.length && !cancelled) {
+          setMessage((error as Error).message);
+        }
+      } finally {
+        syncingArena = false;
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    const initialize = async () => {
+      if (connected) {
+        try {
+          const cloudPhotos = await listPhotos(cloudConfig);
+          if (cancelled) return;
+
+          for (const photo of cloudPhotos) {
+            if (photo.arena_id) {
+              arenaPhotoCache.current.set(photo.arena_id, photo);
+            }
+          }
+          setPhotos((current) => [
+            ...cloudPhotos.filter((photo) => !photo.arena_id),
+            ...current.filter((photo) => photo.arena_id),
+          ]);
+        } catch (error) {
+          if (!cancelled) setMessage((error as Error).message);
+        }
+      }
+
+      await syncArena();
+    };
+
+    void initialize();
+    const interval = window.setInterval(() => void syncArena(), 5 * 60 * 1000);
+    const syncOnFocus = () => void syncArena();
+    window.addEventListener('focus', syncOnFocus);
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+      window.removeEventListener('focus', syncOnFocus);
+      urls.forEach((url) => URL.revokeObjectURL(url));
+    };
   }, [config.key, config.url, connected, initialPhotos]);
 
   useEffect(
@@ -335,7 +391,8 @@ export default function CollectionPage({
         <span>Objects. Places. Little things worth keeping.</span>
         <button onClick={() => setManagerOpen(true)} className="status-button">
           <i className="online" />
-          ARE.NA · 132 IMAGES{connected ? ' · CLOUD CONNECTED' : ''}
+          ARE.NA · {photos.length} IMAGES
+          {connected ? ' · CLOUD CONNECTED' : ''}
         </button>
       </footer>
 

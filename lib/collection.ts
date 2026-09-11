@@ -9,9 +9,14 @@ export type Photo = {
   source_url?: string;
   storage_path?: string;
   arena_id?: number;
+  arena_updated_at?: string;
   temporary?: boolean;
   bundled?: boolean;
 };
+export type ArenaPhotoSource = Omit<
+  Photo,
+  'rgb' | 'width' | 'height' | 'storage_path' | 'temporary' | 'bundled'
+> & { arena_id: number };
 export type Config = { url: string; key: string };
 export function configured(c: Config) {
   return !!c.url && !!c.key;
@@ -49,6 +54,65 @@ export async function listPhotos(c: Config): Promise<Photo[]> {
     '/rest/v1/photos?select=*&order=created_at.desc',
   );
   return res.json();
+}
+export async function listArenaPhotos(): Promise<ArenaPhotoSource[]> {
+  const response = await fetch('/api/arena', { cache: 'no-store' });
+  const data = (await response.json()) as {
+    images?: ArenaPhotoSource[];
+    error?: string;
+  };
+
+  if (!response.ok || !Array.isArray(data.images)) {
+    throw new Error(data.error || 'Could not sync with Are.na.');
+  }
+
+  return data.images;
+}
+
+export async function prepareArenaPhotos(
+  sources: ArenaPhotoSource[],
+  knownPhotos: Iterable<Photo>,
+): Promise<Photo[]> {
+  const knownById = new Map<number, Photo>();
+  for (const photo of knownPhotos) {
+    if (photo.arena_id) knownById.set(photo.arena_id, photo);
+  }
+
+  const prepared: Photo[] = [];
+  let cursor = 0;
+
+  const prepareNext = async () => {
+    while (cursor < sources.length) {
+      const index = cursor;
+      cursor += 1;
+      const source = sources[index];
+      const known = knownById.get(source.arena_id);
+
+      if (known) {
+        prepared[index] = {
+          ...known,
+          id: source.id,
+          arena_id: source.arena_id,
+          title: source.title,
+          source_url: source.source_url,
+          arena_updated_at: source.arena_updated_at,
+        };
+        continue;
+      }
+
+      try {
+        const details = await analyzeImageDetails(source.url);
+        prepared[index] = { ...source, ...details };
+      } catch {
+        prepared[index] = { ...source, rgb: [128, 128, 128] };
+      }
+    }
+  };
+
+  await Promise.all(
+    Array.from({ length: Math.min(4, sources.length) }, prepareNext),
+  );
+  return prepared;
 }
 export async function signIn(c: Config, email: string, password: string) {
   const r = await request(c, '/auth/v1/token?grant_type=password', {
