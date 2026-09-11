@@ -10,6 +10,8 @@ type PhotoViewerProps = {
   connected: boolean;
   blend: number;
   hovering: boolean;
+  loadingColor: boolean;
+  revealKey: number;
   onBlendChange: (value: number) => void;
   onHoverChange: (hovering: boolean) => void;
   onMeasure: (id: string, width: number, height: number) => void;
@@ -21,6 +23,8 @@ export function PhotoViewer({
   connected,
   blend,
   hovering,
+  loadingColor,
+  revealKey,
   onBlendChange,
   onHoverChange,
   onMeasure,
@@ -64,7 +68,7 @@ export function PhotoViewer({
   return (
     <div className="photo-panel">
       <button
-        className={`photo-stage image-stage ${frameRatio < 1 ? 'portrait' : 'landscape'}`}
+        className={`photo-stage image-stage ${frameRatio < 1 ? 'portrait' : 'landscape'} ${loadingColor ? 'is-loading' : ''}`}
         onPointerEnter={(event) => {
           if (event.pointerType === 'mouse') onHoverChange(true);
         }}
@@ -85,7 +89,7 @@ export function PhotoViewer({
         }}
       >
         <img
-          key={photo.id}
+          key={`${photo.id}-${revealKey}`}
           src={photo.url}
           alt={photo.title}
           onLoad={(event) => {
@@ -95,9 +99,11 @@ export function PhotoViewer({
             if (width && height) onMeasure(photo.id, width, height);
           }}
           style={{
-            filter: `blur(${amount * 0.55}px)`,
-            opacity: 1 - amount / 100,
-            transform: `scale(${1 + amount * 0.003})`,
+            filter: loadingColor ? 'blur(20px)' : `blur(${amount * 0.55}px)`,
+            opacity: loadingColor ? 0.42 : 1 - amount / 100,
+            transform: loadingColor
+              ? 'scale(1.035)'
+              : `scale(${1 + amount * 0.003})`,
           }}
         />
         <span

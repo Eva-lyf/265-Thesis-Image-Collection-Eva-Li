@@ -10,6 +10,8 @@ type ColorControlsProps = {
   onPreviewHue: (hue: number | null) => void;
   onColorChange: (color: RGB) => void;
   onColorCommit: () => void;
+  onToneAdjust: () => void;
+  onToneCommit: () => void;
 };
 
 const wheelHues = [0, 60, 120, 180, 240, 300, 360];
@@ -20,6 +22,8 @@ export function ColorControls({
   onPreviewHue,
   onColorChange,
   onColorCommit,
+  onToneAdjust,
+  onToneCommit,
 }: ColorControlsProps) {
   const committedColor = hex(hslToRgb(...hsl));
   const displayHue = previewHue ?? hsl[0];
@@ -127,13 +131,15 @@ export function ColorControls({
           min={8}
           max={95}
           value={[hsl[2]]}
-          onValueChange={(value) =>
+          onValueChange={(value) => {
+            onToneAdjust();
             onColorChange([
               hsl[0],
               hsl[1],
               Array.isArray(value) ? value[0] : value,
-            ])
-          }
+            ]);
+          }}
+          onValueCommitted={onToneCommit}
         />
         <span>{Math.round(hsl[2])}%</span>
       </div>
@@ -145,13 +151,15 @@ export function ColorControls({
           min={0}
           max={100}
           value={[hsl[1]]}
-          onValueChange={(value) =>
+          onValueChange={(value) => {
+            onToneAdjust();
             onColorChange([
               hsl[0],
               Array.isArray(value) ? value[0] : value,
               hsl[2],
-            ])
-          }
+            ]);
+          }}
+          onValueCommitted={onToneCommit}
         />
         <span>{Math.round(hsl[1])}%</span>
       </div>

@@ -41,11 +41,14 @@ export default function CollectionPage({
 }: CollectionPageProps) {
   const connected = configured(config);
   const temporaryUrls = useRef<string[]>([]);
+  const colorSettleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [photos, setPhotos] = useState<Photo[]>(initialPhotos);
   const [hsl, setHsl] = useState<RGB>([28, 46, 68]);
   const [previewHue, setPreviewHue] = useState<number | null>(null);
   const [stripRevealKey, setStripRevealKey] = useState(0);
+  const [photoRevealKey, setPhotoRevealKey] = useState(0);
+  const [colorResultsLoading, setColorResultsLoading] = useState(false);
   const [pickedId, setPickedId] = useState<string | null>(null);
   const [hovering, setHovering] = useState(false);
   const [blend, setBlend] = useState(0);
@@ -102,6 +105,13 @@ export default function CollectionPage({
     return () => urls.forEach((url) => URL.revokeObjectURL(url));
   }, [config.key, config.url, connected, initialPhotos]);
 
+  useEffect(
+    () => () => {
+      if (colorSettleTimer.current) clearTimeout(colorSettleTimer.current);
+    },
+    [],
+  );
+
   useEffect(() => {
     const context = (
       document as unknown as {
@@ -151,11 +161,25 @@ export default function CollectionPage({
     return () => life.abort();
   }, []);
 
+  const revealColorResults = () => {
+    if (colorSettleTimer.current) clearTimeout(colorSettleTimer.current);
+    colorSettleTimer.current = null;
+    setColorResultsLoading(false);
+    setStripRevealKey((key) => key + 1);
+    setPhotoRevealKey((key) => key + 1);
+  };
+
+  const scheduleColorResults = (delay: number) => {
+    setColorResultsLoading(true);
+    if (colorSettleTimer.current) clearTimeout(colorSettleTimer.current);
+    colorSettleTimer.current = setTimeout(revealColorResults, delay);
+  };
+
   const selectPhoto = (photo: Photo) => {
     setPickedId(photo.id);
     setHsl(rgbToHsl(photo.rgb));
     setBlend(0);
-    setStripRevealKey((key) => key + 1);
+    revealColorResults();
   };
 
   const selectColor = (color: RGB) => {
@@ -277,7 +301,7 @@ export default function CollectionPage({
         photos={neighborhood}
         currentId={currentPhoto?.id}
         loading={loading}
-        previewing={previewHue !== null}
+        previewing={previewHue !== null || colorResultsLoading}
         revealKey={stripRevealKey}
         onSelect={selectPhoto}
       />
@@ -288,13 +312,17 @@ export default function CollectionPage({
           previewHue={previewHue}
           onPreviewHue={setPreviewHue}
           onColorChange={selectColor}
-          onColorCommit={() => setStripRevealKey((key) => key + 1)}
+          onColorCommit={revealColorResults}
+          onToneAdjust={() => scheduleColorResults(280)}
+          onToneCommit={() => scheduleColorResults(90)}
         />
         <PhotoViewer
           photo={currentPhoto}
           connected={connected}
           blend={blend}
           hovering={hovering}
+          loadingColor={colorResultsLoading}
+          revealKey={photoRevealKey}
           onBlendChange={setBlend}
           onHoverChange={setHovering}
           onMeasure={measurePhoto}
