@@ -97,10 +97,10 @@ export function PhotoViewer({
             if (width && height) onMeasure(photo.id, width, height);
           }}
           style={{
-            filter: loadingColor ? 'blur(20px)' : `blur(${amount * 0.55}px)`,
-            opacity: loadingColor ? 0.42 : 1 - amount / 100,
+            filter: loadingColor ? 'blur(32px)' : `blur(${amount * 0.55}px)`,
+            opacity: loadingColor ? 0.08 : 1 - amount / 100,
             transform: loadingColor
-              ? 'scale(1.035)'
+              ? 'scale(1.06)'
               : `scale(${1 + amount * 0.003})`,
           }}
         />

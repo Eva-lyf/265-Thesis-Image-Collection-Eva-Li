@@ -233,9 +233,15 @@ export default function CollectionPage({
     setPhotoRevealKey((key) => key + 1);
   };
 
-  const scheduleColorResults = (color: RGB, delay: number) => {
+  const beginToneAdjustment = (color: RGB) => {
     pendingColor.current = color;
     setColorResultsLoading(true);
+    if (colorSettleTimer.current) clearTimeout(colorSettleTimer.current);
+    colorSettleTimer.current = null;
+  };
+
+  const scheduleColorResults = (color: RGB, delay: number) => {
+    pendingColor.current = color;
     if (colorSettleTimer.current) clearTimeout(colorSettleTimer.current);
     colorSettleTimer.current = setTimeout(
       () => revealColorResults(color),
@@ -261,7 +267,7 @@ export default function CollectionPage({
 
   const adjustTone = (color: RGB) => {
     setHsl(color);
-    scheduleColorResults(color, 280);
+    beginToneAdjustment(color);
   };
 
   const addFiles = async (files: FileList | null) => {
@@ -393,7 +399,7 @@ export default function CollectionPage({
           onToneChange={adjustTone}
           onToneCommit={() => {
             if (pendingColor.current) {
-              scheduleColorResults(pendingColor.current, 90);
+              scheduleColorResults(pendingColor.current, 120);
             }
           }}
         />
