@@ -13,9 +13,7 @@ create table public.photos (
  rgb integer[] not null check (array_length(rgb,1)=3 and 0 <= all(rgb) and 255 >= all(rgb)),
  width integer check (width > 0),
  height integer check (height > 0),
- source_url text,
  storage_path text,
- arena_id bigint unique,
  created_at timestamptz not null default now()
 );
 alter table public.photos enable row level security;
@@ -28,5 +26,6 @@ create policy "Editors remove images" on public.photos for delete to authenticat
 insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types) values ('collection','collection',true,15728640,array['image/jpeg','image/png','image/webp','image/avif']) on conflict(id) do nothing;
 create policy "Editors upload files" on storage.objects for insert to authenticated with check (bucket_id='collection' and public.is_collection_editor());
 create policy "Editors remove files" on storage.objects for delete to authenticated using (bucket_id='collection' and public.is_collection_editor());
+
 -- After creating your account in Authentication > Users, replace the UUID below:
 -- insert into public.collection_editors(user_id) values ('YOUR-AUTH-USER-UUID');

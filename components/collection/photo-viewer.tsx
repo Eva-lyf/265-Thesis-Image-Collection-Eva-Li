@@ -44,14 +44,14 @@ export function PhotoViewer({
             <p>
               {connected
                 ? 'Add your first image to begin exploring.'
-                : 'Your Are.na images aren’t connected yet.'}
+                : 'Connect Supabase to load your collection.'}
               <br />
               {connected
                 ? 'Every photograph has a color to discover.'
-                : 'Add a few images to try the experience.'}
+                : 'Your photographs will appear here automatically.'}
             </p>
             <span className="empty-action">
-              {connected ? 'Add images' : 'Try your images'}{' '}
+              {connected ? 'Add images' : 'Open collection'}{' '}
               <ArrowUpRight size={13} />
             </span>
           </div>

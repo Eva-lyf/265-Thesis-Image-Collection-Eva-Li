@@ -1,24 +1,16 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { CollectionManager } from './collection-manager';
 import { ColorControls } from './color-controls';
 import { PhotoStrip } from './photo-strip';
 import { PhotoViewer } from './photo-viewer';
-import {
-  analyzeImageDetails,
-  distance,
-  hslToRgb,
-  rgbToHsl,
-  type RGB,
-} from '@/lib/color';
+import { distance, hslToRgb, rgbToHsl, type RGB } from '@/lib/color';
 import {
   configured,
   deletePhoto,
-  listArenaPhotos,
   listPhotos,
-  prepareArenaPhotos,
   uploadPhoto,
   type Config,
   type Photo,
@@ -26,34 +18,14 @@ import {
 
 type CollectionPageProps = {
   config: Config;
-  initialPhotos: Photo[];
 };
 
-const acceptedImageTypes = [
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'image/avif',
-];
-const maximumImageSize = 15 * 1024 * 1024;
-
-export default function CollectionPage({
-  config,
-  initialPhotos,
-}: CollectionPageProps) {
+export default function CollectionPage({ config }: CollectionPageProps) {
   const connected = configured(config);
-  const temporaryUrls = useRef<string[]>([]);
-  const arenaPhotoCache = useRef(
-    new Map(
-      initialPhotos.flatMap((photo) =>
-        photo.arena_id ? ([[photo.arena_id, photo]] as const) : [],
-      ),
-    ),
-  );
   const colorSettleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingColor = useRef<RGB | null>(null);
 
-  const [photos, setPhotos] = useState<Photo[]>(initialPhotos);
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const [hsl, setHsl] = useState<RGB>([28, 46, 68]);
   const [resultHsl, setResultHsl] = useState<RGB>([28, 46, 68]);
   const [previewHue, setPreviewHue] = useState<number | null>(null);
@@ -93,76 +65,38 @@ export default function CollectionPage({
 
   useEffect(() => {
     const cloudConfig = { url: config.url, key: config.key };
-    const urls = temporaryUrls.current;
     let cancelled = false;
-    let syncingArena = false;
+    let syncing = false;
 
-    const syncArena = async () => {
-      if (syncingArena) return;
-      syncingArena = true;
+    const syncPhotos = async () => {
+      if (!connected || syncing) {
+        if (!connected) setLoading(false);
+        return;
+      }
 
+      syncing = true;
       try {
-        const sources = await listArenaPhotos();
-        const arenaPhotos = await prepareArenaPhotos(
-          sources,
-          arenaPhotoCache.current.values(),
-        );
-        if (cancelled) return;
-
-        arenaPhotoCache.current = new Map(
-          arenaPhotos.flatMap((photo) =>
-            photo.arena_id ? ([[photo.arena_id, photo]] as const) : [],
-          ),
-        );
-        setPhotos((current) => [
-          ...current.filter((photo) => !photo.arena_id),
-          ...arenaPhotos,
-        ]);
+        const cloudPhotos = await listPhotos(cloudConfig);
+        if (!cancelled) setPhotos(cloudPhotos);
       } catch (error) {
-        if (!initialPhotos.length && !cancelled) {
-          setMessage((error as Error).message);
-        }
+        if (!cancelled) setMessage((error as Error).message);
       } finally {
-        syncingArena = false;
+        syncing = false;
         if (!cancelled) setLoading(false);
       }
     };
 
-    const initialize = async () => {
-      if (connected) {
-        try {
-          const cloudPhotos = await listPhotos(cloudConfig);
-          if (cancelled) return;
-
-          for (const photo of cloudPhotos) {
-            if (photo.arena_id) {
-              arenaPhotoCache.current.set(photo.arena_id, photo);
-            }
-          }
-          setPhotos((current) => [
-            ...cloudPhotos.filter((photo) => !photo.arena_id),
-            ...current.filter((photo) => photo.arena_id),
-          ]);
-        } catch (error) {
-          if (!cancelled) setMessage((error as Error).message);
-        }
-      }
-
-      await syncArena();
-    };
-
-    void initialize();
-    const interval = window.setInterval(() => void syncArena(), 5 * 60 * 1000);
-    const syncOnFocus = () => void syncArena();
+    void syncPhotos();
+    const interval = window.setInterval(() => void syncPhotos(), 5 * 60 * 1000);
+    const syncOnFocus = () => void syncPhotos();
     window.addEventListener('focus', syncOnFocus);
 
     return () => {
       cancelled = true;
       window.clearInterval(interval);
       window.removeEventListener('focus', syncOnFocus);
-      urls.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [config.key, config.url, connected, initialPhotos]);
+  }, [config.key, config.url, connected]);
 
   useEffect(
     () => () => {
@@ -272,6 +206,15 @@ export default function CollectionPage({
 
   const addFiles = async (files: FileList | null) => {
     if (!files?.length) return;
+    if (!connected) {
+      setMessage('Connect Supabase before adding photographs.');
+      return;
+    }
+    if (!token) {
+      setMessage('Sign in to save images.');
+      return;
+    }
+
     setBusy(true);
     setMessage('');
 
@@ -280,40 +223,7 @@ export default function CollectionPage({
 
     for (const file of Array.from(files)) {
       try {
-        let photo: Photo;
-
-        if (connected) {
-          if (!token) throw new Error('Sign in to save images.');
-          photo = await uploadPhoto(config, file, token);
-        } else {
-          if (
-            !acceptedImageTypes.includes(file.type) ||
-            file.size > maximumImageSize
-          ) {
-            throw new Error(
-              `${file.name}: use JPEG, PNG, WebP or AVIF, under 15 MB.`,
-            );
-          }
-
-          const url = URL.createObjectURL(file);
-          try {
-            const details = await analyzeImageDetails(url);
-            photo = {
-              id: crypto.randomUUID(),
-              title: file.name.replace(/\.[^.]+$/, ''),
-              url,
-              rgb: details.rgb,
-              width: details.width,
-              height: details.height,
-              temporary: true,
-            };
-            temporaryUrls.current.push(url);
-          } catch (error) {
-            URL.revokeObjectURL(url);
-            throw error;
-          }
-        }
-
+        const photo = await uploadPhoto(config, file, token);
         setPhotos((current) => [...current, photo]);
         count += 1;
       } catch (error) {
@@ -321,11 +231,8 @@ export default function CollectionPage({
       }
     }
 
-    const savedState = connected ? 'saved' : 'loaded for this preview';
     const errorText = errors.length ? ` ${errors.join(' ')}` : '';
-    setMessage(
-      `${count} image${count === 1 ? '' : 's'} ${savedState}.${errorText}`,
-    );
+    setMessage(`${count} image${count === 1 ? '' : 's'} saved.${errorText}`);
     setBusy(false);
   };
 
@@ -333,19 +240,15 @@ export default function CollectionPage({
     setBusy(true);
     try {
       const photo = photos.find((candidate) => candidate.id === id);
-      if (connected && !photo?.temporary && !photo?.bundled) {
-        if (!token) throw new Error('Sign in first.');
-        await deletePhoto(config, id, token);
-      }
+      if (!connected) throw new Error('Connect Supabase first.');
+      if (!token) throw new Error('Sign in first.');
+      if (!photo) throw new Error('Image not found.');
+      await deletePhoto(config, photo, token);
 
       setPhotos((current) =>
         current.filter((candidate) => candidate.id !== id),
       );
-      setMessage(
-        photo?.bundled
-          ? 'Image hidden for this visit.'
-          : 'Image removed from the collection.',
-      );
+      setMessage('Image removed from the collection.');
     } catch (error) {
       setMessage((error as Error).message);
     } finally {
@@ -364,14 +267,6 @@ export default function CollectionPage({
   return (
     <main className="collection-shell">
       <header className="masthead">
-        <a
-          className="arena-link"
-          href="https://www.are.na/eva-li-ppue5pcryww/parsons-studio-256"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Are.na <ArrowUpRight size={14} />
-        </a>
         <button className="glass-button" onClick={() => setManagerOpen(true)}>
           <Plus size={15} /> Collection
           <span className="count">
@@ -420,9 +315,8 @@ export default function CollectionPage({
       <footer>
         <span>265ThesisBrainstormCollectionEvaLI</span>
         <button onClick={() => setManagerOpen(true)} className="status-button">
-          <i className="online" />
-          ARE.NA · {photos.length} IMAGES
-          {connected ? ' · CLOUD CONNECTED' : ''}
+          <i className={connected ? 'online' : 'offline'} />
+          SUPABASE · {connected ? `${photos.length} IMAGES` : 'NOT CONNECTED'}
         </button>
       </footer>
 

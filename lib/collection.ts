@@ -6,17 +6,8 @@ export type Photo = {
   rgb: RGB;
   width?: number;
   height?: number;
-  source_url?: string;
   storage_path?: string;
-  arena_id?: number;
-  arena_updated_at?: string;
-  temporary?: boolean;
-  bundled?: boolean;
 };
-export type ArenaPhotoSource = Omit<
-  Photo,
-  'rgb' | 'width' | 'height' | 'storage_path' | 'temporary' | 'bundled'
-> & { arena_id: number };
 export type Config = { url: string; key: string };
 export function configured(c: Config) {
   return !!c.url && !!c.key;
@@ -54,65 +45,6 @@ export async function listPhotos(c: Config): Promise<Photo[]> {
     '/rest/v1/photos?select=*&order=created_at.desc',
   );
   return res.json();
-}
-export async function listArenaPhotos(): Promise<ArenaPhotoSource[]> {
-  const response = await fetch('/api/arena', { cache: 'no-store' });
-  const data = (await response.json()) as {
-    images?: ArenaPhotoSource[];
-    error?: string;
-  };
-
-  if (!response.ok || !Array.isArray(data.images)) {
-    throw new Error(data.error || 'Could not sync with Are.na.');
-  }
-
-  return data.images;
-}
-
-export async function prepareArenaPhotos(
-  sources: ArenaPhotoSource[],
-  knownPhotos: Iterable<Photo>,
-): Promise<Photo[]> {
-  const knownById = new Map<number, Photo>();
-  for (const photo of knownPhotos) {
-    if (photo.arena_id) knownById.set(photo.arena_id, photo);
-  }
-
-  const prepared: Photo[] = [];
-  let cursor = 0;
-
-  const prepareNext = async () => {
-    while (cursor < sources.length) {
-      const index = cursor;
-      cursor += 1;
-      const source = sources[index];
-      const known = knownById.get(source.arena_id);
-
-      if (known) {
-        prepared[index] = {
-          ...known,
-          id: source.id,
-          arena_id: source.arena_id,
-          title: source.title,
-          source_url: source.source_url,
-          arena_updated_at: source.arena_updated_at,
-        };
-        continue;
-      }
-
-      try {
-        const details = await analyzeImageDetails(source.url);
-        prepared[index] = { ...source, ...details };
-      } catch {
-        prepared[index] = { ...source, rgb: [128, 128, 128] };
-      }
-    }
-  };
-
-  await Promise.all(
-    Array.from({ length: Math.min(4, sources.length) }, prepareNext),
-  );
-  return prepared;
 }
 export async function signIn(c: Config, email: string, password: string) {
   const r = await request(c, '/auth/v1/token?grant_type=password', {
@@ -180,22 +112,21 @@ export async function uploadPhoto(
 export async function savePhoto(c: Config, p: Photo, token: string) {
   await request(
     c,
-    '/rest/v1/photos?on_conflict=arena_id',
+    '/rest/v1/photos',
     {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Prefer: 'resolution=ignore-duplicates',
       },
       body: JSON.stringify(p),
     },
     token,
   );
 }
-export async function deletePhoto(c: Config, id: string, token: string) {
+export async function deletePhoto(c: Config, photo: Photo, token: string) {
   const res = await request(
     c,
-    `/rest/v1/photos?id=eq.${encodeURIComponent(id)}`,
+    `/rest/v1/photos?id=eq.${encodeURIComponent(photo.id)}`,
     { method: 'DELETE', headers: { Prefer: 'return=representation' } },
     token,
   );
@@ -204,4 +135,19 @@ export async function deletePhoto(c: Config, id: string, token: string) {
     throw new Error(
       'Image was not removed. Check that your account is an approved editor.',
     );
+
+  if (photo.storage_path) {
+    try {
+      await request(
+        c,
+        '/storage/v1/object/collection',
+        {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prefixes: [photo.storage_path] }),
+        },
+        token,
+      );
+    } catch {}
+  }
 }

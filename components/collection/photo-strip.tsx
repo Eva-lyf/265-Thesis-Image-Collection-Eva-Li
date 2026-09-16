@@ -1,5 +1,5 @@
 'use client';
-/* oxlint-disable next/no-img-element -- the strip uses local and temporary object URLs */
+/* oxlint-disable next/no-img-element -- Supabase image URLs are rendered directly */
 
 import { useEffect, useRef } from 'react';
 import { hex } from '@/lib/color';

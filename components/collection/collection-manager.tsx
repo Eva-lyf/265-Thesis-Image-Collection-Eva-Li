@@ -1,8 +1,8 @@
 'use client';
-/* oxlint-disable next/no-img-element -- thumbnails may use temporary object URLs */
+/* oxlint-disable next/no-img-element -- Supabase image URLs are rendered directly */
 
 import { useRef, useState } from 'react';
-import { Check, LogOut, Trash2, Upload } from 'lucide-react';
+import { LogOut, Trash2, Upload } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -79,17 +79,17 @@ export function CollectionManager({
         <DialogDescription>
           {connected
             ? 'Add images to your collection. Each one becomes a color.'
-            : 'All 132 Are.na images are included. New uploads remain temporary until Supabase is connected.'}
+            : 'Connect Supabase to load and manage your photographs.'}
         </DialogDescription>
 
         {!connected && (
           <div className="connection-note">
             <span className="status-dot" />
-            Are.na connected · Supabase pending
+            Supabase not connected
           </div>
         )}
 
-        {connected && !token ? (
+        {!connected ? null : !token ? (
           <form className="login-form" onSubmit={handleSignIn}>
             <label>
               Email
@@ -145,9 +145,6 @@ export function CollectionManager({
               </span>
               <small>JPEG, PNG, WebP, AVIF · up to 15 MB each</small>
             </button>
-            <button className="glass-button import-button" disabled>
-              <Check size={13} /> Are.na share · 132 imported
-            </button>
           </>
         )}
 
@@ -160,16 +157,9 @@ export function CollectionManager({
                 <img src={photo.url} alt="" />
                 <div>
                   <span>{photo.title}</span>
-                  <small>
-                    {hex(photo.rgb)}
-                    {photo.bundled
-                      ? ' · Are.na'
-                      : photo.temporary
-                        ? ' · preview'
-                        : ''}
-                  </small>
+                  <small>{hex(photo.rgb)}</small>
                 </div>
-                {(!connected || token) && (
+                {token && (
                   <button
                     aria-label={`Remove ${photo.title}`}
                     disabled={busy}
@@ -198,7 +188,7 @@ export function CollectionManager({
         <p className="manager-footnote">
           {connected
             ? 'Only your configured editor account can make changes.'
-            : 'Cloud setup is prepared in the project. Connect Supabase to keep your collection across devices.'}
+            : 'Add your Supabase project URL and publishable key to finish the connection.'}
         </p>
 
         <AlertDialog
@@ -210,8 +200,8 @@ export function CollectionManager({
           <AlertDialogContent>
             <AlertDialogTitle>Remove this image?</AlertDialogTitle>
             <AlertDialogDescription>
-              The image will leave this collection. Its original source file is
-              kept.
+              The image and its stored file will be removed from this
+              collection.
             </AlertDialogDescription>
             <div className="flex justify-end gap-3">
               <AlertDialogCancel disabled={busy}>Cancel</AlertDialogCancel>
