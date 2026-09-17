@@ -10,6 +10,7 @@ import {
   type ColorIndexedMeal,
 } from '@/lib/image-colors';
 import { meals } from '@/lib/meals';
+import { nutrientForHue } from '@/lib/nutrients';
 import {
   loadMealsFromStorage,
   storageConfigured,
@@ -26,6 +27,7 @@ export default function CollectionPage({ config }: CollectionPageProps) {
   const [resolvedMeals, setResolvedMeals] = useState<ColorIndexedMeal[]>([]);
   const [selectedMealId, setSelectedMealId] = useState<string | null>(null);
   const [detailMealId, setDetailMealId] = useState<string | null>(null);
+  const [isChoosingColor, setIsChoosingColor] = useState(false);
   const [storageCount, setStorageCount] = useState(0);
   const [displayableCount, setDisplayableCount] = useState(0);
   const [loading, setLoading] = useState(connected);
@@ -76,24 +78,30 @@ export default function CollectionPage({ config }: CollectionPageProps) {
     };
   }, [config, connected]);
 
-  const selectedMeal = selectedMealId
-    ? resolvedMeals.find((meal) => meal.id === selectedMealId)
-    : undefined;
   const detailMeal = detailMealId
     ? resolvedMeals.find((meal) => meal.id === detailMealId)
     : undefined;
+  const selectedNutrient = nutrientForHue(selectedHue);
+
+  function commitHue(hue: number) {
+    setSelectedHue(hue);
+    setIsChoosingColor(false);
+    const closest = closestMealForHue(resolvedMeals, hue);
+    if (closest) setSelectedMealId(closest.id);
+    setDetailMealId(null);
+  }
 
   return (
     <main className="collection-shell">
       <ColorSpectrum
         hue={selectedHue}
-        color={selectedMeal?.dominantColor.dominantHex ?? '#B8B8B8'}
-        onChange={(hue) => {
+        nutrient={selectedNutrient}
+        onStart={() => setIsChoosingColor(true)}
+        onPreview={(hue) => {
+          setIsChoosingColor(true);
           setSelectedHue(hue);
-          const closest = closestMealForHue(resolvedMeals, hue);
-          if (closest) setSelectedMealId(closest.id);
-          setDetailMealId(null);
         }}
+        onCommit={commitHue}
       />
 
       {detailMeal ? (
@@ -104,7 +112,9 @@ export default function CollectionPage({ config }: CollectionPageProps) {
           selectedId={selectedMealId}
           loading={loading}
           message={message}
+          isChoosingColor={isChoosingColor}
           onCenter={(meal) => {
+            setIsChoosingColor(false);
             setSelectedMealId(meal.id);
             setSelectedHue(meal.dominantColor.hue);
           }}

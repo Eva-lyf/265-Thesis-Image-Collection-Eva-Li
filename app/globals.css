@@ -107,7 +107,7 @@ input:focus-visible {
   top: 8px;
   left: 0;
   right: 0;
-  height: 5px;
+  height: 8px;
   border-radius: 999px;
   filter: saturate(0.88);
   box-shadow:
@@ -130,9 +130,9 @@ input:focus-visible {
 
 .spectrum-indicator {
   position: absolute;
-  top: 1px;
+  top: 0;
   width: 2px;
-  height: 19px;
+  height: 22px;
   border-radius: 2px;
   background: #111;
   transform: translateX(-1px);
@@ -176,7 +176,7 @@ input:focus-visible {
   gap: clamp(8px, 1vw, 15px);
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 70px calc(50% - 54px);
+  padding: 70px calc(50% - 70px);
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
@@ -188,8 +188,8 @@ input:focus-visible {
 
 .color-thumbnail {
   position: relative;
-  flex: 0 0 clamp(62px, 7vw, 98px);
-  height: clamp(104px, 19vh, 168px);
+  flex: 0 0 clamp(82px, 9vw, 128px);
+  height: clamp(146px, 26vh, 224px);
   padding: 0;
   border: 0;
   background: #f2f2ef;
@@ -219,6 +219,15 @@ input:focus-visible {
   transform: scale(1.16);
   filter: drop-shadow(0 16px 24px #39404a18);
   z-index: 3;
+}
+
+.color-neighborhood.is-choosing .color-thumbnail,
+.color-neighborhood.is-choosing .color-thumbnail:hover,
+.color-neighborhood.is-choosing .color-thumbnail.selected {
+  opacity: 0.16;
+  transform: scale(0.9);
+  filter: blur(12px);
+  pointer-events: none;
 }
 
 .filmstrip-fade {
@@ -654,12 +663,12 @@ footer {
   }
 
   .color-filmstrip {
-    padding-inline: calc(50% - 41px);
+    padding-inline: calc(50% - 50px);
   }
 
   .color-thumbnail {
-    flex-basis: 72px;
-    height: 126px;
+    flex-basis: 88px;
+    height: 154px;
   }
 
   .spectrum-section {

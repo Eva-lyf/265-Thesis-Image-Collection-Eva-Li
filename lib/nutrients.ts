@@ -153,3 +153,35 @@ export const nutrients: readonly NutrientDefinition[] = [
 export const nutrientByKey = Object.fromEntries(
   nutrients.map((nutrient) => [nutrient.key, nutrient]),
 ) as Record<NutrientKey, NutrientDefinition>;
+
+function hueFromHex(hex: string) {
+  const value = hex.replace('#', '');
+  const red = Number.parseInt(value.slice(0, 2), 16) / 255;
+  const green = Number.parseInt(value.slice(2, 4), 16) / 255;
+  const blue = Number.parseInt(value.slice(4, 6), 16) / 255;
+  const maximum = Math.max(red, green, blue);
+  const minimum = Math.min(red, green, blue);
+  const range = maximum - minimum;
+
+  if (range === 0) return 0;
+
+  let hue = 0;
+  if (maximum === red) hue = ((green - blue) / range) % 6;
+  if (maximum === green) hue = (blue - red) / range + 2;
+  if (maximum === blue) hue = (red - green) / range + 4;
+  return (hue * 60 + 360) % 360;
+}
+
+function circularHueDistance(first: number, second: number) {
+  const distance = Math.abs(first - second) % 360;
+  return Math.min(distance, 360 - distance);
+}
+
+export function nutrientForHue(hue: number): NutrientDefinition {
+  return nutrients.reduce((closest, nutrient) =>
+    circularHueDistance(hue, hueFromHex(nutrient.color)) <
+    circularHueDistance(hue, hueFromHex(closest.color))
+      ? nutrient
+      : closest,
+  );
+}

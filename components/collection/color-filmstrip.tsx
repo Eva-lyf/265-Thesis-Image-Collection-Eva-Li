@@ -9,6 +9,7 @@ type ColorFilmstripProps = {
   selectedId: string | null;
   loading: boolean;
   message: string;
+  isChoosingColor: boolean;
   onCenter: (meal: ColorIndexedMeal) => void;
   onOpen: (meal: ColorIndexedMeal) => void;
 };
@@ -18,6 +19,7 @@ export function ColorFilmstrip({
   selectedId,
   loading,
   message,
+  isChoosingColor,
   onCenter,
   onOpen,
 }: ColorFilmstripProps) {
@@ -114,8 +116,9 @@ export function ColorFilmstrip({
 
   return (
     <section
-      className="color-neighborhood"
+      className={`color-neighborhood ${isChoosingColor ? 'is-choosing' : ''}`}
       aria-label="Photographs arranged by dominant color"
+      aria-busy={isChoosingColor}
     >
       <div className="filmstrip-fade filmstrip-fade-left" aria-hidden="true" />
       <div className="filmstrip-fade filmstrip-fade-right" aria-hidden="true" />
