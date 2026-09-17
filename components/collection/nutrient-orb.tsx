@@ -21,9 +21,10 @@ const positions = [
 ] as const;
 
 function visualWeight(normalizedPercent: number) {
-  const normalized = Math.min(1.5, Math.max(0, normalizedPercent / 100));
-  return Math.max(0.06, Math.pow(normalized / 1.5, 0.72));
+  return Math.max(0, normalizedPercent);
 }
+
+const minimumVisibleShare = 3;
 
 function measurementLabel(key: NutrientKey, dvPercent: number | null) {
   if (key === 'sugar') return 'Relative to collection P90';
@@ -38,14 +39,36 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
     1.12,
     Math.max(0.84, 0.84 + (meal.calories / 4000) * 0.28),
   );
-  const layers = nutrientKeys
-    .map((key, index) => ({
-      key,
-      index,
-      weight: visualWeight(meal.nutrients[key].normalizedPercent),
-    }))
-    .sort((a, b) => a.weight - b.weight);
-  const strongest = layers[layers.length - 1];
+  const nutrientTotal = nutrientKeys.reduce(
+    (sum, key) => sum + visualWeight(meal.nutrients[key].normalizedPercent),
+    0,
+  );
+  const distributableShare = 100 - minimumVisibleShare * nutrientKeys.length;
+  const shares = nutrientKeys.map((key) => {
+    const proportionalShare =
+      nutrientTotal > 0
+        ? (visualWeight(meal.nutrients[key].normalizedPercent) /
+            nutrientTotal) *
+          distributableShare
+        : distributableShare / nutrientKeys.length;
+    return minimumVisibleShare + proportionalShare;
+  });
+  const composition = nutrientKeys.map((key, index) => {
+    const share = shares[index];
+    const start = shares
+      .slice(0, index)
+      .reduce((sum, previousShare) => sum + previousShare, 0);
+    const end = index === nutrientKeys.length - 1 ? 100 : start + share;
+    return { key, index, share, start, end };
+  });
+  const orbSpectrum = `conic-gradient(from -90deg, ${composition
+    .flatMap(({ key, start, end }) => [
+      `${nutrientByKey[key].color} ${start}%`,
+      `${nutrientByKey[key].color} ${end}%`,
+    ])
+    .join(', ')})`;
+  const layers = [...composition].sort((a, b) => b.share - a.share);
+  const strongest = layers[0];
   const activeDefinition = activeNutrient
     ? nutrientByKey[activeNutrient]
     : null;
@@ -61,14 +84,16 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
           {
             '--orb-luminosity': luminosity,
             '--orb-dominant': nutrientByKey[strongest.key].color,
+            '--orb-spectrum': orbSpectrum,
           } as CSSProperties
         }
       >
-        {layers.map(({ key, index, weight }) => {
+        {layers.map(({ key, index, share }) => {
           const [x, y] = positions[index];
           const definition = nutrientByKey[key];
           const value = meal.nutrients[key];
-          const size = 23 + weight * 82;
+          const proportion = Math.sqrt(share / 100);
+          const size = 30 + proportion * 108;
           return (
             <Fragment key={key}>
               <span
@@ -79,9 +104,9 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
                     '--light-x': `${x}%`,
                     '--light-y': `${y}%`,
                     '--light-size': `${size}%`,
-                    '--light-opacity': 0.2 + weight * 0.78,
-                    '--light-blur': `${14 + (1 - weight) * 24}px`,
-                    '--light-focus-blur': `${10 + (1 - weight) * 18}px`,
+                    '--light-opacity': 0.3 + proportion * 0.66,
+                    '--light-blur': `${13 + (1 - proportion) * 20}px`,
+                    '--light-focus-blur': `${9 + (1 - proportion) * 15}px`,
                   } as CSSProperties
                 }
               />
