@@ -1,6 +1,6 @@
 'use client';
 
-import type { NutrientDefinition } from '@/lib/nutrients';
+import { spectrumNutrients, type NutrientDefinition } from '@/lib/nutrients';
 
 type ColorSpectrumProps = {
   hue: number;
@@ -19,9 +19,24 @@ export function ColorSpectrum({
 }: ColorSpectrumProps) {
   return (
     <section className="spectrum-section" aria-label="Color spectrum">
-      <div className="spectrum-copy">
-        <span>COLOR SPECTRUM</span>
-        <strong style={{ color: nutrient.color }}>{nutrient.label}</strong>
+      <div className="spectrum-labels" aria-label="Nutrients by color">
+        {spectrumNutrients.map((item, index) => (
+          <button
+            type="button"
+            key={item.key}
+            className={`${item.key === nutrient.key ? 'active' : ''} ${
+              index === 0 ? 'first' : ''
+            } ${index === spectrumNutrients.length - 1 ? 'last' : ''}`}
+            style={{
+              left: `${(item.spectrumHue / 360) * 100}%`,
+              color: item.color,
+            }}
+            aria-pressed={item.key === nutrient.key}
+            onClick={() => onCommit(item.spectrumHue)}
+          >
+            {item.shortLabel}
+          </button>
+        ))}
       </div>
       <div className="spectrum-control">
         <div className="spectrum-track color-spectrum-track" />

@@ -154,23 +154,19 @@ export const nutrientByKey = Object.fromEntries(
   nutrients.map((nutrient) => [nutrient.key, nutrient]),
 ) as Record<NutrientKey, NutrientDefinition>;
 
-function hueFromHex(hex: string) {
-  const value = hex.replace('#', '');
-  const red = Number.parseInt(value.slice(0, 2), 16) / 255;
-  const green = Number.parseInt(value.slice(2, 4), 16) / 255;
-  const blue = Number.parseInt(value.slice(4, 6), 16) / 255;
-  const maximum = Math.max(red, green, blue);
-  const minimum = Math.min(red, green, blue);
-  const range = maximum - minimum;
+export type SpectrumNutrient = NutrientDefinition & { spectrumHue: number };
 
-  if (range === 0) return 0;
-
-  let hue = 0;
-  if (maximum === red) hue = ((green - blue) / range) % 6;
-  if (maximum === green) hue = (blue - red) / range + 2;
-  if (maximum === blue) hue = (red - green) / range + 4;
-  return (hue * 60 + 360) % 360;
-}
+export const spectrumNutrients: readonly SpectrumNutrient[] = [
+  { ...nutrientByKey.protein, spectrumHue: 0 },
+  { ...nutrientByKey.iron, spectrumHue: 25 },
+  { ...nutrientByKey.carbohydrate, spectrumHue: 55 },
+  { ...nutrientByKey.totalFat, spectrumHue: 75 },
+  { ...nutrientByKey.potassium, spectrumHue: 100 },
+  { ...nutrientByKey.fiber, spectrumHue: 125 },
+  { ...nutrientByKey.sodium, spectrumHue: 180 },
+  { ...nutrientByKey.calcium, spectrumHue: 285 },
+  { ...nutrientByKey.sugar, spectrumHue: 345 },
+] as const;
 
 function circularHueDistance(first: number, second: number) {
   const distance = Math.abs(first - second) % 360;
@@ -178,9 +174,9 @@ function circularHueDistance(first: number, second: number) {
 }
 
 export function nutrientForHue(hue: number): NutrientDefinition {
-  return nutrients.reduce((closest, nutrient) =>
-    circularHueDistance(hue, hueFromHex(nutrient.color)) <
-    circularHueDistance(hue, hueFromHex(closest.color))
+  return spectrumNutrients.reduce((closest, nutrient) =>
+    circularHueDistance(hue, nutrient.spectrumHue) <
+    circularHueDistance(hue, closest.spectrumHue)
       ? nutrient
       : closest,
   );
