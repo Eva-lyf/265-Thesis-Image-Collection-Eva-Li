@@ -27,30 +27,8 @@ function encodeStoragePath(path: string) {
     .join('/');
 }
 
-async function signedUrl(config: SupabaseStorageConfig, path: string) {
-  const response = await fetch(
-    `${config.url}/storage/v1/object/sign/${encodeURIComponent(config.bucket)}/${encodeStoragePath(path)}`,
-    {
-      method: 'POST',
-      headers: {
-        apikey: config.key,
-        Authorization: `Bearer ${config.key}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ expiresIn: 86400 }),
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Unable to open ${path} from Supabase Storage.`);
-  }
-
-  const data = (await response.json()) as { signedURL?: string };
-  if (!data.signedURL) {
-    throw new Error(`Supabase did not return a readable URL for ${path}.`);
-  }
-
-  return `${config.url}/storage/v1${data.signedURL}`;
+function publicUrl(config: SupabaseStorageConfig, path: string) {
+  return `${config.url}/storage/v1/object/public/${encodeURIComponent(config.bucket)}/${encodeStoragePath(path)}`;
 }
 
 async function listFolder(
@@ -119,7 +97,7 @@ export async function loadMealsFromStorage(
   const resolved = await Promise.all(
     displayablePaths.map(async (path, index): Promise<CollectionMeal> => {
       const meal = dataset[index];
-      const imageUrl = await signedUrl(config, path);
+      const imageUrl = publicUrl(config, path);
       if (meal) {
         return {
           ...meal,
