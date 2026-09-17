@@ -37,11 +37,12 @@ supabase/schema.sql                Optional Storage and editor policies
 
 ## Data rules
 
-- Meal images come only from the public Supabase Storage bucket configured by `NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET`.
+- Meal images come only from the public Supabase Storage bucket and optional folder configured by `NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET` and `NEXT_PUBLIC_SUPABASE_STORAGE_PREFIX`.
 - Nutrient values, calories, ingredients, and guidance come only from `data/meals.json`.
 - The browser does not run image analysis, AI, vision, or nutrition inference.
 - Selecting a nutrient keeps every resolved meal and sorts the list by that nutrient's `dvPercent` from high to low.
-- Sample records currently use `storageIndex` so they can bind to the first images in a sorted Storage listing. The final pre-analysis dataset should replace each index with an explicit `storagePath`.
+- Nine sample records currently use `storageIndex` so they bind to the browser-compatible images in the sorted Storage listing. The final pre-analysis dataset should replace each index with an explicit `storagePath`.
+- Storage access uses short-lived, read-only signed URLs created through the public SELECT policy. HEIC files remain in Storage but require conversion to JPG/WebP or enabled Supabase Image Transformations before browsers can display them.
 
 ## Local development
 

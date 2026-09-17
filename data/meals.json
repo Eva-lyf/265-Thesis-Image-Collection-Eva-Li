@@ -754,5 +754,104 @@
         "guidance": "High in B vitamins."
       }
     }
+  },
+  {
+    "id": "sample-09",
+    "title": "Roasted vegetable plate",
+    "image": {
+      "storageIndex": 8,
+      "alt": "Roasted vegetable plate from the 265 meal collection"
+    },
+    "calories": 510,
+    "ingredients": [
+      "sweet potato",
+      "cauliflower",
+      "kale",
+      "quinoa",
+      "pumpkin seeds"
+    ],
+    "nutrients": {
+      "protein": {
+        "amount": 18,
+        "dvPercent": 36,
+        "guidance": "A good source of protein."
+      },
+      "fiber": { "amount": 15, "dvPercent": 54, "guidance": "High in fiber." },
+      "totalFat": {
+        "amount": 17,
+        "dvPercent": 22,
+        "guidance": "A moderate share of the daily value."
+      },
+      "saturatedFat": {
+        "amount": 2.5,
+        "dvPercent": 13,
+        "guidance": "A moderate share of the daily value."
+      },
+      "unsaturatedFat": {
+        "amount": 12,
+        "dvPercent": 30,
+        "guidance": "A good source of unsaturated fat."
+      },
+      "carbohydrate": {
+        "amount": 76,
+        "dvPercent": 28,
+        "guidance": "A good source of carbohydrate."
+      },
+      "sugar": {
+        "amount": 14,
+        "dvPercent": 28,
+        "guidance": "A moderate share of the daily value."
+      },
+      "sodium": {
+        "amount": 430,
+        "dvPercent": 19,
+        "guidance": "A moderate share of the daily value."
+      },
+      "calcium": {
+        "amount": 240,
+        "dvPercent": 18,
+        "guidance": "Contributes calcium."
+      },
+      "potassium": {
+        "amount": 1590,
+        "dvPercent": 34,
+        "guidance": "A good source of potassium."
+      },
+      "iron": {
+        "amount": 5.8,
+        "dvPercent": 32,
+        "guidance": "A good source of iron."
+      },
+      "vitaminA": {
+        "amount": 810,
+        "dvPercent": 90,
+        "guidance": "High in vitamin A."
+      },
+      "vitaminD": {
+        "amount": 0,
+        "dvPercent": 0,
+        "guidance": "Very little vitamin D."
+      },
+      "vitaminE": {
+        "amount": 4.2,
+        "dvPercent": 28,
+        "guidance": "A good source of vitamin E."
+      },
+      "vitaminK": {
+        "amount": 168,
+        "dvPercent": 140,
+        "guidance": "High in vitamin K."
+      },
+      "vitaminC": {
+        "amount": 81,
+        "dvPercent": 90,
+        "guidance": "High in vitamin C."
+      },
+      "vitaminB": {
+        "amount": 1,
+        "dvPercent": 42,
+        "guidance": "A good source of B vitamins."
+      }
+    }
   }
 ]

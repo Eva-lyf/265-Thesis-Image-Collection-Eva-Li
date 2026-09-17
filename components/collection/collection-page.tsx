@@ -22,6 +22,7 @@ export default function CollectionPage({ config }: CollectionPageProps) {
   const [resolvedMeals, setResolvedMeals] = useState<ResolvedMeal[]>([]);
   const [selectedMealId, setSelectedMealId] = useState<string | null>(null);
   const [storageCount, setStorageCount] = useState(0);
+  const [displayableCount, setDisplayableCount] = useState(0);
   const [loading, setLoading] = useState(connected);
   const [message, setMessage] = useState('');
 
@@ -44,6 +45,7 @@ export default function CollectionPage({ config }: CollectionPageProps) {
         if (cancelled) return;
         setResolvedMeals(result.meals);
         setStorageCount(result.storageCount);
+        setDisplayableCount(result.displayableCount);
         if (!result.meals.length) {
           setMessage(
             'The 265 bucket is connected, but no sample meal photographs could be resolved.',
@@ -119,7 +121,8 @@ export default function CollectionPage({ config }: CollectionPageProps) {
       <footer>
         <span>265ThesisBrainstormCollectionEvaLI</span>
         <span>
-          {resolvedMeals.length} ANALYZED MEALS · {storageCount} STORAGE OBJECTS
+          {resolvedMeals.length} ANALYZED MEALS · {displayableCount} WEB IMAGES
+          · {storageCount} STORAGE OBJECTS
         </span>
       </footer>
     </main>
