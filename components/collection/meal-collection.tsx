@@ -1,11 +1,11 @@
 'use client';
 /* oxlint-disable next/no-img-element -- public Supabase Storage URLs are dynamic */
 
-import type { ResolvedMeal } from '@/lib/meals';
+import type { CollectionMeal } from '@/lib/meals';
 import { nutrientByKey, type NutrientKey } from '@/lib/nutrients';
 
 type MealCollectionProps = {
-  meals: readonly ResolvedMeal[];
+  meals: readonly CollectionMeal[];
   nutrient: NutrientKey;
   selectedMealId: string | null;
   loading: boolean;
@@ -48,14 +48,18 @@ export function MealCollection({
     >
       {meals.map((meal, index) => {
         const selected = meal.id === selectedMealId;
-        const value = meal.nutrients[nutrient];
+        const value = meal.nutrients?.[nutrient];
         return (
           <button
             key={meal.id}
             className={`meal-card ${selected ? 'selected' : ''}`}
             onClick={() => onSelect(meal.id)}
             aria-pressed={selected}
-            aria-label={`${meal.title}, rank ${index + 1}, ${value.dvPercent}% daily value of ${definition.label}`}
+            aria-label={
+              value
+                ? `${meal.title}, rank ${index + 1}, ${value.dvPercent}% daily value of ${definition.label}`
+                : `${meal.title}, nutrient analysis pending`
+            }
             data-meal-id={meal.id}
             data-next-state="meal-detail"
           >
@@ -65,7 +69,7 @@ export function MealCollection({
             <img src={meal.imageUrl} alt={meal.image.alt} />
             <span className="meal-card-caption">
               <strong>{meal.title}</strong>
-              <small>{value.dvPercent}% DV</small>
+              <small>{value ? `${value.dvPercent}% DV` : 'DATA PENDING'}</small>
             </span>
           </button>
         );

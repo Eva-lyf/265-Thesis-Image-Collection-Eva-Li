@@ -27,7 +27,22 @@ export type Meal = {
 export type ResolvedMeal = Meal & {
   imageUrl: string;
   storagePath: string;
+  analysisStatus: 'analyzed';
 };
+
+export type PendingMeal = {
+  id: string;
+  title: string;
+  image: MealImage;
+  imageUrl: string;
+  storagePath: string;
+  calories: null;
+  ingredients: string[];
+  nutrients: null;
+  analysisStatus: 'pending';
+};
+
+export type CollectionMeal = ResolvedMeal | PendingMeal;
 
 function isMeal(value: unknown): value is Meal {
   if (!value || typeof value !== 'object') return false;
@@ -53,12 +68,12 @@ function isMeal(value: unknown): value is Meal {
 export const meals: readonly Meal[] = (sampleMeals as unknown[]).filter(isMeal);
 
 export function sortMealsByNutrient(
-  collection: readonly ResolvedMeal[],
+  collection: readonly CollectionMeal[],
   nutrient: NutrientKey,
 ) {
   return [...collection].sort((a, b) => {
-    const difference =
-      b.nutrients[nutrient].dvPercent - a.nutrients[nutrient].dvPercent;
-    return difference || a.title.localeCompare(b.title);
+    const aValue = a.nutrients?.[nutrient].dvPercent ?? -1;
+    const bValue = b.nutrients?.[nutrient].dvPercent ?? -1;
+    return bValue - aValue || a.title.localeCompare(b.title);
   });
 }

@@ -1,4 +1,4 @@
-import type { Meal, ResolvedMeal } from './meals';
+import type { CollectionMeal, Meal } from './meals';
 
 export type SupabaseStorageConfig = {
   url: string;
@@ -95,7 +95,7 @@ export async function loadMealsFromStorage(
   config: SupabaseStorageConfig,
   dataset: readonly Meal[],
 ): Promise<{
-  meals: ResolvedMeal[];
+  meals: CollectionMeal[];
   storageCount: number;
   displayableCount: number;
 }> {
@@ -106,26 +106,42 @@ export async function loadMealsFromStorage(
   const storagePaths = (await listFolder(config, config.prefix?.trim())).sort(
     (a, b) => a.localeCompare(b, undefined, { numeric: true }),
   );
-  const displayablePaths = storagePaths.filter((path) =>
+  const browserImages = storagePaths.filter((path) =>
     webImagePattern.test(path),
   );
-
-  const candidates = dataset.flatMap((meal) => {
-    const path =
-      meal.image.storagePath ??
-      (meal.image.storageIndex === undefined
-        ? undefined
-        : displayablePaths[meal.image.storageIndex]);
-    if (!path) return [];
-    return [{ meal, path }];
-  });
+  const convertedImages = browserImages.filter((path) =>
+    path.toLowerCase().startsWith('jpg/'),
+  );
+  const displayablePaths = convertedImages.length
+    ? convertedImages
+    : browserImages.filter((path) => !path.includes('/'));
 
   const resolved = await Promise.all(
-    candidates.map(async ({ meal, path }) => ({
-      ...meal,
-      storagePath: path,
-      imageUrl: await signedUrl(config, path),
-    })),
+    displayablePaths.map(async (path, index): Promise<CollectionMeal> => {
+      const meal = dataset[index];
+      const imageUrl = await signedUrl(config, path);
+      if (meal) {
+        return {
+          ...meal,
+          storagePath: path,
+          imageUrl,
+          analysisStatus: 'analyzed',
+        };
+      }
+
+      const mealNumber = String(index + 1).padStart(3, '0');
+      return {
+        id: `meal-${mealNumber}`,
+        title: `Meal ${mealNumber}`,
+        image: { alt: `Meal ${mealNumber} from the 265 collection` },
+        imageUrl,
+        storagePath: path,
+        calories: null,
+        ingredients: [],
+        nutrients: null,
+        analysisStatus: 'pending',
+      };
+    }),
   );
 
   return {
