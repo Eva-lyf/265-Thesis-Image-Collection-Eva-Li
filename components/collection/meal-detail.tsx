@@ -25,7 +25,11 @@ export function MealDetail({ meal, onClose }: MealDetailProps) {
       </button>
 
       <figure className="detail-photo">
-        <img src={meal.imageUrl} alt={meal.image.alt} />
+        {meal.imageUrl ? (
+          <img src={meal.imageUrl} alt={meal.image.alt} />
+        ) : (
+          <span className="detail-photo-placeholder" aria-hidden />
+        )}
       </figure>
 
       <div className="detail-visual">
@@ -41,7 +45,7 @@ export function MealDetail({ meal, onClose }: MealDetailProps) {
           <span>{meal.title}</span>
           <small>
             {meal.analysisStatus === 'analyzed'
-              ? 'NUTRIENT COLOR COMPOSITION'
+              ? 'HOVER THE LIGHT TO READ ITS NUTRIENT'
               : 'NUTRIENT DATA PENDING'}
           </small>
         </div>
