@@ -1,11 +1,15 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { MealCollection } from './meal-collection';
+import { useEffect, useState } from 'react';
+import { ColorFilmstrip } from './color-filmstrip';
+import { ColorSpectrum } from './color-spectrum';
 import { MealDetail } from './meal-detail';
-import { NutrientSpectrum } from './nutrient-spectrum';
-import { meals, sortMealsByNutrient, type CollectionMeal } from '@/lib/meals';
-import { nutrientByKey, type NutrientKey } from '@/lib/nutrients';
+import {
+  closestMealForHue,
+  colorForStoragePath,
+  type ColorIndexedMeal,
+} from '@/lib/image-colors';
+import { meals } from '@/lib/meals';
 import {
   loadMealsFromStorage,
   storageConfigured,
@@ -18,10 +22,10 @@ type CollectionPageProps = {
 
 export default function CollectionPage({ config }: CollectionPageProps) {
   const connected = storageConfigured(config);
-  const [selectedNutrient, setSelectedNutrient] =
-    useState<NutrientKey>('protein');
-  const [resolvedMeals, setResolvedMeals] = useState<CollectionMeal[]>([]);
+  const [selectedHue, setSelectedHue] = useState(0);
+  const [resolvedMeals, setResolvedMeals] = useState<ColorIndexedMeal[]>([]);
   const [selectedMealId, setSelectedMealId] = useState<string | null>(null);
+  const [detailMealId, setDetailMealId] = useState<string | null>(null);
   const [storageCount, setStorageCount] = useState(0);
   const [displayableCount, setDisplayableCount] = useState(0);
   const [loading, setLoading] = useState(connected);
@@ -44,7 +48,14 @@ export default function CollectionPage({ config }: CollectionPageProps) {
       try {
         const result = await loadMealsFromStorage(config, meals);
         if (cancelled) return;
-        setResolvedMeals(result.meals);
+        const colorIndexedMeals = result.meals.map((meal) => ({
+          ...meal,
+          dominantColor: colorForStoragePath(meal.storagePath),
+        }));
+        const initialMeal = closestMealForHue(colorIndexedMeals, 0);
+        setResolvedMeals(colorIndexedMeals);
+        setSelectedMealId(initialMeal?.id ?? null);
+        if (initialMeal) setSelectedHue(initialMeal.dominantColor.hue);
         setStorageCount(result.storageCount);
         setDisplayableCount(result.displayableCount);
         if (!result.meals.length) {
@@ -65,50 +76,40 @@ export default function CollectionPage({ config }: CollectionPageProps) {
     };
   }, [config, connected]);
 
-  const orderedMeals = useMemo(
-    () => sortMealsByNutrient(resolvedMeals, selectedNutrient),
-    [resolvedMeals, selectedNutrient],
-  );
-
-  const activeNutrient = nutrientByKey[selectedNutrient];
   const selectedMeal = selectedMealId
     ? resolvedMeals.find((meal) => meal.id === selectedMealId)
+    : undefined;
+  const detailMeal = detailMealId
+    ? resolvedMeals.find((meal) => meal.id === detailMealId)
     : undefined;
 
   return (
     <main className="collection-shell">
-      <NutrientSpectrum
-        value={selectedNutrient}
-        onChange={(nutrient) => {
-          setSelectedNutrient(nutrient);
-          setSelectedMealId(null);
+      <ColorSpectrum
+        hue={selectedHue}
+        color={selectedMeal?.dominantColor.dominantHex ?? '#B8B8B8'}
+        onChange={(hue) => {
+          setSelectedHue(hue);
+          const closest = closestMealForHue(resolvedMeals, hue);
+          if (closest) setSelectedMealId(closest.id);
+          setDetailMealId(null);
         }}
       />
 
-      {selectedMeal ? (
-        <MealDetail
-          meal={selectedMeal}
-          onClose={() => setSelectedMealId(null)}
-        />
+      {detailMeal ? (
+        <MealDetail meal={detailMeal} onClose={() => setDetailMealId(null)} />
       ) : (
-        <>
-          <section className="collection-intro" aria-live="polite">
-            <div>
-              <i style={{ background: activeNutrient.color }} />
-              <span>{activeNutrient.label}</span>
-            </div>
-            <p>Meals ordered by Daily Value, highest first.</p>
-          </section>
-
-          <MealCollection
-            meals={orderedMeals}
-            nutrient={selectedNutrient}
-            selectedMealId={null}
-            loading={loading}
-            message={message}
-            onSelect={setSelectedMealId}
-          />
-        </>
+        <ColorFilmstrip
+          meals={resolvedMeals}
+          selectedId={selectedMealId}
+          loading={loading}
+          message={message}
+          onCenter={(meal) => {
+            setSelectedMealId(meal.id);
+            setSelectedHue(meal.dominantColor.hue);
+          }}
+          onOpen={(meal) => setDetailMealId(meal.id)}
+        />
       )}
 
       <footer>

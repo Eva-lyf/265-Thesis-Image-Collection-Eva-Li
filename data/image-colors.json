@@ -1,0 +1,471 @@
+[
+  {
+    "storagePath": "2EF31F95-D801-4A30-B799-334534FF4476.jpg",
+    "dominantHex": "#0E0A0A",
+    "hue": 0.0,
+    "saturation": 16.67,
+    "lightness": 4.71
+  },
+  {
+    "storagePath": "C6196600-F6C0-45AE-A139-026F9B0EDE91.jpg",
+    "dominantHex": "#AE8F6C",
+    "hue": 31.82,
+    "saturation": 28.95,
+    "lightness": 55.29
+  },
+  {
+    "storagePath": "E0D7B526-64D1-423A-8921-B737C136B907.jpg",
+    "dominantHex": "#74654E",
+    "hue": 36.32,
+    "saturation": 19.59,
+    "lightness": 38.04
+  },
+  {
+    "storagePath": "IMG_0043.jpg",
+    "dominantHex": "#EBECE9",
+    "hue": 80.0,
+    "saturation": 7.32,
+    "lightness": 91.96
+  },
+  {
+    "storagePath": "IMG_0045.jpg",
+    "dominantHex": "#4C2717",
+    "hue": 18.11,
+    "saturation": 53.54,
+    "lightness": 19.41
+  },
+  {
+    "storagePath": "IMG_0373.jpg",
+    "dominantHex": "#6D4D32",
+    "hue": 27.46,
+    "saturation": 37.11,
+    "lightness": 31.18
+  },
+  {
+    "storagePath": "IMG_1165.jpg",
+    "dominantHex": "#D4B396",
+    "hue": 28.06,
+    "saturation": 41.89,
+    "lightness": 70.98
+  },
+  {
+    "storagePath": "IMG_1605.jpg",
+    "dominantHex": "#CF976F",
+    "hue": 25.0,
+    "saturation": 50.0,
+    "lightness": 62.35
+  },
+  {
+    "storagePath": "IMG_1711.jpg",
+    "dominantHex": "#B4B1A9",
+    "hue": 43.64,
+    "saturation": 6.83,
+    "lightness": 68.43
+  },
+  {
+    "storagePath": "IMG_1948.jpg",
+    "dominantHex": "#0E0906",
+    "hue": 22.5,
+    "saturation": 40.0,
+    "lightness": 3.92
+  },
+  {
+    "storagePath": "IMG_1975.jpg",
+    "dominantHex": "#534E49",
+    "hue": 30.0,
+    "saturation": 6.41,
+    "lightness": 30.59
+  },
+  {
+    "storagePath": "IMG_2031.jpg",
+    "dominantHex": "#2A160A",
+    "hue": 22.5,
+    "saturation": 61.54,
+    "lightness": 10.2
+  },
+  {
+    "storagePath": "IMG_2076.jpg",
+    "dominantHex": "#534F4C",
+    "hue": 25.71,
+    "saturation": 4.4,
+    "lightness": 31.18
+  },
+  {
+    "storagePath": "IMG_2298.jpg",
+    "dominantHex": "#AF8E72",
+    "hue": 27.54,
+    "saturation": 27.6,
+    "lightness": 56.67
+  },
+  {
+    "storagePath": "IMG_2311.jpg",
+    "dominantHex": "#160F0B",
+    "hue": 21.82,
+    "saturation": 33.33,
+    "lightness": 6.47
+  },
+  {
+    "storagePath": "IMG_2559.jpg",
+    "dominantHex": "#2C231B",
+    "hue": 28.24,
+    "saturation": 23.94,
+    "lightness": 13.92
+  },
+  {
+    "storagePath": "IMG_3143.jpg",
+    "dominantHex": "#6F3011",
+    "hue": 19.79,
+    "saturation": 73.44,
+    "lightness": 25.1
+  },
+  {
+    "storagePath": "IMG_3251.jpg",
+    "dominantHex": "#958672",
+    "hue": 34.29,
+    "saturation": 14.17,
+    "lightness": 51.57
+  },
+  {
+    "storagePath": "IMG_3296.jpg",
+    "dominantHex": "#4A362E",
+    "hue": 17.14,
+    "saturation": 23.33,
+    "lightness": 23.53
+  },
+  {
+    "storagePath": "IMG_3392.jpg",
+    "dominantHex": "#B0ADA7",
+    "hue": 40.0,
+    "saturation": 5.39,
+    "lightness": 67.25
+  },
+  {
+    "storagePath": "IMG_3438.jpg",
+    "dominantHex": "#C7B097",
+    "hue": 31.25,
+    "saturation": 30.0,
+    "lightness": 68.63
+  },
+  {
+    "storagePath": "IMG_3445.jpg",
+    "dominantHex": "#714E2C",
+    "hue": 29.57,
+    "saturation": 43.95,
+    "lightness": 30.78
+  },
+  {
+    "storagePath": "IMG_3475.jpg",
+    "dominantHex": "#91500A",
+    "hue": 31.11,
+    "saturation": 87.1,
+    "lightness": 30.39
+  },
+  {
+    "storagePath": "IMG_3788.jpg",
+    "dominantHex": "#100A08",
+    "hue": 15.0,
+    "saturation": 33.33,
+    "lightness": 4.71
+  },
+  {
+    "storagePath": "IMG_3811.jpg",
+    "dominantHex": "#100F11",
+    "hue": 270.0,
+    "saturation": 6.25,
+    "lightness": 6.27
+  },
+  {
+    "storagePath": "IMG_3823.jpg",
+    "dominantHex": "#59686D",
+    "hue": 195.0,
+    "saturation": 10.1,
+    "lightness": 38.82
+  },
+  {
+    "storagePath": "IMG_3856.jpg",
+    "dominantHex": "#913426",
+    "hue": 7.85,
+    "saturation": 58.47,
+    "lightness": 35.88
+  },
+  {
+    "storagePath": "IMG_3882.jpg",
+    "dominantHex": "#322E2A",
+    "hue": 30.0,
+    "saturation": 8.7,
+    "lightness": 18.04
+  },
+  {
+    "storagePath": "IMG_3949.jpg",
+    "dominantHex": "#100B0C",
+    "hue": 348.0,
+    "saturation": 18.52,
+    "lightness": 5.29
+  },
+  {
+    "storagePath": "IMG_3979.jpg",
+    "dominantHex": "#0F0705",
+    "hue": 12.0,
+    "saturation": 50.0,
+    "lightness": 3.92
+  },
+  {
+    "storagePath": "IMG_4066.jpg",
+    "dominantHex": "#100C0A",
+    "hue": 20.0,
+    "saturation": 23.08,
+    "lightness": 5.1
+  },
+  {
+    "storagePath": "IMG_4105.jpg",
+    "dominantHex": "#0C0B0C",
+    "hue": 300.0,
+    "saturation": 4.35,
+    "lightness": 4.51
+  },
+  {
+    "storagePath": "IMG_4186.jpg",
+    "dominantHex": "#2D160B",
+    "hue": 19.41,
+    "saturation": 60.71,
+    "lightness": 10.98
+  },
+  {
+    "storagePath": "IMG_4194.jpg",
+    "dominantHex": "#565048",
+    "hue": 34.29,
+    "saturation": 8.86,
+    "lightness": 30.98
+  },
+  {
+    "storagePath": "IMG_4242.jpg",
+    "dominantHex": "#504F0B",
+    "hue": 59.13,
+    "saturation": 75.82,
+    "lightness": 17.84
+  },
+  {
+    "storagePath": "IMG_4255.jpg",
+    "dominantHex": "#0E0D10",
+    "hue": 260.0,
+    "saturation": 10.34,
+    "lightness": 5.69
+  },
+  {
+    "storagePath": "IMG_4277.jpg",
+    "dominantHex": "#867358",
+    "hue": 35.22,
+    "saturation": 20.72,
+    "lightness": 43.53
+  },
+  {
+    "storagePath": "IMG_4326.jpg",
+    "dominantHex": "#D7D0CC",
+    "hue": 21.82,
+    "saturation": 12.09,
+    "lightness": 82.16
+  },
+  {
+    "storagePath": "IMG_4379.jpg",
+    "dominantHex": "#B2A893",
+    "hue": 40.65,
+    "saturation": 16.76,
+    "lightness": 63.73
+  },
+  {
+    "storagePath": "IMG_4472.jpg",
+    "dominantHex": "#6B3818",
+    "hue": 23.13,
+    "saturation": 63.36,
+    "lightness": 25.69
+  },
+  {
+    "storagePath": "IMG_4516.jpg",
+    "dominantHex": "#73706C",
+    "hue": 34.29,
+    "saturation": 3.14,
+    "lightness": 43.73
+  },
+  {
+    "storagePath": "IMG_4619.jpg",
+    "dominantHex": "#B28F6A",
+    "hue": 30.83,
+    "saturation": 31.86,
+    "lightness": 55.69
+  },
+  {
+    "storagePath": "IMG_4684.jpg",
+    "dominantHex": "#B0A696",
+    "hue": 36.92,
+    "saturation": 14.13,
+    "lightness": 63.92
+  },
+  {
+    "storagePath": "IMG_4749.jpg",
+    "dominantHex": "#514735",
+    "hue": 38.57,
+    "saturation": 20.9,
+    "lightness": 26.27
+  },
+  {
+    "storagePath": "IMG_4751.jpg",
+    "dominantHex": "#C5AF98",
+    "hue": 30.67,
+    "saturation": 27.95,
+    "lightness": 68.43
+  },
+  {
+    "storagePath": "IMG_4764.jpg",
+    "dominantHex": "#140E06",
+    "hue": 34.29,
+    "saturation": 53.85,
+    "lightness": 5.1
+  },
+  {
+    "storagePath": "IMG_4903.jpg",
+    "dominantHex": "#433D3A",
+    "hue": 20.0,
+    "saturation": 7.2,
+    "lightness": 24.51
+  },
+  {
+    "storagePath": "IMG_5014.jpg",
+    "dominantHex": "#2C1309",
+    "hue": 17.14,
+    "saturation": 66.04,
+    "lightness": 10.39
+  },
+  {
+    "storagePath": "IMG_5148.jpg",
+    "dominantHex": "#DAD5CB",
+    "hue": 40.0,
+    "saturation": 16.85,
+    "lightness": 82.55
+  },
+  {
+    "storagePath": "IMG_5161.jpg",
+    "dominantHex": "#716958",
+    "hue": 40.8,
+    "saturation": 12.44,
+    "lightness": 39.41
+  },
+  {
+    "storagePath": "IMG_5719.jpg",
+    "dominantHex": "#655549",
+    "hue": 25.71,
+    "saturation": 16.09,
+    "lightness": 34.12
+  },
+  {
+    "storagePath": "IMG_5834.jpg",
+    "dominantHex": "#2B190F",
+    "hue": 21.43,
+    "saturation": 48.28,
+    "lightness": 11.37
+  },
+  {
+    "storagePath": "IMG_5975.jpg",
+    "dominantHex": "#4C4C47",
+    "hue": 60.0,
+    "saturation": 3.4,
+    "lightness": 28.82
+  },
+  {
+    "storagePath": "IMG_6774.jpg",
+    "dominantHex": "#502F13",
+    "hue": 27.54,
+    "saturation": 61.62,
+    "lightness": 19.41
+  },
+  {
+    "storagePath": "IMG_6956.jpg",
+    "dominantHex": "#8D694B",
+    "hue": 27.27,
+    "saturation": 30.56,
+    "lightness": 42.35
+  },
+  {
+    "storagePath": "IMG_7208.jpg",
+    "dominantHex": "#A9AEB0",
+    "hue": 197.14,
+    "saturation": 4.24,
+    "lightness": 67.65
+  },
+  {
+    "storagePath": "IMG_7266.jpg",
+    "dominantHex": "#13110F",
+    "hue": 30.0,
+    "saturation": 11.76,
+    "lightness": 6.67
+  },
+  {
+    "storagePath": "IMG_7571.jpg",
+    "dominantHex": "#4C372A",
+    "hue": 22.94,
+    "saturation": 28.81,
+    "lightness": 23.14
+  },
+  {
+    "storagePath": "IMG_7783.jpg",
+    "dominantHex": "#120906",
+    "hue": 15.0,
+    "saturation": 50.0,
+    "lightness": 4.71
+  },
+  {
+    "storagePath": "IMG_7785.jpg",
+    "dominantHex": "#6E4B30",
+    "hue": 26.13,
+    "saturation": 39.24,
+    "lightness": 30.98
+  },
+  {
+    "storagePath": "IMG_7884.jpg",
+    "dominantHex": "#6E4C32",
+    "hue": 26.0,
+    "saturation": 37.5,
+    "lightness": 31.37
+  },
+  {
+    "storagePath": "IMG_8192.jpg",
+    "dominantHex": "#562607",
+    "hue": 23.54,
+    "saturation": 84.95,
+    "lightness": 18.24
+  },
+  {
+    "storagePath": "IMG_8390.jpg",
+    "dominantHex": "#8C5210",
+    "hue": 31.94,
+    "saturation": 79.49,
+    "lightness": 30.59
+  },
+  {
+    "storagePath": "IMG_9228.jpg",
+    "dominantHex": "#2D1810",
+    "hue": 16.55,
+    "saturation": 47.54,
+    "lightness": 11.96
+  },
+  {
+    "storagePath": "IMG_9349.jpg",
+    "dominantHex": "#4D2E13",
+    "hue": 27.93,
+    "saturation": 60.42,
+    "lightness": 18.82
+  },
+  {
+    "storagePath": "IMG_9757.jpg",
+    "dominantHex": "#512B0E",
+    "hue": 25.97,
+    "saturation": 70.53,
+    "lightness": 18.63
+  },
+  {
+    "storagePath": "IMG_9786.jpg",
+    "dominantHex": "#726F6B",
+    "hue": 34.29,
+    "saturation": 3.17,
+    "lightness": 43.33
+  }
+]
