@@ -1,17 +1,20 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ColorFilmstrip } from './color-filmstrip';
 import { ColorSpectrum } from './color-spectrum';
 import { MealDetail } from './meal-detail';
+import { knownImageStoragePaths } from '@/lib/image-colors';
 import {
-  closestMealForHue,
-  colorForStoragePath,
-  knownImageStoragePaths,
-  type ColorIndexedMeal,
-} from '@/lib/image-colors';
-import { meals } from '@/lib/meals';
-import { nutrientForHue } from '@/lib/nutrients';
+  collectionSpectrumSegments,
+  sortMealsByNutrient,
+  type CollectionMeal,
+} from '@/lib/meals';
+import {
+  nutrientByKey,
+  nutrientForSpectrumPosition,
+  type NutrientKey,
+} from '@/lib/nutrients';
 import {
   loadMealsFromStorage,
   loadStorageImageUrl,
@@ -25,28 +28,36 @@ type CollectionPageProps = {
 };
 
 function nearbyMealIds(
-  collection: readonly ColorIndexedMeal[],
+  collection: readonly CollectionMeal[],
   selectedId: string,
   radius = 4,
 ) {
-  const sorted = [...collection].sort(
-    (first, second) => first.dominantColor.hue - second.dominantColor.hue,
-  );
-  const selectedIndex = sorted.findIndex((meal) => meal.id === selectedId);
+  const selectedIndex = collection.findIndex((meal) => meal.id === selectedId);
   if (selectedIndex < 0) return [];
 
   const ids = new Set<string>();
   for (let offset = -radius; offset <= radius; offset += 1) {
-    const index = (selectedIndex + offset + sorted.length) % sorted.length;
-    ids.add(sorted[index].id);
+    const index =
+      (selectedIndex + offset + collection.length) % collection.length;
+    ids.add(collection[index].id);
   }
   return [...ids];
 }
 
+const initialNutrient: NutrientKey = 'protein';
+const initialSpectrumPosition =
+  collectionSpectrumSegments.find(
+    (segment) => segment.nutrient.key === initialNutrient,
+  )?.center ?? 0;
+
 export default function CollectionPage({ config }: CollectionPageProps) {
   const connected = storageConfigured(config);
-  const [selectedHue, setSelectedHue] = useState(0);
-  const [resolvedMeals, setResolvedMeals] = useState<ColorIndexedMeal[]>([]);
+  const [selectedNutrient, setSelectedNutrient] =
+    useState<NutrientKey>(initialNutrient);
+  const [spectrumPosition, setSpectrumPosition] = useState(
+    initialSpectrumPosition,
+  );
+  const [resolvedMeals, setResolvedMeals] = useState<CollectionMeal[]>([]);
   const [selectedMealId, setSelectedMealId] = useState<string | null>(null);
   const [detailMealId, setDetailMealId] = useState<string | null>(null);
   const [isChoosingColor, setIsChoosingColor] = useState(false);
@@ -54,8 +65,17 @@ export default function CollectionPage({ config }: CollectionPageProps) {
   const [displayableCount, setDisplayableCount] = useState(0);
   const [loading, setLoading] = useState(connected);
   const [message, setMessage] = useState('');
-  const mealsRef = useRef<ColorIndexedMeal[]>([]);
+  const mealsRef = useRef<CollectionMeal[]>([]);
   const imageRequests = useRef(new Set<string>());
+
+  const previewNutrient = nutrientForSpectrumPosition(
+    spectrumPosition,
+    collectionSpectrumSegments,
+  );
+  const orderedMeals = useMemo(
+    () => sortMealsByNutrient(resolvedMeals, selectedNutrient),
+    [resolvedMeals, selectedNutrient],
+  );
 
   const requestImages = useCallback(
     async (mealIds: readonly string[]) => {
@@ -115,54 +135,54 @@ export default function CollectionPage({ config }: CollectionPageProps) {
 
       const knownPaths = knownImageStoragePaths();
       if (knownPaths.length) {
-        const knownMeals = mealsForStoragePaths(knownPaths, meals).map(
-          (meal) => ({
-            ...meal,
-            dominantColor: colorForStoragePath(meal.storagePath),
-          }),
+        const knownMeals = mealsForStoragePaths(knownPaths);
+        const initiallyOrdered = sortMealsByNutrient(
+          knownMeals,
+          initialNutrient,
         );
-        const initialMeal = closestMealForHue(knownMeals, 0);
         mealsRef.current = knownMeals;
         setResolvedMeals(knownMeals);
-        setSelectedMealId(initialMeal?.id ?? null);
-        if (initialMeal) setSelectedHue(initialMeal.dominantColor.hue);
+        setSelectedMealId(initiallyOrdered[0]?.id ?? null);
         setStorageCount(knownPaths.length);
-        setDisplayableCount(knownPaths.length);
+        setDisplayableCount(knownMeals.length);
         setLoading(false);
       }
 
       try {
-        const result = await loadMealsFromStorage(config, meals);
+        const result = await loadMealsFromStorage(config);
         if (cancelled) return;
-        const colorIndexedMeals = result.meals.map((meal) => ({
+
+        const storageMeals = result.meals.map((meal) => ({
           ...meal,
           imageUrl:
             mealsRef.current.find(
               (current) => current.storagePath === meal.storagePath,
             )?.imageUrl ?? '',
-          dominantColor: colorForStoragePath(meal.storagePath),
         }));
-        const initialMeal = closestMealForHue(colorIndexedMeals, 0);
         const storageChanged =
-          colorIndexedMeals.length !== mealsRef.current.length ||
-          colorIndexedMeals.some(
+          storageMeals.length !== mealsRef.current.length ||
+          storageMeals.some(
             (meal, index) =>
               meal.storagePath !== mealsRef.current[index]?.storagePath,
           );
+
         if (storageChanged) {
-          mealsRef.current = colorIndexedMeals;
-          setResolvedMeals(colorIndexedMeals);
-          setSelectedMealId((current) =>
-            colorIndexedMeals.some((meal) => meal.id === current)
-              ? current
-              : (initialMeal?.id ?? null),
-          );
+          mealsRef.current = storageMeals;
+          setResolvedMeals(storageMeals);
+          setSelectedMealId((current) => {
+            if (storageMeals.some((meal) => meal.id === current))
+              return current;
+            return (
+              sortMealsByNutrient(storageMeals, initialNutrient)[0]?.id ?? null
+            );
+          });
         }
+
         setStorageCount(result.storageCount);
-        setDisplayableCount(result.displayableCount);
+        setDisplayableCount(result.meals.length);
         if (!result.meals.length) {
           setMessage(
-            'The 265 bucket is connected, but no sample meal photographs could be resolved.',
+            'The 265 bucket is connected, but none of its JPG filenames match the nutrition dataset.',
           );
         }
       } catch (error) {
@@ -179,41 +199,60 @@ export default function CollectionPage({ config }: CollectionPageProps) {
   }, [config, connected]);
 
   useEffect(() => {
-    if (!selectedMealId || !resolvedMeals.length) return;
-    void requestImages(nearbyMealIds(resolvedMeals, selectedMealId));
-  }, [requestImages, resolvedMeals, selectedMealId]);
+    if (!selectedMealId || !orderedMeals.length) return;
+    void requestImages(nearbyMealIds(orderedMeals, selectedMealId));
+  }, [requestImages, orderedMeals, selectedMealId]);
 
   const detailMeal = detailMealId
     ? resolvedMeals.find((meal) => meal.id === detailMealId)
     : undefined;
-  const selectedNutrient = nutrientForHue(selectedHue);
 
-  function commitHue(hue: number) {
-    setSelectedHue(hue);
+  function commitNutrient(nutrient: NutrientKey, position: number) {
+    setSpectrumPosition(position);
+    setSelectedNutrient(nutrient);
     setIsChoosingColor(false);
-    const closest = closestMealForHue(resolvedMeals, hue);
-    if (closest) setSelectedMealId(closest.id);
+    setSelectedMealId(
+      sortMealsByNutrient(resolvedMeals, nutrient)[0]?.id ?? null,
+    );
     setDetailMealId(null);
+  }
+
+  function commitPosition(position: number) {
+    const definition = nutrientForSpectrumPosition(
+      position,
+      collectionSpectrumSegments,
+    );
+    commitNutrient(definition.key, position);
+  }
+
+  function selectNutrient(nutrient: NutrientKey) {
+    const segment = collectionSpectrumSegments.find(
+      (candidate) => candidate.nutrient.key === nutrient,
+    );
+    commitNutrient(nutrient, segment?.center ?? 0);
   }
 
   return (
     <main className="collection-shell">
       <ColorSpectrum
-        hue={selectedHue}
-        nutrient={selectedNutrient}
+        position={spectrumPosition}
+        nutrient={previewNutrient}
+        segments={collectionSpectrumSegments}
         onStart={() => setIsChoosingColor(true)}
-        onPreview={(hue) => {
+        onPreview={(position) => {
           setIsChoosingColor(true);
-          setSelectedHue(hue);
+          setSpectrumPosition(position);
         }}
-        onCommit={commitHue}
+        onCommit={commitPosition}
+        onSelect={selectNutrient}
       />
 
       {detailMeal ? (
         <MealDetail meal={detailMeal} onClose={() => setDetailMealId(null)} />
       ) : (
         <ColorFilmstrip
-          meals={resolvedMeals}
+          meals={orderedMeals}
+          nutrientLabel={nutrientByKey[selectedNutrient].label}
           selectedId={selectedMealId}
           loading={loading}
           message={message}
@@ -222,7 +261,6 @@ export default function CollectionPage({ config }: CollectionPageProps) {
           onCenter={(meal) => {
             setIsChoosingColor(false);
             setSelectedMealId(meal.id);
-            setSelectedHue(meal.dominantColor.hue);
           }}
           onOpen={(meal) => setDetailMealId(meal.id)}
         />
@@ -231,12 +269,8 @@ export default function CollectionPage({ config }: CollectionPageProps) {
       <footer>
         <span>265ThesisBrainstormCollectionEvaLI</span>
         <span>
-          {
-            resolvedMeals.filter((meal) => meal.analysisStatus === 'analyzed')
-              .length
-          }{' '}
-          ANALYZED MEALS · {displayableCount} WEB IMAGES · {storageCount}{' '}
-          STORAGE OBJECTS
+          {resolvedMeals.length} ANALYZED MEALS · {displayableCount} MATCHED JPG
+          IMAGES · {storageCount} STORAGE OBJECTS
         </span>
       </footer>
     </main>

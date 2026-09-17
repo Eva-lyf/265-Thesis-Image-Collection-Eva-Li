@@ -33,21 +33,10 @@ export function MealDetail({ meal, onClose }: MealDetailProps) {
       </figure>
 
       <div className="detail-visual">
-        {meal.analysisStatus === 'analyzed' ? (
-          <NutrientOrb meal={meal} />
-        ) : (
-          <div
-            className="nutrient-orb pending-orb"
-            aria-label="Nutrient data pending"
-          />
-        )}
+        <NutrientOrb meal={meal} />
         <div className="detail-meta">
           <span>{meal.title}</span>
-          <small>
-            {meal.analysisStatus === 'analyzed'
-              ? 'HOVER THE LIGHT TO READ ITS NUTRIENT'
-              : 'NUTRIENT DATA PENDING'}
-          </small>
+          <small>HOVER THE LIGHT TO READ ITS NUTRIENT</small>
         </div>
       </div>
     </section>

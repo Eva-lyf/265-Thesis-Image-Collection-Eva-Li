@@ -1,4 +1,4 @@
-import type { CollectionMeal, Meal } from './meals';
+import { mealsByImageFilename, type CollectionMeal } from './meals';
 
 export type SupabaseStorageConfig = {
   url: string;
@@ -56,33 +56,20 @@ export async function loadStorageImageUrl(
   return `${config.url}/storage/v1${data.signedURL}`;
 }
 
-export function mealsForStoragePaths(
-  displayablePaths: readonly string[],
-  dataset: readonly Meal[],
-) {
-  return displayablePaths.map((path, index): CollectionMeal => {
-    const meal = dataset[index];
-    if (meal) {
-      return {
+export function mealsForStoragePaths(displayablePaths: readonly string[]) {
+  return displayablePaths.flatMap((path): CollectionMeal[] => {
+    const imageFilename = path.split('/').at(-1) ?? path;
+    const meal = mealsByImageFilename.get(imageFilename);
+    if (!meal) return [];
+
+    return [
+      {
         ...meal,
         storagePath: path,
         imageUrl: '',
         analysisStatus: 'analyzed',
-      };
-    }
-
-    const mealNumber = String(index + 1).padStart(3, '0');
-    return {
-      id: `meal-${mealNumber}`,
-      title: `Meal ${mealNumber}`,
-      image: { alt: `Meal ${mealNumber} from the 265 collection` },
-      imageUrl: '',
-      storagePath: path,
-      calories: null,
-      ingredients: [],
-      nutrients: null,
-      analysisStatus: 'pending',
-    };
+      },
+    ];
   });
 }
 
@@ -126,7 +113,6 @@ async function listFolder(
 
 export async function loadMealsFromStorage(
   config: SupabaseStorageConfig,
-  dataset: readonly Meal[],
 ): Promise<{
   meals: CollectionMeal[];
   storageCount: number;
@@ -149,7 +135,7 @@ export async function loadMealsFromStorage(
     ? convertedImages
     : browserImages.filter((path) => !path.includes('/'));
 
-  const resolved = mealsForStoragePaths(displayablePaths, dataset);
+  const resolved = mealsForStoragePaths(displayablePaths);
 
   return {
     meals: resolved,

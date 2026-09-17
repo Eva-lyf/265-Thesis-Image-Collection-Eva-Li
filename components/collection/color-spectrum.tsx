@@ -1,68 +1,91 @@
 'use client';
 
-import { spectrumNutrients, type NutrientDefinition } from '@/lib/nutrients';
+import type {
+  NutrientDefinition,
+  NutrientKey,
+  SpectrumSegment,
+} from '@/lib/nutrients';
 
 type ColorSpectrumProps = {
-  hue: number;
+  position: number;
   nutrient: NutrientDefinition;
+  segments: readonly SpectrumSegment[];
   onStart: () => void;
-  onPreview: (hue: number) => void;
-  onCommit: (hue: number) => void;
+  onPreview: (position: number) => void;
+  onCommit: (position: number) => void;
+  onSelect: (nutrient: NutrientKey) => void;
 };
 
 export function ColorSpectrum({
-  hue,
+  position,
   nutrient,
+  segments,
   onStart,
   onPreview,
   onCommit,
+  onSelect,
 }: ColorSpectrumProps) {
+  const spectrumGradient = `linear-gradient(90deg, ${segments
+    .flatMap((segment) => [
+      `${segment.nutrient.color} ${segment.start}%`,
+      `${segment.nutrient.color} ${segment.end}%`,
+    ])
+    .join(', ')})`;
+
   return (
-    <section className="spectrum-section" aria-label="Color spectrum">
+    <section className="spectrum-section" aria-label="Nutrient spectrum">
       <div className="spectrum-labels" aria-label="Nutrients by color">
-        {spectrumNutrients.map((item, index) => (
+        {segments.map((segment) => (
           <button
             type="button"
-            key={item.key}
-            className={`${item.key === nutrient.key ? 'active' : ''} ${
-              index === 0 ? 'first' : ''
-            } ${index === spectrumNutrients.length - 1 ? 'last' : ''}`}
+            key={segment.nutrient.key}
+            className={
+              segment.nutrient.key === nutrient.key ? 'active' : undefined
+            }
             style={{
-              left: `${(item.spectrumHue / 360) * 100}%`,
-              color: item.color,
+              left: `${segment.center}%`,
+              color: segment.nutrient.color,
             }}
-            aria-pressed={item.key === nutrient.key}
-            onClick={() => onCommit(item.spectrumHue)}
+            aria-pressed={segment.nutrient.key === nutrient.key}
+            onClick={() => onSelect(segment.nutrient.key)}
           >
-            {item.shortLabel}
+            {segment.nutrient.shortLabel}
           </button>
         ))}
       </div>
       <div className="spectrum-control">
-        <div className="spectrum-track color-spectrum-track" />
+        <div
+          className="spectrum-track color-spectrum-track"
+          style={{ background: spectrumGradient }}
+        />
         <span
           className="spectrum-indicator"
-          style={{ left: `${(hue / 360) * 100}%` }}
+          style={{ left: `${position}%` }}
           aria-hidden="true"
         />
         <input
           type="range"
           min={0}
-          max={360}
+          max={1000}
           step={1}
-          value={Math.round(hue)}
-          aria-label="Choose a color"
+          value={Math.round(position * 10)}
+          aria-label="Choose a nutrient color"
           aria-valuetext={nutrient.label}
           onPointerDown={onStart}
-          onPointerUp={(event) => onCommit(Number(event.currentTarget.value))}
-          onPointerLeave={(event) =>
-            onCommit(Number(event.currentTarget.value))
+          onPointerUp={(event) =>
+            onCommit(Number(event.currentTarget.value) / 10)
           }
-          onClick={(event) => onCommit(Number(event.currentTarget.value))}
+          onPointerLeave={(event) => {
+            if (event.buttons) {
+              onCommit(Number(event.currentTarget.value) / 10);
+            }
+          }}
           onKeyDown={onStart}
-          onKeyUp={(event) => onCommit(Number(event.currentTarget.value))}
-          onBlur={(event) => onCommit(Number(event.currentTarget.value))}
-          onChange={(event) => onPreview(Number(event.currentTarget.value))}
+          onKeyUp={(event) => onCommit(Number(event.currentTarget.value) / 10)}
+          onBlur={(event) => onCommit(Number(event.currentTarget.value) / 10)}
+          onChange={(event) =>
+            onPreview(Number(event.currentTarget.value) / 10)
+          }
         />
       </div>
     </section>

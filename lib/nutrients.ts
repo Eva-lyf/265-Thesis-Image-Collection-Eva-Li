@@ -1,21 +1,13 @@
 export const nutrientKeys = [
   'protein',
-  'fiber',
-  'totalFat',
-  'saturatedFat',
-  'unsaturatedFat',
+  'iron',
   'carbohydrate',
-  'sugar',
+  'totalFat',
+  'potassium',
+  'fiber',
   'sodium',
   'calcium',
-  'potassium',
-  'iron',
-  'vitaminA',
-  'vitaminD',
-  'vitaminE',
-  'vitaminK',
-  'vitaminC',
-  'vitaminB',
+  'sugar',
 ] as const;
 
 export type NutrientKey = (typeof nutrientKeys)[number];
@@ -25,8 +17,21 @@ export type NutrientDefinition = {
   label: string;
   shortLabel: string;
   color: string;
-  unit: 'g' | 'mg' | 'mcg';
+  unit: 'g' | 'mg';
+  amountField:
+    | 'proteinG'
+    | 'ironMg'
+    | 'carbohydratesG'
+    | 'fatG'
+    | 'potassiumMg'
+    | 'fiberG'
+    | 'sodiumMg'
+    | 'calciumMg'
+    | 'totalSugarG';
+  dailyValue: number | null;
 };
+
+const dailyValues = nutritionDataset.dailyValueReferences;
 
 export const nutrients: readonly NutrientDefinition[] = [
   {
@@ -35,69 +40,8 @@ export const nutrients: readonly NutrientDefinition[] = [
     shortLabel: 'Protein',
     color: '#ef3b35',
     unit: 'g',
-  },
-  {
-    key: 'fiber',
-    label: 'Fiber',
-    shortLabel: 'Fiber',
-    color: '#48a868',
-    unit: 'g',
-  },
-  {
-    key: 'totalFat',
-    label: 'Total Fat',
-    shortLabel: 'Fat',
-    color: '#e3be40',
-    unit: 'g',
-  },
-  {
-    key: 'saturatedFat',
-    label: 'Saturated Fat',
-    shortLabel: 'Sat. Fat',
-    color: '#8f6544',
-    unit: 'g',
-  },
-  {
-    key: 'unsaturatedFat',
-    label: 'Unsaturated Fat',
-    shortLabel: 'Unsat. Fat',
-    color: '#d59c2d',
-    unit: 'g',
-  },
-  {
-    key: 'carbohydrate',
-    label: 'Carbohydrate',
-    shortLabel: 'Carbs',
-    color: '#ed7b35',
-    unit: 'g',
-  },
-  {
-    key: 'sugar',
-    label: 'Sugar',
-    shortLabel: 'Sugar',
-    color: '#ed78a8',
-    unit: 'g',
-  },
-  {
-    key: 'sodium',
-    label: 'Sodium',
-    shortLabel: 'Sodium',
-    color: '#38b9c8',
-    unit: 'mg',
-  },
-  {
-    key: 'calcium',
-    label: 'Calcium',
-    shortLabel: 'Calcium',
-    color: '#9268c7',
-    unit: 'mg',
-  },
-  {
-    key: 'potassium',
-    label: 'Potassium',
-    shortLabel: 'Potassium',
-    color: '#95c944',
-    unit: 'mg',
+    amountField: 'proteinG',
+    dailyValue: dailyValues.proteinG,
   },
   {
     key: 'iron',
@@ -105,48 +49,71 @@ export const nutrients: readonly NutrientDefinition[] = [
     shortLabel: 'Iron',
     color: '#a66a3f',
     unit: 'mg',
+    amountField: 'ironMg',
+    dailyValue: dailyValues.ironMg,
   },
   {
-    key: 'vitaminA',
-    label: 'Vitamin A',
-    shortLabel: 'Vit. A',
-    color: '#ff334c',
-    unit: 'mcg',
+    key: 'carbohydrate',
+    label: 'Carbohydrate',
+    shortLabel: 'Carbs',
+    color: '#ed7b35',
+    unit: 'g',
+    amountField: 'carbohydratesG',
+    dailyValue: dailyValues.carbohydratesG,
   },
   {
-    key: 'vitaminD',
-    label: 'Vitamin D',
-    shortLabel: 'Vit. D',
-    color: '#ff8a1d',
-    unit: 'mcg',
+    key: 'totalFat',
+    label: 'Total Fat',
+    shortLabel: 'Fat',
+    color: '#e3be40',
+    unit: 'g',
+    amountField: 'fatG',
+    dailyValue: dailyValues.fatG,
   },
   {
-    key: 'vitaminE',
-    label: 'Vitamin E',
-    shortLabel: 'Vit. E',
-    color: '#6554dc',
+    key: 'potassium',
+    label: 'Potassium',
+    shortLabel: 'Potassium',
+    color: '#95c944',
     unit: 'mg',
+    amountField: 'potassiumMg',
+    dailyValue: dailyValues.potassiumMg,
   },
   {
-    key: 'vitaminK',
-    label: 'Vitamin K',
-    shortLabel: 'Vit. K',
-    color: '#2878ef',
-    unit: 'mcg',
+    key: 'fiber',
+    label: 'Fiber',
+    shortLabel: 'Fiber',
+    color: '#48a868',
+    unit: 'g',
+    amountField: 'fiberG',
+    dailyValue: dailyValues.fiberG,
   },
   {
-    key: 'vitaminC',
-    label: 'Vitamin C',
-    shortLabel: 'Vit. C',
-    color: '#f3df36',
+    key: 'sodium',
+    label: 'Sodium',
+    shortLabel: 'Sodium',
+    color: '#38b9c8',
     unit: 'mg',
+    amountField: 'sodiumMg',
+    dailyValue: dailyValues.sodiumMg,
   },
   {
-    key: 'vitaminB',
-    label: 'Vitamin B',
-    shortLabel: 'Vit. B',
-    color: '#4ec56f',
+    key: 'calcium',
+    label: 'Calcium',
+    shortLabel: 'Calcium',
+    color: '#9268c7',
     unit: 'mg',
+    amountField: 'calciumMg',
+    dailyValue: dailyValues.calciumMg,
+  },
+  {
+    key: 'sugar',
+    label: 'Total Sugar',
+    shortLabel: 'Sugar',
+    color: '#ed78a8',
+    unit: 'g',
+    amountField: 'totalSugarG',
+    dailyValue: null,
   },
 ] as const;
 
@@ -154,30 +121,26 @@ export const nutrientByKey = Object.fromEntries(
   nutrients.map((nutrient) => [nutrient.key, nutrient]),
 ) as Record<NutrientKey, NutrientDefinition>;
 
-export type SpectrumNutrient = NutrientDefinition & { spectrumHue: number };
+export type SpectrumSegment = {
+  nutrient: NutrientDefinition;
+  score: number;
+  width: number;
+  start: number;
+  end: number;
+  center: number;
+};
 
-export const spectrumNutrients: readonly SpectrumNutrient[] = [
-  { ...nutrientByKey.protein, spectrumHue: 0 },
-  { ...nutrientByKey.iron, spectrumHue: 25 },
-  { ...nutrientByKey.carbohydrate, spectrumHue: 55 },
-  { ...nutrientByKey.totalFat, spectrumHue: 75 },
-  { ...nutrientByKey.potassium, spectrumHue: 100 },
-  { ...nutrientByKey.fiber, spectrumHue: 125 },
-  { ...nutrientByKey.sodium, spectrumHue: 180 },
-  { ...nutrientByKey.calcium, spectrumHue: 285 },
-  { ...nutrientByKey.sugar, spectrumHue: 345 },
-] as const;
-
-function circularHueDistance(first: number, second: number) {
-  const distance = Math.abs(first - second) % 360;
-  return Math.min(distance, 360 - distance);
+export function nutrientForSpectrumPosition(
+  position: number,
+  segments: readonly SpectrumSegment[],
+) {
+  const bounded = Math.min(100, Math.max(0, position));
+  return (
+    segments.find((segment, index) =>
+      index === segments.length - 1
+        ? bounded <= segment.end
+        : bounded < segment.end,
+    ) ?? segments[segments.length - 1]
+  ).nutrient;
 }
-
-export function nutrientForHue(hue: number): NutrientDefinition {
-  return spectrumNutrients.reduce((closest, nutrient) =>
-    circularHueDistance(hue, nutrient.spectrumHue) <
-    circularHueDistance(hue, closest.spectrumHue)
-      ? nutrient
-      : closest,
-  );
-}
+import nutritionDataset from '@/data/meal-nutrition.json';

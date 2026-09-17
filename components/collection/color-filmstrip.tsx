@@ -2,21 +2,23 @@
 /* oxlint-disable next/no-img-element -- signed Supabase URLs are dynamic */
 
 import { useEffect, useMemo, useRef } from 'react';
-import type { ColorIndexedMeal } from '@/lib/image-colors';
+import type { CollectionMeal } from '@/lib/meals';
 
 type ColorFilmstripProps = {
-  meals: readonly ColorIndexedMeal[];
+  meals: readonly CollectionMeal[];
+  nutrientLabel: string;
   selectedId: string | null;
   loading: boolean;
   message: string;
   isChoosingColor: boolean;
   onNeedImages: (mealIds: readonly string[]) => void;
-  onCenter: (meal: ColorIndexedMeal) => void;
-  onOpen: (meal: ColorIndexedMeal) => void;
+  onCenter: (meal: CollectionMeal) => void;
+  onOpen: (meal: CollectionMeal) => void;
 };
 
 export function ColorFilmstrip({
   meals,
+  nutrientLabel,
   selectedId,
   loading,
   message,
@@ -29,10 +31,7 @@ export function ColorFilmstrip({
   const scrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const releaseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const programmaticScroll = useRef(false);
-  const sortedMeals = useMemo(
-    () => [...meals].sort((a, b) => a.dominantColor.hue - b.dominantColor.hue),
-    [meals],
-  );
+  const sortedMeals = useMemo(() => [...meals], [meals]);
   const loopedMeals = useMemo(
     () => [...sortedMeals, ...sortedMeals, ...sortedMeals],
     [sortedMeals],
@@ -146,7 +145,7 @@ export function ColorFilmstrip({
   return (
     <section
       className={`color-neighborhood ${isChoosingColor ? 'is-choosing' : ''}`}
-      aria-label="Photographs arranged by dominant color"
+      aria-label={`Meal photographs ordered by ${nutrientLabel}`}
       aria-busy={isChoosingColor}
     >
       <div className="filmstrip-fade filmstrip-fade-left" aria-hidden="true" />
@@ -170,9 +169,7 @@ export function ColorFilmstrip({
               data-loop-index={index}
               onClick={() => (selected ? onOpen(meal) : onCenter(meal))}
               aria-label={
-                selected
-                  ? `Open ${meal.title}`
-                  : `Center ${meal.title}, dominant color ${meal.dominantColor.dominantHex}`
+                selected ? `Open ${meal.title}` : `Center ${meal.title}`
               }
             >
               {meal.imageUrl ? (

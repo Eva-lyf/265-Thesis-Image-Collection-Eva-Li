@@ -1,0 +1,2588 @@
+{
+  "schemaVersion": 1,
+  "datasetScope": "Estimated total nutrition for the entire photographed meal in each of the 67 JPG images in the Supabase 265 bucket.",
+  "methodology": {
+    "analysisType": "One-time visual food identification and reference-based portion/nutrition estimation; no runtime image analysis.",
+    "amountsAreSourceOfTruth": true,
+    "servingDefinition": "The complete meal or multi-person spread visible in the photograph, not a per-100-g value.",
+    "nutritionReference": "USDA FoodData Central generic prepared-food and ingredient profiles, combined by estimated visible mass. Restaurant composite references are used when ingredients or cooking fat are obscured.",
+    "uncertaintyPolicy": "Every field receives a best estimate. confidence, estimationBasis, and notes disclose ambiguity instead of using null values.",
+    "rounding": "Calories rounded to about 10 kcal; macronutrients mostly to 1 g; minerals mostly to 10 mg; iron to 0.1 mg."
+  },
+  "sourceReferences": [
+    {
+      "name": "USDA FoodData Central",
+      "url": "https://fdc.nal.usda.gov/",
+      "use": "Generic ingredient and prepared-food nutrient profiles used for component-based estimates."
+    },
+    {
+      "name": "FDA Daily Value reference guide",
+      "url": "https://www.fda.gov/food/nutrition-facts-label/daily-value-nutrition-and-supplement-facts-labels",
+      "use": "Daily Value constants recorded for future derived %DV calculations; no %DV values are stored in meal records."
+    }
+  ],
+  "dailyValueReferences": {
+    "proteinG": 50,
+    "carbohydratesG": 275,
+    "fatG": 78,
+    "fiberG": 28,
+    "sodiumMg": 2300,
+    "potassiumMg": 4700,
+    "calciumMg": 1300,
+    "ironMg": 18,
+    "excludedFromDailyValue": ["totalSugarG"],
+    "note": "Total sugar intentionally has no project %DV because the FDA Daily Value is for added sugar, not total sugar."
+  },
+  "records": [
+    {
+      "imageFilename": "2EF31F95-D801-4A30-B799-334534FF4476.jpg",
+      "mealId": "meal-001",
+      "estimatedMeal": "Shared Chinese meal with noodles, rice, tomato eggs, spring rolls, dumplings, edamame and soup",
+      "estimatedFoods": [
+        {
+          "name": "dry noodles with sauce",
+          "estimatedGrams": 520
+        },
+        {
+          "name": "tomato scrambled eggs",
+          "estimatedGrams": 520
+        },
+        {
+          "name": "spring rolls",
+          "estimatedGrams": 240
+        },
+        {
+          "name": "soup dumplings",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "cooked white rice",
+          "estimatedGrams": 500
+        },
+        {
+          "name": "edamame and soup",
+          "estimatedGrams": 380
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 3820,
+        "proteinG": 154,
+        "carbohydratesG": 492,
+        "fatG": 142,
+        "fiberG": 36,
+        "totalSugarG": 53,
+        "sodiumMg": 7420,
+        "potassiumMg": 4580,
+        "calciumMg": 610,
+        "ironMg": 22.4
+      },
+      "confidence": 0.56,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Large multi-person spread; totals cover all clearly visible dishes, so serving count and hidden oil are uncertain."
+    },
+    {
+      "imageFilename": "C6196600-F6C0-45AE-A139-026F9B0EDE91.jpg",
+      "mealId": "meal-002",
+      "estimatedMeal": "Egg and avocado focaccia sandwich with cabbage and cheese",
+      "estimatedFoods": [
+        {
+          "name": "focaccia bread",
+          "estimatedGrams": 150
+        },
+        {
+          "name": "fried egg",
+          "estimatedGrams": 55
+        },
+        {
+          "name": "avocado",
+          "estimatedGrams": 70
+        },
+        {
+          "name": "cabbage and greens",
+          "estimatedGrams": 45
+        },
+        {
+          "name": "cheese and spread",
+          "estimatedGrams": 45
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 790,
+        "proteinG": 29,
+        "carbohydratesG": 76,
+        "fatG": 43,
+        "fiberG": 11,
+        "totalSugarG": 8,
+        "sodiumMg": 1180,
+        "potassiumMg": 970,
+        "calciumMg": 260,
+        "ironMg": 4.8
+      },
+      "confidence": 0.79,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "E0D7B526-64D1-423A-8921-B737C136B907.jpg",
+      "mealId": "meal-003",
+      "estimatedMeal": "Sichuan-style sliced beef and offal salad with cucumber and chili oil",
+      "estimatedFoods": [
+        {
+          "name": "cooked beef and offal",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "cucumber and vegetables",
+          "estimatedGrams": 130
+        },
+        {
+          "name": "chili oil dressing",
+          "estimatedGrams": 65
+        },
+        {
+          "name": "corn and herbs",
+          "estimatedGrams": 55
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 760,
+        "proteinG": 58,
+        "carbohydratesG": 32,
+        "fatG": 46,
+        "fiberG": 6,
+        "totalSugarG": 8,
+        "sodiumMg": 1980,
+        "potassiumMg": 1280,
+        "calciumMg": 105,
+        "ironMg": 7.4
+      },
+      "confidence": 0.68,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "The exact meat cuts and amount of chili oil are not fully visible; a typical fuqi feipian-style composition was used."
+    },
+    {
+      "imageFilename": "IMG_0043.jpg",
+      "mealId": "meal-004",
+      "estimatedMeal": "Fish with roasted potatoes and greens plus two burgers",
+      "estimatedFoods": [
+        {
+          "name": "cooked white fish fillet",
+          "estimatedGrams": 190
+        },
+        {
+          "name": "roasted potatoes",
+          "estimatedGrams": 240
+        },
+        {
+          "name": "leafy greens",
+          "estimatedGrams": 80
+        },
+        {
+          "name": "two cheeseburgers",
+          "estimatedGrams": 500
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2470,
+        "proteinG": 119,
+        "carbohydratesG": 183,
+        "fatG": 137,
+        "fiberG": 16,
+        "totalSugarG": 25,
+        "sodiumMg": 3560,
+        "potassiumMg": 3210,
+        "calciumMg": 590,
+        "ironMg": 13.1
+      },
+      "confidence": 0.51,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "The frame contains three plates; totals include the foreground fish plate and both background burgers as one photographed meal."
+    },
+    {
+      "imageFilename": "IMG_0045.jpg",
+      "mealId": "meal-005",
+      "estimatedMeal": "Omurice with meat rice filling and tomato sauce",
+      "estimatedFoods": [
+        {
+          "name": "cooked seasoned rice",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "egg omelet",
+          "estimatedGrams": 150
+        },
+        {
+          "name": "ground meat filling",
+          "estimatedGrams": 100
+        },
+        {
+          "name": "tomato sauce",
+          "estimatedGrams": 120
+        },
+        {
+          "name": "cooking oil",
+          "estimatedGrams": 18
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1010,
+        "proteinG": 38,
+        "carbohydratesG": 119,
+        "fatG": 41,
+        "fiberG": 5,
+        "totalSugarG": 16,
+        "sodiumMg": 1420,
+        "potassiumMg": 980,
+        "calciumMg": 150,
+        "ironMg": 5.4
+      },
+      "confidence": 0.78,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_0373.jpg",
+      "mealId": "meal-006",
+      "estimatedMeal": "Beef tartare rice bowl with egg yolk, grilled vegetables and small dessert",
+      "estimatedFoods": [
+        {
+          "name": "beef tartare",
+          "estimatedGrams": 170
+        },
+        {
+          "name": "cooked rice",
+          "estimatedGrams": 250
+        },
+        {
+          "name": "egg yolk",
+          "estimatedGrams": 18
+        },
+        {
+          "name": "grilled vegetables",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "fried bites and dessert",
+          "estimatedGrams": 180
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1510,
+        "proteinG": 70,
+        "carbohydratesG": 156,
+        "fatG": 66,
+        "fiberG": 13,
+        "totalSugarG": 32,
+        "sodiumMg": 2680,
+        "potassiumMg": 2180,
+        "calciumMg": 330,
+        "ironMg": 10.2
+      },
+      "confidence": 0.61,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Several shared side dishes are visible; standard small-plate portions were used."
+    },
+    {
+      "imageFilename": "IMG_1165.jpg",
+      "mealId": "meal-007",
+      "estimatedMeal": "Beef noodle soup with bok choy",
+      "estimatedFoods": [
+        {
+          "name": "cooked wheat noodles",
+          "estimatedGrams": 250
+        },
+        {
+          "name": "braised beef",
+          "estimatedGrams": 150
+        },
+        {
+          "name": "broth",
+          "estimatedGrams": 450
+        },
+        {
+          "name": "bok choy",
+          "estimatedGrams": 90
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 820,
+        "proteinG": 47,
+        "carbohydratesG": 91,
+        "fatG": 30,
+        "fiberG": 6,
+        "totalSugarG": 8,
+        "sodiumMg": 2260,
+        "potassiumMg": 1250,
+        "calciumMg": 150,
+        "ironMg": 6.3
+      },
+      "confidence": 0.84,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_1605.jpg",
+      "mealId": "meal-008",
+      "estimatedMeal": "Assorted nigiri sushi, about ten pieces",
+      "estimatedFoods": [
+        {
+          "name": "sushi rice",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "assorted raw fish and seafood",
+          "estimatedGrams": 190
+        },
+        {
+          "name": "soy sauce and garnishes",
+          "estimatedGrams": 35
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 700,
+        "proteinG": 43,
+        "carbohydratesG": 91,
+        "fatG": 18,
+        "fiberG": 3,
+        "totalSugarG": 10,
+        "sodiumMg": 1450,
+        "potassiumMg": 920,
+        "calciumMg": 95,
+        "ironMg": 4.2
+      },
+      "confidence": 0.82,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_1711.jpg",
+      "mealId": "meal-009",
+      "estimatedMeal": "Four large deli sandwiches with pastrami, turkey, avocado and vegetables",
+      "estimatedFoods": [
+        {
+          "name": "four large bread rolls",
+          "estimatedGrams": 520
+        },
+        {
+          "name": "pastrami and corned beef",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "turkey",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "avocado and vegetables",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "cheese and condiments",
+          "estimatedGrams": 160
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2860,
+        "proteinG": 151,
+        "carbohydratesG": 292,
+        "fatG": 116,
+        "fiberG": 26,
+        "totalSugarG": 32,
+        "sodiumMg": 6780,
+        "potassiumMg": 3910,
+        "calciumMg": 710,
+        "ironMg": 25.8
+      },
+      "confidence": 0.63,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Multi-person order; totals include all four sandwiches."
+    },
+    {
+      "imageFilename": "IMG_1948.jpg",
+      "mealId": "meal-010",
+      "estimatedMeal": "Lamb chops with roasted carrots and mushroom risotto",
+      "estimatedFoods": [
+        {
+          "name": "cooked lamb chops",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "mushroom risotto",
+          "estimatedGrams": 330
+        },
+        {
+          "name": "roasted carrots and vegetables",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "cooking fat and sauce",
+          "estimatedGrams": 35
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1470,
+        "proteinG": 87,
+        "carbohydratesG": 108,
+        "fatG": 79,
+        "fiberG": 10,
+        "totalSugarG": 16,
+        "sodiumMg": 1890,
+        "potassiumMg": 2440,
+        "calciumMg": 240,
+        "ironMg": 9.8
+      },
+      "confidence": 0.77,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_1975.jpg",
+      "mealId": "meal-011",
+      "estimatedMeal": "Full English breakfast with pancakes",
+      "estimatedFoods": [
+        {
+          "name": "eggs",
+          "estimatedGrams": 110
+        },
+        {
+          "name": "sausage and bacon",
+          "estimatedGrams": 210
+        },
+        {
+          "name": "baked beans",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "hash browns and mushrooms",
+          "estimatedGrams": 230
+        },
+        {
+          "name": "pancakes with cream",
+          "estimatedGrams": 230
+        },
+        {
+          "name": "grilled tomato",
+          "estimatedGrams": 90
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1820,
+        "proteinG": 73,
+        "carbohydratesG": 177,
+        "fatG": 92,
+        "fiberG": 18,
+        "totalSugarG": 45,
+        "sodiumMg": 3720,
+        "potassiumMg": 3060,
+        "calciumMg": 460,
+        "ironMg": 14.2
+      },
+      "confidence": 0.72,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "The photographed meal combines a full breakfast plate and a pancake plate."
+    },
+    {
+      "imageFilename": "IMG_2031.jpg",
+      "mealId": "meal-012",
+      "estimatedMeal": "Three loaded burgers with fries and onion rings",
+      "estimatedFoods": [
+        {
+          "name": "three loaded cheeseburgers",
+          "estimatedGrams": 840
+        },
+        {
+          "name": "french fries",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "onion rings",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "sauces",
+          "estimatedGrams": 80
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 3710,
+        "proteinG": 173,
+        "carbohydratesG": 336,
+        "fatG": 190,
+        "fiberG": 23,
+        "totalSugarG": 52,
+        "sodiumMg": 6330,
+        "potassiumMg": 4200,
+        "calciumMg": 1040,
+        "ironMg": 24.5
+      },
+      "confidence": 0.66,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Large multi-person platter; all visible burgers and fried sides are included."
+    },
+    {
+      "imageFilename": "IMG_2076.jpg",
+      "mealId": "meal-013",
+      "estimatedMeal": "White fish fillet with rice and tomato scrambled egg",
+      "estimatedFoods": [
+        {
+          "name": "cooked white fish",
+          "estimatedGrams": 170
+        },
+        {
+          "name": "cooked white rice",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "tomato scrambled egg",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "cooking oil and sauce",
+          "estimatedGrams": 25
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 720,
+        "proteinG": 49,
+        "carbohydratesG": 76,
+        "fatG": 25,
+        "fiberG": 4,
+        "totalSugarG": 8,
+        "sodiumMg": 980,
+        "potassiumMg": 1150,
+        "calciumMg": 135,
+        "ironMg": 4.1
+      },
+      "confidence": 0.86,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_2298.jpg",
+      "mealId": "meal-014",
+      "estimatedMeal": "Steak and lobster surf-and-turf with a small pasta side",
+      "estimatedFoods": [
+        {
+          "name": "cooked steak",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "lobster meat with butter",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "small pasta side",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "sauce and vegetables",
+          "estimatedGrams": 90
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1610,
+        "proteinG": 145,
+        "carbohydratesG": 81,
+        "fatG": 76,
+        "fiberG": 6,
+        "totalSugarG": 10,
+        "sodiumMg": 2450,
+        "potassiumMg": 2700,
+        "calciumMg": 330,
+        "ironMg": 14.6
+      },
+      "confidence": 0.73,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_2311.jpg",
+      "mealId": "meal-015",
+      "estimatedMeal": "Cafe spread with avocado toast, pretzel, matcha cake, pastry and two sweet drinks",
+      "estimatedFoods": [
+        {
+          "name": "avocado toast",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "large pretzel",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "matcha roll cake and pastry",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "two sweet milk coffee drinks",
+          "estimatedGrams": 600
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2290,
+        "proteinG": 55,
+        "carbohydratesG": 326,
+        "fatG": 82,
+        "fiberG": 20,
+        "totalSugarG": 112,
+        "sodiumMg": 2700,
+        "potassiumMg": 2690,
+        "calciumMg": 760,
+        "ironMg": 11.2
+      },
+      "confidence": 0.62,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Multi-person cafe spread; drink sugar and pastry fillings use typical cafe recipes."
+    },
+    {
+      "imageFilename": "IMG_2559.jpg",
+      "mealId": "meal-016",
+      "estimatedMeal": "Creamy risotto, tofu with herb sauce and beet-yogurt side",
+      "estimatedFoods": [
+        {
+          "name": "creamy vegetable risotto",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "tofu with herb sauce",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "beet and yogurt side",
+          "estimatedGrams": 180
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1390,
+        "proteinG": 48,
+        "carbohydratesG": 134,
+        "fatG": 74,
+        "fiberG": 15,
+        "totalSugarG": 24,
+        "sodiumMg": 2160,
+        "potassiumMg": 2290,
+        "calciumMg": 620,
+        "ironMg": 10.1
+      },
+      "confidence": 0.64,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Three shared dishes; sauces and dairy content are partly hidden."
+    },
+    {
+      "imageFilename": "IMG_3143.jpg",
+      "mealId": "meal-017",
+      "estimatedMeal": "Grilled salmon salad and calamari grain bowl",
+      "estimatedFoods": [
+        {
+          "name": "grilled salmon",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "large green salad with dressing",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "calamari",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "cooked grain or risotto",
+          "estimatedGrams": 260
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1690,
+        "proteinG": 106,
+        "carbohydratesG": 121,
+        "fatG": 84,
+        "fiberG": 16,
+        "totalSugarG": 19,
+        "sodiumMg": 2550,
+        "potassiumMg": 3120,
+        "calciumMg": 350,
+        "ironMg": 9.2
+      },
+      "confidence": 0.67,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Two entrees are included as the photographed meal."
+    },
+    {
+      "imageFilename": "IMG_3251.jpg",
+      "mealId": "meal-018",
+      "estimatedMeal": "Radish and feta salad with vinaigrette",
+      "estimatedFoods": [
+        {
+          "name": "radishes and mixed vegetables",
+          "estimatedGrams": 230
+        },
+        {
+          "name": "feta cheese",
+          "estimatedGrams": 80
+        },
+        {
+          "name": "vinaigrette",
+          "estimatedGrams": 45
+        },
+        {
+          "name": "seeds and herbs",
+          "estimatedGrams": 20
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 460,
+        "proteinG": 15,
+        "carbohydratesG": 25,
+        "fatG": 35,
+        "fiberG": 8,
+        "totalSugarG": 12,
+        "sodiumMg": 980,
+        "potassiumMg": 920,
+        "calciumMg": 420,
+        "ironMg": 3.2
+      },
+      "confidence": 0.8,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_3296.jpg",
+      "mealId": "meal-019",
+      "estimatedMeal": "Seafood paella with fish, squid, mussels, scallops and prawns",
+      "estimatedFoods": [
+        {
+          "name": "cooked seasoned rice",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "mixed seafood and fish",
+          "estimatedGrams": 290
+        },
+        {
+          "name": "vegetables and tomato",
+          "estimatedGrams": 140
+        },
+        {
+          "name": "olive oil and stock",
+          "estimatedGrams": 45
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1210,
+        "proteinG": 78,
+        "carbohydratesG": 139,
+        "fatG": 38,
+        "fiberG": 8,
+        "totalSugarG": 11,
+        "sodiumMg": 2310,
+        "potassiumMg": 1980,
+        "calciumMg": 220,
+        "ironMg": 9.5
+      },
+      "confidence": 0.8,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_3392.jpg",
+      "mealId": "meal-020",
+      "estimatedMeal": "Creamy mushroom risotto",
+      "estimatedFoods": [
+        {
+          "name": "cooked risotto rice",
+          "estimatedGrams": 330
+        },
+        {
+          "name": "mushrooms",
+          "estimatedGrams": 120
+        },
+        {
+          "name": "cream, cheese and butter",
+          "estimatedGrams": 100
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 820,
+        "proteinG": 21,
+        "carbohydratesG": 92,
+        "fatG": 42,
+        "fiberG": 5,
+        "totalSugarG": 8,
+        "sodiumMg": 1230,
+        "potassiumMg": 910,
+        "calciumMg": 310,
+        "ironMg": 3.1
+      },
+      "confidence": 0.85,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_3438.jpg",
+      "mealId": "meal-021",
+      "estimatedMeal": "Tuna tataki salad with two tacos and tomato side",
+      "estimatedFoods": [
+        {
+          "name": "seared tuna",
+          "estimatedGrams": 170
+        },
+        {
+          "name": "mixed salad and dressing",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "two small tacos",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "tomato side",
+          "estimatedGrams": 100
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 940,
+        "proteinG": 62,
+        "carbohydratesG": 76,
+        "fatG": 43,
+        "fiberG": 12,
+        "totalSugarG": 15,
+        "sodiumMg": 1740,
+        "potassiumMg": 1940,
+        "calciumMg": 240,
+        "ironMg": 7.1
+      },
+      "confidence": 0.73,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_3445.jpg",
+      "mealId": "meal-022",
+      "estimatedMeal": "Braised lamb shank over mushroom risotto",
+      "estimatedFoods": [
+        {
+          "name": "cooked lamb shank meat",
+          "estimatedGrams": 280
+        },
+        {
+          "name": "mushroom risotto",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "braising sauce",
+          "estimatedGrams": 100
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1460,
+        "proteinG": 91,
+        "carbohydratesG": 103,
+        "fatG": 78,
+        "fiberG": 6,
+        "totalSugarG": 12,
+        "sodiumMg": 2180,
+        "potassiumMg": 2400,
+        "calciumMg": 250,
+        "ironMg": 11.8
+      },
+      "confidence": 0.82,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_3475.jpg",
+      "mealId": "meal-023",
+      "estimatedMeal": "Spicy seafood curry or stew with crab, shellfish and noodles",
+      "estimatedFoods": [
+        {
+          "name": "mixed crab, fish and shellfish",
+          "estimatedGrams": 420
+        },
+        {
+          "name": "cooked noodles or rice",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "curry broth and coconut milk",
+          "estimatedGrams": 380
+        },
+        {
+          "name": "vegetables",
+          "estimatedGrams": 160
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1360,
+        "proteinG": 96,
+        "carbohydratesG": 121,
+        "fatG": 57,
+        "fiberG": 12,
+        "totalSugarG": 22,
+        "sodiumMg": 3290,
+        "potassiumMg": 2890,
+        "calciumMg": 390,
+        "ironMg": 12.4
+      },
+      "confidence": 0.63,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "The starch under the seafood is partly obscured; a typical seafood curry bowl was used."
+    },
+    {
+      "imageFilename": "IMG_3788.jpg",
+      "mealId": "meal-024",
+      "estimatedMeal": "Pork ramen with egg",
+      "estimatedFoods": [
+        {
+          "name": "cooked ramen noodles",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "chashu pork",
+          "estimatedGrams": 120
+        },
+        {
+          "name": "egg",
+          "estimatedGrams": 55
+        },
+        {
+          "name": "broth",
+          "estimatedGrams": 500
+        },
+        {
+          "name": "vegetables and toppings",
+          "estimatedGrams": 80
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 920,
+        "proteinG": 47,
+        "carbohydratesG": 98,
+        "fatG": 38,
+        "fiberG": 7,
+        "totalSugarG": 9,
+        "sodiumMg": 2780,
+        "potassiumMg": 1260,
+        "calciumMg": 170,
+        "ironMg": 5.5
+      },
+      "confidence": 0.85,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_3811.jpg",
+      "mealId": "meal-025",
+      "estimatedMeal": "Three pasta dishes with breadsticks",
+      "estimatedFoods": [
+        {
+          "name": "squid ink seafood pasta",
+          "estimatedGrams": 380
+        },
+        {
+          "name": "tomato meat pasta",
+          "estimatedGrams": 380
+        },
+        {
+          "name": "cream pasta",
+          "estimatedGrams": 380
+        },
+        {
+          "name": "breadsticks",
+          "estimatedGrams": 150
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2920,
+        "proteinG": 104,
+        "carbohydratesG": 372,
+        "fatG": 111,
+        "fiberG": 22,
+        "totalSugarG": 35,
+        "sodiumMg": 4480,
+        "potassiumMg": 3120,
+        "calciumMg": 760,
+        "ironMg": 15.6
+      },
+      "confidence": 0.65,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Three full pasta plates and the visible bread are treated as one multi-person photographed meal."
+    },
+    {
+      "imageFilename": "IMG_3823.jpg",
+      "mealId": "meal-026",
+      "estimatedMeal": "Eggs Benedict with green salad and orange juice",
+      "estimatedFoods": [
+        {
+          "name": "eggs Benedict, two halves",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "green salad with dressing",
+          "estimatedGrams": 130
+        },
+        {
+          "name": "orange juice",
+          "estimatedGrams": 250
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 990,
+        "proteinG": 35,
+        "carbohydratesG": 82,
+        "fatG": 58,
+        "fiberG": 7,
+        "totalSugarG": 28,
+        "sodiumMg": 1880,
+        "potassiumMg": 1250,
+        "calciumMg": 280,
+        "ironMg": 5.4
+      },
+      "confidence": 0.83,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_3856.jpg",
+      "mealId": "meal-027",
+      "estimatedMeal": "Beef udon noodle soup",
+      "estimatedFoods": [
+        {
+          "name": "cooked udon noodles",
+          "estimatedGrams": 270
+        },
+        {
+          "name": "cooked beef",
+          "estimatedGrams": 140
+        },
+        {
+          "name": "broth",
+          "estimatedGrams": 450
+        },
+        {
+          "name": "vegetables",
+          "estimatedGrams": 80
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 800,
+        "proteinG": 43,
+        "carbohydratesG": 99,
+        "fatG": 25,
+        "fiberG": 6,
+        "totalSugarG": 12,
+        "sodiumMg": 2240,
+        "potassiumMg": 1190,
+        "calciumMg": 130,
+        "ironMg": 5.8
+      },
+      "confidence": 0.84,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_3882.jpg",
+      "mealId": "meal-028",
+      "estimatedMeal": "Shared Chinese mushroom hotpot with tofu and vegetables",
+      "estimatedFoods": [
+        {
+          "name": "mixed mushrooms and vegetables",
+          "estimatedGrams": 700
+        },
+        {
+          "name": "tofu and bean products",
+          "estimatedGrams": 350
+        },
+        {
+          "name": "lotus root and starches",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "hotpot broth and sauces",
+          "estimatedGrams": 500
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2170,
+        "proteinG": 93,
+        "carbohydratesG": 228,
+        "fatG": 93,
+        "fiberG": 45,
+        "totalSugarG": 38,
+        "sodiumMg": 6540,
+        "potassiumMg": 5300,
+        "calciumMg": 940,
+        "ironMg": 21.2
+      },
+      "confidence": 0.55,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Large shared table; ingredient weights and absorbed broth/oil are estimated from a standard four-person hotpot."
+    },
+    {
+      "imageFilename": "IMG_3949.jpg",
+      "mealId": "meal-029",
+      "estimatedMeal": "Beef hotpot with rice and side dishes",
+      "estimatedFoods": [
+        {
+          "name": "cooked beef hotpot",
+          "estimatedGrams": 420
+        },
+        {
+          "name": "vegetables and mushrooms",
+          "estimatedGrams": 350
+        },
+        {
+          "name": "cooked rice",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "side dishes and sauces",
+          "estimatedGrams": 220
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1740,
+        "proteinG": 105,
+        "carbohydratesG": 162,
+        "fatG": 69,
+        "fiberG": 24,
+        "totalSugarG": 28,
+        "sodiumMg": 4860,
+        "potassiumMg": 4080,
+        "calciumMg": 510,
+        "ironMg": 16.8
+      },
+      "confidence": 0.64,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Shared meal; hotpot broth intake and sauce use are uncertain."
+    },
+    {
+      "imageFilename": "IMG_3979.jpg",
+      "mealId": "meal-030",
+      "estimatedMeal": "Large steak platter with fries and green salad",
+      "estimatedFoods": [
+        {
+          "name": "cooked steak",
+          "estimatedGrams": 520
+        },
+        {
+          "name": "french fries",
+          "estimatedGrams": 330
+        },
+        {
+          "name": "green salad with dressing",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "steak sauce and butter",
+          "estimatedGrams": 70
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2350,
+        "proteinG": 167,
+        "carbohydratesG": 150,
+        "fatG": 124,
+        "fiberG": 16,
+        "totalSugarG": 17,
+        "sodiumMg": 3180,
+        "potassiumMg": 4210,
+        "calciumMg": 270,
+        "ironMg": 20.5
+      },
+      "confidence": 0.76,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": "The steak is an unusually large sharing portion."
+    },
+    {
+      "imageFilename": "IMG_4066.jpg",
+      "mealId": "meal-031",
+      "estimatedMeal": "Chicken ramen with egg and fried chicken side",
+      "estimatedFoods": [
+        {
+          "name": "ramen noodles and broth",
+          "estimatedGrams": 750
+        },
+        {
+          "name": "chicken and egg toppings",
+          "estimatedGrams": 190
+        },
+        {
+          "name": "fried chicken or dumpling side",
+          "estimatedGrams": 210
+        },
+        {
+          "name": "vegetables",
+          "estimatedGrams": 80
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1340,
+        "proteinG": 69,
+        "carbohydratesG": 135,
+        "fatG": 58,
+        "fiberG": 8,
+        "totalSugarG": 11,
+        "sodiumMg": 3760,
+        "potassiumMg": 1840,
+        "calciumMg": 230,
+        "ironMg": 7.3
+      },
+      "confidence": 0.74,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_4105.jpg",
+      "mealId": "meal-032",
+      "estimatedMeal": "Two Korean stone-bowl set meals with banchan",
+      "estimatedFoods": [
+        {
+          "name": "two meat and rice stone bowls",
+          "estimatedGrams": 1050
+        },
+        {
+          "name": "assorted banchan",
+          "estimatedGrams": 650
+        },
+        {
+          "name": "soups and sauces",
+          "estimatedGrams": 450
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2590,
+        "proteinG": 122,
+        "carbohydratesG": 306,
+        "fatG": 91,
+        "fiberG": 31,
+        "totalSugarG": 47,
+        "sodiumMg": 6940,
+        "potassiumMg": 4920,
+        "calciumMg": 760,
+        "ironMg": 21.5
+      },
+      "confidence": 0.57,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Two full trays are visible; totals represent both sets and use typical Korean restaurant portions."
+    },
+    {
+      "imageFilename": "IMG_4186.jpg",
+      "mealId": "meal-033",
+      "estimatedMeal": "Three lobster rolls",
+      "estimatedFoods": [
+        {
+          "name": "three split-top rolls",
+          "estimatedGrams": 240
+        },
+        {
+          "name": "lobster meat",
+          "estimatedGrams": 330
+        },
+        {
+          "name": "mayonnaise and butter",
+          "estimatedGrams": 95
+        },
+        {
+          "name": "celery and herbs",
+          "estimatedGrams": 35
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1810,
+        "proteinG": 94,
+        "carbohydratesG": 126,
+        "fatG": 101,
+        "fiberG": 5,
+        "totalSugarG": 16,
+        "sodiumMg": 3210,
+        "potassiumMg": 1880,
+        "calciumMg": 410,
+        "ironMg": 5.9
+      },
+      "confidence": 0.76,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": "All three rolls are included."
+    },
+    {
+      "imageFilename": "IMG_4194.jpg",
+      "mealId": "meal-034",
+      "estimatedMeal": "Shared beef hotpot with tofu, noodles and vegetables",
+      "estimatedFoods": [
+        {
+          "name": "thin-sliced raw beef",
+          "estimatedGrams": 700
+        },
+        {
+          "name": "tofu and bean products",
+          "estimatedGrams": 400
+        },
+        {
+          "name": "noodles and starches",
+          "estimatedGrams": 350
+        },
+        {
+          "name": "vegetables and mushrooms",
+          "estimatedGrams": 650
+        },
+        {
+          "name": "broth and dipping sauces",
+          "estimatedGrams": 600
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 3070,
+        "proteinG": 226,
+        "carbohydratesG": 218,
+        "fatG": 145,
+        "fiberG": 40,
+        "totalSugarG": 34,
+        "sodiumMg": 7820,
+        "potassiumMg": 6630,
+        "calciumMg": 980,
+        "ironMg": 29.4
+      },
+      "confidence": 0.59,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Large multi-person hotpot; broth consumption and sauce use drive the sodium uncertainty."
+    },
+    {
+      "imageFilename": "IMG_4242.jpg",
+      "mealId": "meal-035",
+      "estimatedMeal": "Thai green curry with rice, grilled chicken plate and sweet drink",
+      "estimatedFoods": [
+        {
+          "name": "green curry",
+          "estimatedGrams": 420
+        },
+        {
+          "name": "cooked rice",
+          "estimatedGrams": 280
+        },
+        {
+          "name": "grilled chicken or fish with vegetables",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "sweet orange drink",
+          "estimatedGrams": 350
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1570,
+        "proteinG": 72,
+        "carbohydratesG": 194,
+        "fatG": 57,
+        "fiberG": 11,
+        "totalSugarG": 62,
+        "sodiumMg": 2750,
+        "potassiumMg": 2390,
+        "calciumMg": 340,
+        "ironMg": 8.4
+      },
+      "confidence": 0.66,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_4255.jpg",
+      "mealId": "meal-036",
+      "estimatedMeal": "Large Korean barbecue platter with beef, pork, shrimp and vegetables",
+      "estimatedFoods": [
+        {
+          "name": "assorted cooked beef",
+          "estimatedGrams": 520
+        },
+        {
+          "name": "assorted cooked pork",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "shrimp",
+          "estimatedGrams": 140
+        },
+        {
+          "name": "grilled vegetables",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "sauces and cooking oil",
+          "estimatedGrams": 120
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 3260,
+        "proteinG": 244,
+        "carbohydratesG": 75,
+        "fatG": 216,
+        "fiberG": 15,
+        "totalSugarG": 24,
+        "sodiumMg": 5160,
+        "potassiumMg": 5740,
+        "calciumMg": 420,
+        "ironMg": 27.8
+      },
+      "confidence": 0.72,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Meat-heavy shared platter. Totals include all visible meat and seafood; exact cuts and rendered fat are uncertain."
+    },
+    {
+      "imageFilename": "IMG_4277.jpg",
+      "mealId": "meal-037",
+      "estimatedMeal": "Matcha soft-serve parfait with mochi, cereal, kinako and syrup",
+      "estimatedFoods": [
+        {
+          "name": "matcha soft serve",
+          "estimatedGrams": 210
+        },
+        {
+          "name": "mochi and cereal",
+          "estimatedGrams": 100
+        },
+        {
+          "name": "kinako powder and syrup",
+          "estimatedGrams": 55
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 640,
+        "proteinG": 13,
+        "carbohydratesG": 95,
+        "fatG": 24,
+        "fiberG": 4,
+        "totalSugarG": 63,
+        "sodiumMg": 310,
+        "potassiumMg": 610,
+        "calciumMg": 330,
+        "ironMg": 2.1
+      },
+      "confidence": 0.79,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_4326.jpg",
+      "mealId": "meal-038",
+      "estimatedMeal": "Prosciutto pasta with peanut-butter toast and matcha latte",
+      "estimatedFoods": [
+        {
+          "name": "pasta with prosciutto and vegetables",
+          "estimatedGrams": 390
+        },
+        {
+          "name": "peanut butter toast",
+          "estimatedGrams": 130
+        },
+        {
+          "name": "sweetened matcha latte",
+          "estimatedGrams": 350
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1380,
+        "proteinG": 50,
+        "carbohydratesG": 167,
+        "fatG": 58,
+        "fiberG": 12,
+        "totalSugarG": 39,
+        "sodiumMg": 2420,
+        "potassiumMg": 1870,
+        "calciumMg": 480,
+        "ironMg": 8.3
+      },
+      "confidence": 0.7,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "All three photographed items are included; sauce and drink sweetness use standard cafe portions."
+    },
+    {
+      "imageFilename": "IMG_4379.jpg",
+      "mealId": "meal-039",
+      "estimatedMeal": "Italian deli sandwich with cured meat, cheese, tomato and greens",
+      "estimatedFoods": [
+        {
+          "name": "bread roll",
+          "estimatedGrams": 170
+        },
+        {
+          "name": "cured meats",
+          "estimatedGrams": 120
+        },
+        {
+          "name": "cheese",
+          "estimatedGrams": 55
+        },
+        {
+          "name": "tomato and greens",
+          "estimatedGrams": 80
+        },
+        {
+          "name": "spread and oil",
+          "estimatedGrams": 30
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 900,
+        "proteinG": 43,
+        "carbohydratesG": 82,
+        "fatG": 44,
+        "fiberG": 8,
+        "totalSugarG": 9,
+        "sodiumMg": 2110,
+        "potassiumMg": 840,
+        "calciumMg": 390,
+        "ironMg": 5.2
+      },
+      "confidence": 0.82,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_4472.jpg",
+      "mealId": "meal-040",
+      "estimatedMeal": "Salmon rice bowl and tuna sashimi bowl with extra rice",
+      "estimatedFoods": [
+        {
+          "name": "salmon and avocado rice bowl",
+          "estimatedGrams": 520
+        },
+        {
+          "name": "tuna sashimi bowl",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "extra cooked rice",
+          "estimatedGrams": 250
+        },
+        {
+          "name": "sauces and garnishes",
+          "estimatedGrams": 60
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1510,
+        "proteinG": 89,
+        "carbohydratesG": 184,
+        "fatG": 48,
+        "fiberG": 12,
+        "totalSugarG": 18,
+        "sodiumMg": 2650,
+        "potassiumMg": 2480,
+        "calciumMg": 260,
+        "ironMg": 9.1
+      },
+      "confidence": 0.68,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Two bowls plus a separate rice bowl are counted as one photographed meal."
+    },
+    {
+      "imageFilename": "IMG_4516.jpg",
+      "mealId": "meal-041",
+      "estimatedMeal": "Lamb chops with roasted potatoes",
+      "estimatedFoods": [
+        {
+          "name": "cooked lamb chops",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "roasted potatoes",
+          "estimatedGrams": 320
+        },
+        {
+          "name": "cooking oil and seasoning",
+          "estimatedGrams": 35
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1160,
+        "proteinG": 82,
+        "carbohydratesG": 72,
+        "fatG": 59,
+        "fiberG": 7,
+        "totalSugarG": 5,
+        "sodiumMg": 1150,
+        "potassiumMg": 2360,
+        "calciumMg": 120,
+        "ironMg": 8.8
+      },
+      "confidence": 0.86,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_4619.jpg",
+      "mealId": "meal-042",
+      "estimatedMeal": "Cheeseburger with fries and a pasta side",
+      "estimatedFoods": [
+        {
+          "name": "cheeseburger",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "french fries",
+          "estimatedGrams": 220
+        },
+        {
+          "name": "pasta side",
+          "estimatedGrams": 260
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1910,
+        "proteinG": 66,
+        "carbohydratesG": 199,
+        "fatG": 91,
+        "fiberG": 12,
+        "totalSugarG": 25,
+        "sodiumMg": 3270,
+        "potassiumMg": 2220,
+        "calciumMg": 540,
+        "ironMg": 10.3
+      },
+      "confidence": 0.69,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Both plates in the frame are included."
+    },
+    {
+      "imageFilename": "IMG_4684.jpg",
+      "mealId": "meal-043",
+      "estimatedMeal": "Salmon and ikura rice bowl with six hand rolls",
+      "estimatedFoods": [
+        {
+          "name": "salmon ikura rice bowl",
+          "estimatedGrams": 520
+        },
+        {
+          "name": "six assorted hand rolls",
+          "estimatedGrams": 430
+        },
+        {
+          "name": "soy sauce and condiments",
+          "estimatedGrams": 45
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1580,
+        "proteinG": 83,
+        "carbohydratesG": 190,
+        "fatG": 53,
+        "fiberG": 9,
+        "totalSugarG": 20,
+        "sodiumMg": 3050,
+        "potassiumMg": 2200,
+        "calciumMg": 310,
+        "ironMg": 8.2
+      },
+      "confidence": 0.72,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "The full hand-roll tray and rice bowl are included."
+    },
+    {
+      "imageFilename": "IMG_4749.jpg",
+      "mealId": "meal-044",
+      "estimatedMeal": "Seared tuna mixed salad with creamy dressing",
+      "estimatedFoods": [
+        {
+          "name": "seared tuna",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "mixed leafy vegetables",
+          "estimatedGrams": 230
+        },
+        {
+          "name": "creamy dressing",
+          "estimatedGrams": 55
+        },
+        {
+          "name": "seeds and garnishes",
+          "estimatedGrams": 25
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 520,
+        "proteinG": 49,
+        "carbohydratesG": 25,
+        "fatG": 27,
+        "fiberG": 8,
+        "totalSugarG": 9,
+        "sodiumMg": 980,
+        "potassiumMg": 1450,
+        "calciumMg": 170,
+        "ironMg": 5.1
+      },
+      "confidence": 0.84,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_4751.jpg",
+      "mealId": "meal-045",
+      "estimatedMeal": "Three fried chicken sliders with side salad and dipping sauce",
+      "estimatedFoods": [
+        {
+          "name": "three fried chicken sliders",
+          "estimatedGrams": 540
+        },
+        {
+          "name": "green salad with dressing",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "dipping sauce",
+          "estimatedGrams": 45
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1250,
+        "proteinG": 61,
+        "carbohydratesG": 116,
+        "fatG": 62,
+        "fiberG": 9,
+        "totalSugarG": 20,
+        "sodiumMg": 2590,
+        "potassiumMg": 1730,
+        "calciumMg": 330,
+        "ironMg": 7.2
+      },
+      "confidence": 0.8,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_4764.jpg",
+      "mealId": "meal-046",
+      "estimatedMeal": "Loaded cheeseburger with creamy slaw",
+      "estimatedFoods": [
+        {
+          "name": "beef cheeseburger",
+          "estimatedGrams": 330
+        },
+        {
+          "name": "creamy coleslaw",
+          "estimatedGrams": 100
+        },
+        {
+          "name": "pickle",
+          "estimatedGrams": 35
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1010,
+        "proteinG": 48,
+        "carbohydratesG": 72,
+        "fatG": 56,
+        "fiberG": 5,
+        "totalSugarG": 14,
+        "sodiumMg": 1930,
+        "potassiumMg": 1130,
+        "calciumMg": 360,
+        "ironMg": 6.1
+      },
+      "confidence": 0.83,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_4903.jpg",
+      "mealId": "meal-047",
+      "estimatedMeal": "Ham and cheese sandwich with lettuce and tomato",
+      "estimatedFoods": [
+        {
+          "name": "bread roll",
+          "estimatedGrams": 160
+        },
+        {
+          "name": "ham",
+          "estimatedGrams": 100
+        },
+        {
+          "name": "cheese",
+          "estimatedGrams": 45
+        },
+        {
+          "name": "lettuce and tomato",
+          "estimatedGrams": 70
+        },
+        {
+          "name": "mayonnaise",
+          "estimatedGrams": 25
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 690,
+        "proteinG": 35,
+        "carbohydratesG": 73,
+        "fatG": 29,
+        "fiberG": 6,
+        "totalSugarG": 8,
+        "sodiumMg": 1760,
+        "potassiumMg": 690,
+        "calciumMg": 350,
+        "ironMg": 4.2
+      },
+      "confidence": 0.86,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_5014.jpg",
+      "mealId": "meal-048",
+      "estimatedMeal": "Full English breakfast with poached eggs, bacon, sausage, beans and potatoes",
+      "estimatedFoods": [
+        {
+          "name": "poached eggs",
+          "estimatedGrams": 110
+        },
+        {
+          "name": "bacon and sausage",
+          "estimatedGrams": 190
+        },
+        {
+          "name": "baked beans",
+          "estimatedGrams": 170
+        },
+        {
+          "name": "roasted potatoes",
+          "estimatedGrams": 190
+        },
+        {
+          "name": "tomato and mushrooms",
+          "estimatedGrams": 150
+        },
+        {
+          "name": "toast and sauce",
+          "estimatedGrams": 100
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1390,
+        "proteinG": 69,
+        "carbohydratesG": 112,
+        "fatG": 76,
+        "fiberG": 16,
+        "totalSugarG": 24,
+        "sodiumMg": 3140,
+        "potassiumMg": 2830,
+        "calciumMg": 340,
+        "ironMg": 12.1
+      },
+      "confidence": 0.82,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_5148.jpg",
+      "mealId": "meal-049",
+      "estimatedMeal": "Asparagus and mushroom pizza with coconut water",
+      "estimatedFoods": [
+        {
+          "name": "whole thin-crust vegetable pizza",
+          "estimatedGrams": 620
+        },
+        {
+          "name": "coconut water",
+          "estimatedGrams": 330
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1210,
+        "proteinG": 43,
+        "carbohydratesG": 165,
+        "fatG": 42,
+        "fiberG": 15,
+        "totalSugarG": 24,
+        "sodiumMg": 2140,
+        "potassiumMg": 2180,
+        "calciumMg": 560,
+        "ironMg": 8.6
+      },
+      "confidence": 0.83,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_5161.jpg",
+      "mealId": "meal-050",
+      "estimatedMeal": "Chicken sandwich with avocado, cabbage and creamy dressing",
+      "estimatedFoods": [
+        {
+          "name": "bread roll",
+          "estimatedGrams": 170
+        },
+        {
+          "name": "cooked chicken",
+          "estimatedGrams": 140
+        },
+        {
+          "name": "avocado and cabbage",
+          "estimatedGrams": 100
+        },
+        {
+          "name": "creamy dressing",
+          "estimatedGrams": 35
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 830,
+        "proteinG": 51,
+        "carbohydratesG": 79,
+        "fatG": 34,
+        "fiberG": 10,
+        "totalSugarG": 9,
+        "sodiumMg": 1470,
+        "potassiumMg": 1190,
+        "calciumMg": 190,
+        "ironMg": 5.1
+      },
+      "confidence": 0.84,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_5719.jpg",
+      "mealId": "meal-051",
+      "estimatedMeal": "Tuna salad sandwich with herbs and vegetables",
+      "estimatedFoods": [
+        {
+          "name": "bread roll",
+          "estimatedGrams": 175
+        },
+        {
+          "name": "tuna salad",
+          "estimatedGrams": 175
+        },
+        {
+          "name": "vegetables and herbs",
+          "estimatedGrams": 70
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 760,
+        "proteinG": 42,
+        "carbohydratesG": 78,
+        "fatG": 30,
+        "fiberG": 7,
+        "totalSugarG": 9,
+        "sodiumMg": 1510,
+        "potassiumMg": 830,
+        "calciumMg": 160,
+        "ironMg": 5.0
+      },
+      "confidence": 0.82,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_5834.jpg",
+      "mealId": "meal-052",
+      "estimatedMeal": "Creamy chicken ramen with mushrooms and bamboo shoots",
+      "estimatedFoods": [
+        {
+          "name": "cooked ramen noodles",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "chicken",
+          "estimatedGrams": 140
+        },
+        {
+          "name": "creamy broth",
+          "estimatedGrams": 500
+        },
+        {
+          "name": "mushrooms and bamboo shoots",
+          "estimatedGrams": 120
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 950,
+        "proteinG": 50,
+        "carbohydratesG": 101,
+        "fatG": 39,
+        "fiberG": 8,
+        "totalSugarG": 10,
+        "sodiumMg": 2870,
+        "potassiumMg": 1430,
+        "calciumMg": 190,
+        "ironMg": 5.8
+      },
+      "confidence": 0.78,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Broth base is visually ambiguous; a typical creamy chicken ramen profile was used."
+    },
+    {
+      "imageFilename": "IMG_5975.jpg",
+      "mealId": "meal-053",
+      "estimatedMeal": "Roasted vegetable and cheese sandwich",
+      "estimatedFoods": [
+        {
+          "name": "bread roll",
+          "estimatedGrams": 170
+        },
+        {
+          "name": "roasted vegetables",
+          "estimatedGrams": 150
+        },
+        {
+          "name": "cheese",
+          "estimatedGrams": 55
+        },
+        {
+          "name": "pesto or oil",
+          "estimatedGrams": 30
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 700,
+        "proteinG": 24,
+        "carbohydratesG": 82,
+        "fatG": 32,
+        "fiberG": 10,
+        "totalSugarG": 11,
+        "sodiumMg": 1260,
+        "potassiumMg": 1040,
+        "calciumMg": 360,
+        "ironMg": 4.3
+      },
+      "confidence": 0.74,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Filling appears vegetable-forward; exact cheese and spread quantities are partly obscured."
+    },
+    {
+      "imageFilename": "IMG_6774.jpg",
+      "mealId": "meal-054",
+      "estimatedMeal": "Three Chinese noodle dishes: beef soup noodles, minced dry noodles and dumpling soup",
+      "estimatedFoods": [
+        {
+          "name": "beef noodle soup",
+          "estimatedGrams": 780
+        },
+        {
+          "name": "minced-meat dry noodles",
+          "estimatedGrams": 480
+        },
+        {
+          "name": "dumpling soup",
+          "estimatedGrams": 520
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2140,
+        "proteinG": 105,
+        "carbohydratesG": 277,
+        "fatG": 68,
+        "fiberG": 19,
+        "totalSugarG": 25,
+        "sodiumMg": 6020,
+        "potassiumMg": 3350,
+        "calciumMg": 430,
+        "ironMg": 16.4
+      },
+      "confidence": 0.64,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Three bowls are included as one photographed meal."
+    },
+    {
+      "imageFilename": "IMG_6956.jpg",
+      "mealId": "meal-055",
+      "estimatedMeal": "Three breakfast plates with scrambled eggs, croissants, vegetables, yogurt and juice",
+      "estimatedFoods": [
+        {
+          "name": "scrambled eggs",
+          "estimatedGrams": 330
+        },
+        {
+          "name": "croissants and toast",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "breakfast meat and vegetables",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "yogurt",
+          "estimatedGrams": 250
+        },
+        {
+          "name": "juice",
+          "estimatedGrams": 500
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2640,
+        "proteinG": 94,
+        "carbohydratesG": 294,
+        "fatG": 118,
+        "fiberG": 19,
+        "totalSugarG": 95,
+        "sodiumMg": 3810,
+        "potassiumMg": 3690,
+        "calciumMg": 840,
+        "ironMg": 15.2
+      },
+      "confidence": 0.58,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Multi-person breakfast table; all visible plates and drinks are included."
+    },
+    {
+      "imageFilename": "IMG_7208.jpg",
+      "mealId": "meal-056",
+      "estimatedMeal": "Prosciutto and burrata open-faced toast with vegetables",
+      "estimatedFoods": [
+        {
+          "name": "sourdough toast",
+          "estimatedGrams": 120
+        },
+        {
+          "name": "prosciutto",
+          "estimatedGrams": 65
+        },
+        {
+          "name": "burrata",
+          "estimatedGrams": 90
+        },
+        {
+          "name": "vegetable relish and greens",
+          "estimatedGrams": 120
+        },
+        {
+          "name": "olive oil",
+          "estimatedGrams": 15
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 720,
+        "proteinG": 33,
+        "carbohydratesG": 62,
+        "fatG": 39,
+        "fiberG": 7,
+        "totalSugarG": 9,
+        "sodiumMg": 1570,
+        "potassiumMg": 910,
+        "calciumMg": 360,
+        "ironMg": 4.1
+      },
+      "confidence": 0.8,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_7266.jpg",
+      "mealId": "meal-057",
+      "estimatedMeal": "Black pasta or ravioli with creamy beef sauce",
+      "estimatedFoods": [
+        {
+          "name": "filled black pasta",
+          "estimatedGrams": 340
+        },
+        {
+          "name": "ground beef",
+          "estimatedGrams": 120
+        },
+        {
+          "name": "cream sauce",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "cheese",
+          "estimatedGrams": 30
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1020,
+        "proteinG": 49,
+        "carbohydratesG": 105,
+        "fatG": 47,
+        "fiberG": 6,
+        "totalSugarG": 10,
+        "sodiumMg": 1540,
+        "potassiumMg": 1230,
+        "calciumMg": 370,
+        "ironMg": 6.2
+      },
+      "confidence": 0.69,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Pasta type and filling are not fully visible; a typical filled-pasta composition was used."
+    },
+    {
+      "imageFilename": "IMG_7571.jpg",
+      "mealId": "meal-058",
+      "estimatedMeal": "Open-faced pastrami Reuben sandwich with pickle",
+      "estimatedFoods": [
+        {
+          "name": "bread",
+          "estimatedGrams": 150
+        },
+        {
+          "name": "pastrami",
+          "estimatedGrams": 190
+        },
+        {
+          "name": "cheese",
+          "estimatedGrams": 65
+        },
+        {
+          "name": "sauerkraut and dressing",
+          "estimatedGrams": 100
+        },
+        {
+          "name": "pickle",
+          "estimatedGrams": 55
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1080,
+        "proteinG": 67,
+        "carbohydratesG": 79,
+        "fatG": 54,
+        "fiberG": 8,
+        "totalSugarG": 14,
+        "sodiumMg": 3060,
+        "potassiumMg": 1280,
+        "calciumMg": 520,
+        "ironMg": 8.4
+      },
+      "confidence": 0.81,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_7783.jpg",
+      "mealId": "meal-059",
+      "estimatedMeal": "Pappardelle with beef ragu and burrata",
+      "estimatedFoods": [
+        {
+          "name": "cooked pappardelle",
+          "estimatedGrams": 320
+        },
+        {
+          "name": "beef ragu",
+          "estimatedGrams": 240
+        },
+        {
+          "name": "burrata",
+          "estimatedGrams": 90
+        },
+        {
+          "name": "olive oil and herbs",
+          "estimatedGrams": 20
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1110,
+        "proteinG": 52,
+        "carbohydratesG": 121,
+        "fatG": 48,
+        "fiberG": 8,
+        "totalSugarG": 14,
+        "sodiumMg": 1380,
+        "potassiumMg": 1460,
+        "calciumMg": 390,
+        "ironMg": 7.3
+      },
+      "confidence": 0.86,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_7785.jpg",
+      "mealId": "meal-060",
+      "estimatedMeal": "Dim sum spread with char siu, shrimp dumplings, egg tarts and sesame balls",
+      "estimatedFoods": [
+        {
+          "name": "char siu pork",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "shrimp dumplings",
+          "estimatedGrams": 240
+        },
+        {
+          "name": "egg tarts",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "fried sesame balls",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "small dumpling side",
+          "estimatedGrams": 100
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1780,
+        "proteinG": 82,
+        "carbohydratesG": 205,
+        "fatG": 71,
+        "fiberG": 10,
+        "totalSugarG": 66,
+        "sodiumMg": 3460,
+        "potassiumMg": 1980,
+        "calciumMg": 390,
+        "ironMg": 11.2
+      },
+      "confidence": 0.7,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Shared dim sum order; all visible plates and baskets are included."
+    },
+    {
+      "imageFilename": "IMG_7884.jpg",
+      "mealId": "meal-061",
+      "estimatedMeal": "Shared brunch spread with eggs, toast, shakshuka, meat and vegetables",
+      "estimatedFoods": [
+        {
+          "name": "eggs and toast plates",
+          "estimatedGrams": 620
+        },
+        {
+          "name": "shakshuka and pita",
+          "estimatedGrams": 480
+        },
+        {
+          "name": "meat and potato plate",
+          "estimatedGrams": 430
+        },
+        {
+          "name": "drinks and sauces",
+          "estimatedGrams": 350
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2680,
+        "proteinG": 112,
+        "carbohydratesG": 289,
+        "fatG": 119,
+        "fiberG": 32,
+        "totalSugarG": 55,
+        "sodiumMg": 4850,
+        "potassiumMg": 4860,
+        "calciumMg": 720,
+        "ironMg": 19.4
+      },
+      "confidence": 0.58,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Four-person shared brunch; portions are based on typical restaurant plates."
+    },
+    {
+      "imageFilename": "IMG_8192.jpg",
+      "mealId": "meal-062",
+      "estimatedMeal": "Poached chicken, two corn cobs and tofu or offal side",
+      "estimatedFoods": [
+        {
+          "name": "poached chicken",
+          "estimatedGrams": 330
+        },
+        {
+          "name": "corn on the cob",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "tofu or offal side",
+          "estimatedGrams": 180
+        },
+        {
+          "name": "sauces",
+          "estimatedGrams": 45
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1120,
+        "proteinG": 99,
+        "carbohydratesG": 79,
+        "fatG": 48,
+        "fiberG": 10,
+        "totalSugarG": 20,
+        "sodiumMg": 1980,
+        "potassiumMg": 2590,
+        "calciumMg": 260,
+        "ironMg": 9.6
+      },
+      "confidence": 0.62,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "The pale side dish is visually ambiguous; a mixed tofu/offal reference was used."
+    },
+    {
+      "imageFilename": "IMG_8390.jpg",
+      "mealId": "meal-063",
+      "estimatedMeal": "Shared Chinese meal with pork cutlet, buns, noodles, salads and braised dishes",
+      "estimatedFoods": [
+        {
+          "name": "fried pork cutlet",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "steamed buns",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "sauced noodles",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "egg and seafood stew",
+          "estimatedGrams": 320
+        },
+        {
+          "name": "salads and braised sides",
+          "estimatedGrams": 420
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2460,
+        "proteinG": 126,
+        "carbohydratesG": 268,
+        "fatG": 96,
+        "fiberG": 28,
+        "totalSugarG": 41,
+        "sodiumMg": 5960,
+        "potassiumMg": 4210,
+        "calciumMg": 730,
+        "ironMg": 18.7
+      },
+      "confidence": 0.57,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Large multi-dish shared meal; all visible plates are included."
+    },
+    {
+      "imageFilename": "IMG_9228.jpg",
+      "mealId": "meal-064",
+      "estimatedMeal": "Shared Mexican meal with tacos, fried sides, beans, salads and drinks",
+      "estimatedFoods": [
+        {
+          "name": "assorted tacos and meat dishes",
+          "estimatedGrams": 620
+        },
+        {
+          "name": "fried potatoes or chips",
+          "estimatedGrams": 280
+        },
+        {
+          "name": "beans, salad and sauces",
+          "estimatedGrams": 360
+        },
+        {
+          "name": "sweetened drinks",
+          "estimatedGrams": 700
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2250,
+        "proteinG": 94,
+        "carbohydratesG": 270,
+        "fatG": 83,
+        "fiberG": 31,
+        "totalSugarG": 76,
+        "sodiumMg": 4750,
+        "potassiumMg": 3780,
+        "calciumMg": 610,
+        "ironMg": 17.1
+      },
+      "confidence": 0.54,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Several partially visible shared dishes and drinks require standard restaurant portion estimates."
+    },
+    {
+      "imageFilename": "IMG_9349.jpg",
+      "mealId": "meal-065",
+      "estimatedMeal": "Braised beef noodle bowl with greens",
+      "estimatedFoods": [
+        {
+          "name": "cooked wheat noodles",
+          "estimatedGrams": 270
+        },
+        {
+          "name": "braised beef",
+          "estimatedGrams": 170
+        },
+        {
+          "name": "vegetables",
+          "estimatedGrams": 120
+        },
+        {
+          "name": "broth and sauce",
+          "estimatedGrams": 350
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 880,
+        "proteinG": 51,
+        "carbohydratesG": 105,
+        "fatG": 29,
+        "fiberG": 8,
+        "totalSugarG": 12,
+        "sodiumMg": 2420,
+        "potassiumMg": 1570,
+        "calciumMg": 150,
+        "ironMg": 6.8
+      },
+      "confidence": 0.85,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_9757.jpg",
+      "mealId": "meal-066",
+      "estimatedMeal": "Fried chicken and waffles with syrup",
+      "estimatedFoods": [
+        {
+          "name": "fried chicken",
+          "estimatedGrams": 300
+        },
+        {
+          "name": "waffles",
+          "estimatedGrams": 260
+        },
+        {
+          "name": "syrup and butter",
+          "estimatedGrams": 100
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 1410,
+        "proteinG": 63,
+        "carbohydratesG": 153,
+        "fatG": 66,
+        "fiberG": 5,
+        "totalSugarG": 59,
+        "sodiumMg": 2580,
+        "potassiumMg": 1310,
+        "calciumMg": 360,
+        "ironMg": 8.0
+      },
+      "confidence": 0.84,
+      "estimationBasis": "USDA FoodData Central generic prepared-food component profiles; visible portions scaled against standard restaurant servings.",
+      "notes": ""
+    },
+    {
+      "imageFilename": "IMG_9786.jpg",
+      "mealId": "meal-067",
+      "estimatedMeal": "Two pasta dishes with mushroom cream sauce, gnocchi and bread",
+      "estimatedFoods": [
+        {
+          "name": "mushroom fettuccine",
+          "estimatedGrams": 480
+        },
+        {
+          "name": "creamy gnocchi or shell pasta",
+          "estimatedGrams": 480
+        },
+        {
+          "name": "garlic bread",
+          "estimatedGrams": 140
+        }
+      ],
+      "nutrition": {
+        "caloriesKcal": 2260,
+        "proteinG": 70,
+        "carbohydratesG": 309,
+        "fatG": 82,
+        "fiberG": 18,
+        "totalSugarG": 24,
+        "sodiumMg": 3420,
+        "potassiumMg": 2500,
+        "calciumMg": 760,
+        "ironMg": 12.6
+      },
+      "confidence": 0.66,
+      "estimationBasis": "USDA FoodData Central and typical restaurant composite-meal profiles; the standard serving was adjusted to the photographed portion.",
+      "notes": "Two full pasta plates and bread are included as one photographed meal."
+    }
+  ]
+}
