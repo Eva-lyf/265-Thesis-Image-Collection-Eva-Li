@@ -10,6 +10,7 @@ type ColorFilmstripProps = {
   loading: boolean;
   message: string;
   isChoosingColor: boolean;
+  onNeedImages: (mealIds: readonly string[]) => void;
   onCenter: (meal: ColorIndexedMeal) => void;
   onOpen: (meal: ColorIndexedMeal) => void;
 };
@@ -20,6 +21,7 @@ export function ColorFilmstrip({
   loading,
   message,
   isChoosingColor,
+  onNeedImages,
   onCenter,
   onOpen,
 }: ColorFilmstripProps) {
@@ -35,6 +37,33 @@ export function ColorFilmstrip({
     () => [...sortedMeals, ...sortedMeals, ...sortedMeals],
     [sortedMeals],
   );
+
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller || !loopedMeals.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const ids = new Set<string>();
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const id = (entry.target as HTMLElement).dataset.mealId;
+          if (id) ids.add(id);
+        }
+        if (ids.size) onNeedImages([...ids]);
+      },
+      {
+        root: scroller,
+        rootMargin: '0px 100px',
+        threshold: 0.01,
+      },
+    );
+
+    scroller
+      .querySelectorAll<HTMLElement>('[data-meal-id]')
+      .forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [loopedMeals, onNeedImages]);
 
   useEffect(() => {
     const scroller = scrollerRef.current;
@@ -66,7 +95,7 @@ export function ColorFilmstrip({
       nearest.offsetLeft + nearest.offsetWidth / 2 - scroller.clientWidth / 2;
     programmaticScroll.current = true;
     if (releaseTimer.current) clearTimeout(releaseTimer.current);
-    scroller.scrollTo({ left: target, behavior: 'smooth' });
+    scroller.scrollTo({ left: target, behavior: 'auto' });
     releaseTimer.current = setTimeout(() => {
       programmaticScroll.current = false;
     }, 720);
@@ -146,7 +175,17 @@ export function ColorFilmstrip({
                   : `Center ${meal.title}, dominant color ${meal.dominantColor.dominantHex}`
               }
             >
-              <img src={meal.imageUrl} alt="" loading="lazy" />
+              {meal.imageUrl ? (
+                <img
+                  src={meal.imageUrl}
+                  alt=""
+                  loading={selected ? 'eager' : 'lazy'}
+                  fetchPriority={selected ? 'high' : 'auto'}
+                  decoding="async"
+                />
+              ) : (
+                <span className="color-thumbnail-placeholder" aria-hidden />
+              )}
             </button>
           );
         })}

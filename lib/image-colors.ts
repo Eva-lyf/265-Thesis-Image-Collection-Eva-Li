@@ -17,6 +17,12 @@ const colorsByPath = new Map(
   (colorRecords as ImageColor[]).map((record) => [record.storagePath, record]),
 );
 
+export function knownImageStoragePaths() {
+  return [...colorsByPath.keys()].sort((first, second) =>
+    first.localeCompare(second, undefined, { numeric: true }),
+  );
+}
+
 const fallback: ImageColor = {
   storagePath: '',
   dominantHex: '#B8B8B8',

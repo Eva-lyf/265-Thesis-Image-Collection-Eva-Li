@@ -27,8 +27,63 @@ function encodeStoragePath(path: string) {
     .join('/');
 }
 
-function publicUrl(config: SupabaseStorageConfig, path: string) {
-  return `${config.url}/storage/v1/object/public/${encodeURIComponent(config.bucket)}/${encodeStoragePath(path)}`;
+export async function loadStorageImageUrl(
+  config: SupabaseStorageConfig,
+  path: string,
+) {
+  const response = await fetch(
+    `${config.url}/storage/v1/object/sign/${encodeURIComponent(config.bucket)}/${encodeStoragePath(path)}`,
+    {
+      method: 'POST',
+      headers: {
+        apikey: config.key,
+        Authorization: `Bearer ${config.key}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ expiresIn: 86400 }),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Unable to open ${path} from Supabase Storage.`);
+  }
+
+  const data = (await response.json()) as { signedURL?: string };
+  if (!data.signedURL) {
+    throw new Error(`Supabase did not return a readable URL for ${path}.`);
+  }
+
+  return `${config.url}/storage/v1${data.signedURL}`;
+}
+
+export function mealsForStoragePaths(
+  displayablePaths: readonly string[],
+  dataset: readonly Meal[],
+) {
+  return displayablePaths.map((path, index): CollectionMeal => {
+    const meal = dataset[index];
+    if (meal) {
+      return {
+        ...meal,
+        storagePath: path,
+        imageUrl: '',
+        analysisStatus: 'analyzed',
+      };
+    }
+
+    const mealNumber = String(index + 1).padStart(3, '0');
+    return {
+      id: `meal-${mealNumber}`,
+      title: `Meal ${mealNumber}`,
+      image: { alt: `Meal ${mealNumber} from the 265 collection` },
+      imageUrl: '',
+      storagePath: path,
+      calories: null,
+      ingredients: [],
+      nutrients: null,
+      analysisStatus: 'pending',
+    };
+  });
 }
 
 async function listFolder(
@@ -94,33 +149,7 @@ export async function loadMealsFromStorage(
     ? convertedImages
     : browserImages.filter((path) => !path.includes('/'));
 
-  const resolved = await Promise.all(
-    displayablePaths.map(async (path, index): Promise<CollectionMeal> => {
-      const meal = dataset[index];
-      const imageUrl = publicUrl(config, path);
-      if (meal) {
-        return {
-          ...meal,
-          storagePath: path,
-          imageUrl,
-          analysisStatus: 'analyzed',
-        };
-      }
-
-      const mealNumber = String(index + 1).padStart(3, '0');
-      return {
-        id: `meal-${mealNumber}`,
-        title: `Meal ${mealNumber}`,
-        image: { alt: `Meal ${mealNumber} from the 265 collection` },
-        imageUrl,
-        storagePath: path,
-        calories: null,
-        ingredients: [],
-        nutrients: null,
-        analysisStatus: 'pending',
-      };
-    }),
-  );
+  const resolved = mealsForStoragePaths(displayablePaths, dataset);
 
   return {
     meals: resolved,
