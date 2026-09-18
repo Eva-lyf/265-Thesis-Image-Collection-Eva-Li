@@ -113,12 +113,13 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
           const value = meal.nutrients[key];
           return (
             <div className="nutrient-reading-row" key={key}>
-              <i style={{ background: definition.color }} aria-hidden="true" />
-              <strong>{definition.label}</strong>
-              <span>
-                {value.amount} {definition.unit}
-              </span>
-              <small>{measurementLabel(key, value.dvPercent)}</small>
+              <div>
+                <strong>{definition.label}</strong>
+                <small>
+                  {value.amount} {definition.unit}
+                </small>
+              </div>
+              <span>{measurementLabel(key, value.dvPercent)}</span>
             </div>
           );
         })}

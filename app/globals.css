@@ -444,6 +444,10 @@ input:focus-visible {
   box-shadow:
     0 32px 90px color-mix(in srgb, var(--orb-dominant) 22%, transparent),
     inset 0 0 58px #fff3;
+  transition:
+    opacity 300ms ease,
+    filter 420ms ease,
+    transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
   animation: orb-bloom 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -509,17 +513,14 @@ input:focus-visible {
 
 .nutrient-reading {
   position: absolute;
-  inset: 11%;
+  inset: 4% -8%;
   z-index: 30;
-  padding: 19px 22px;
+  width: min(116%, 420px);
+  margin: auto;
+  padding: 18px 26px;
   display: grid;
   align-content: center;
-  gap: 7px;
-  border-radius: 50%;
-  background: #ffffffe8;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 15px 42px #3239441a;
+  gap: 8px;
   color: #303030;
   opacity: 0;
   transform: scale(0.96);
@@ -535,35 +536,46 @@ input:focus-visible {
   transform: scale(1);
 }
 
-.nutrient-reading-row {
-  display: grid;
-  grid-template-columns: 7px minmax(0, 1fr) auto;
-  align-items: baseline;
-  column-gap: 7px;
+.nutrient-orb-stage:hover .nutrient-orb,
+.nutrient-orb-stage:focus-within .nutrient-orb {
+  opacity: 0.07;
+  filter: brightness(var(--orb-luminosity)) saturate(0.65) blur(24px);
+  transform: scale(0.94);
 }
 
-.nutrient-reading-row i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+.nutrient-reading-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 18px;
+}
+
+.nutrient-reading-row div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
 .nutrient-reading-row strong {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 650;
-  letter-spacing: 0.35px;
+  line-height: 1.05;
+  letter-spacing: 0.2px;
 }
 
 .nutrient-reading-row span {
-  font-size: 9px;
+  color: #242424;
+  font-size: 10px;
+  font-weight: 520;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .nutrient-reading-row small {
-  grid-column: 2 / -1;
-  margin-top: -4px;
-  color: #929292;
-  font-size: 8px;
+  color: #999;
+  font-size: 9px;
+  font-weight: 400;
 }
 
 .detail-meta {
@@ -572,10 +584,6 @@ input:focus-visible {
   align-items: center;
   gap: 7px;
   color: #777;
-}
-
-.detail-meta span {
-  font-size: 11px;
 }
 
 .detail-meta small {
