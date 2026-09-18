@@ -156,7 +156,7 @@
   height: 100%;
   display: grid;
   place-items: center;
-  background: #fbfbf9;
+  background: transparent;
 }
 
 .orb {
