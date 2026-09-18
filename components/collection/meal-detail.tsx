@@ -36,7 +36,7 @@ export function MealDetail({ meal, onClose }: MealDetailProps) {
         <NutrientOrb meal={meal} />
         <div className="detail-meta">
           <span>{meal.title}</span>
-          <small>HOVER THE LIGHT TO READ ITS NUTRIENT</small>
+          <small>HOVER THE ORB TO READ ALL NUTRIENTS</small>
         </div>
       </div>
     </section>

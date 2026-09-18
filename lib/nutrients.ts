@@ -1,3 +1,5 @@
+import nutritionDataset from '@/data/meal-nutrition.json';
+
 export const nutrientKeys = [
   'protein',
   'iron',
@@ -38,7 +40,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'protein',
     label: 'Protein',
     shortLabel: 'Protein',
-    color: '#ef3b35',
+    color: 'rgb(255 45 35)',
     unit: 'g',
     amountField: 'proteinG',
     dailyValue: dailyValues.proteinG,
@@ -47,7 +49,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'iron',
     label: 'Iron',
     shortLabel: 'Iron',
-    color: '#a66a3f',
+    color: 'rgb(198 92 18)',
     unit: 'mg',
     amountField: 'ironMg',
     dailyValue: dailyValues.ironMg,
@@ -56,7 +58,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'carbohydrate',
     label: 'Carbohydrate',
     shortLabel: 'Carbs',
-    color: '#ed7b35',
+    color: 'rgb(255 112 0)',
     unit: 'g',
     amountField: 'carbohydratesG',
     dailyValue: dailyValues.carbohydratesG,
@@ -65,7 +67,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'totalFat',
     label: 'Total Fat',
     shortLabel: 'Fat',
-    color: '#e3be40',
+    color: 'rgb(255 210 0)',
     unit: 'g',
     amountField: 'fatG',
     dailyValue: dailyValues.fatG,
@@ -74,7 +76,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'potassium',
     label: 'Potassium',
     shortLabel: 'Potassium',
-    color: '#95c944',
+    color: 'rgb(137 230 0)',
     unit: 'mg',
     amountField: 'potassiumMg',
     dailyValue: dailyValues.potassiumMg,
@@ -83,7 +85,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'fiber',
     label: 'Fiber',
     shortLabel: 'Fiber',
-    color: '#48a868',
+    color: 'rgb(0 200 83)',
     unit: 'g',
     amountField: 'fiberG',
     dailyValue: dailyValues.fiberG,
@@ -92,7 +94,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'sodium',
     label: 'Sodium',
     shortLabel: 'Sodium',
-    color: '#38b9c8',
+    color: 'rgb(0 201 255)',
     unit: 'mg',
     amountField: 'sodiumMg',
     dailyValue: dailyValues.sodiumMg,
@@ -101,7 +103,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'calcium',
     label: 'Calcium',
     shortLabel: 'Calcium',
-    color: '#9268c7',
+    color: 'rgb(142 82 255)',
     unit: 'mg',
     amountField: 'calciumMg',
     dailyValue: dailyValues.calciumMg,
@@ -110,7 +112,7 @@ export const nutrients: readonly NutrientDefinition[] = [
     key: 'sugar',
     label: 'Total Sugar',
     shortLabel: 'Sugar',
-    color: '#ed78a8',
+    color: 'rgb(255 65 157)',
     unit: 'g',
     amountField: 'totalSugarG',
     dailyValue: null,
@@ -143,4 +145,3 @@ export function nutrientForSpectrumPosition(
     ) ?? segments[segments.length - 1]
   ).nutrient;
 }
-import nutritionDataset from '@/data/meal-nutrition.json';

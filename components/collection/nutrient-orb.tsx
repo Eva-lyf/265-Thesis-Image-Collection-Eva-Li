@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useState, type CSSProperties } from 'react';
+import { type CSSProperties } from 'react';
 import type { Meal } from '@/lib/meals';
 import { nutrientByKey, nutrientKeys, type NutrientKey } from '@/lib/nutrients';
 
@@ -21,10 +21,10 @@ const positions = [
 ] as const;
 
 function visualWeight(normalizedPercent: number) {
-  return Math.max(0, normalizedPercent);
+  return Math.pow(Math.max(0, normalizedPercent), 2);
 }
 
-const minimumVisibleShare = 3;
+const minimumVisibleShare = 1.5;
 
 function measurementLabel(key: NutrientKey, dvPercent: number | null) {
   if (key === 'sugar') return 'Relative to collection P90';
@@ -32,9 +32,6 @@ function measurementLabel(key: NutrientKey, dvPercent: number | null) {
 }
 
 export function NutrientOrb({ meal }: NutrientOrbProps) {
-  const [activeNutrient, setActiveNutrient] = useState<NutrientKey | null>(
-    null,
-  );
   const luminosity = Math.min(
     1.12,
     Math.max(0.84, 0.84 + (meal.calories / 4000) * 0.28),
@@ -69,17 +66,15 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
     .join(', ')})`;
   const layers = [...composition].sort((a, b) => b.share - a.share);
   const strongest = layers[0];
-  const activeDefinition = activeNutrient
-    ? nutrientByKey[activeNutrient]
-    : null;
-  const activeValue = activeNutrient ? meal.nutrients[activeNutrient] : null;
+  const readingId = `nutrient-reading-${meal.id}`;
 
   return (
     <div className="nutrient-orb-stage">
-      <div
+      <button
+        type="button"
         className="nutrient-orb"
         aria-label={`Nutrient color orb for ${meal.title}`}
-        onMouseLeave={() => setActiveNutrient(null)}
+        aria-describedby={readingId}
         style={
           {
             '--orb-luminosity': luminosity,
@@ -91,61 +86,42 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
         {layers.map(({ key, index, share }) => {
           const [x, y] = positions[index];
           const definition = nutrientByKey[key];
-          const value = meal.nutrients[key];
           const proportion = Math.sqrt(share / 100);
           const size = 30 + proportion * 108;
           return (
-            <Fragment key={key}>
-              <span
-                className={`nutrient-light ${activeNutrient === key ? 'active' : ''}`}
-                style={
-                  {
-                    '--light-color': definition.color,
-                    '--light-x': `${x}%`,
-                    '--light-y': `${y}%`,
-                    '--light-size': `${size}%`,
-                    '--light-opacity': 0.3 + proportion * 0.66,
-                    '--light-blur': `${13 + (1 - proportion) * 20}px`,
-                    '--light-focus-blur': `${9 + (1 - proportion) * 15}px`,
-                  } as CSSProperties
-                }
-              />
-              <button
-                type="button"
-                className="nutrient-light-target"
-                aria-label={`${definition.label}: ${value.amount} ${definition.unit}, ${measurementLabel(key, value.dvPercent)}`}
-                onMouseEnter={() => setActiveNutrient(key)}
-                onMouseLeave={() => setActiveNutrient(null)}
-                onFocus={() => setActiveNutrient(key)}
-                onBlur={() => setActiveNutrient(null)}
-                style={
-                  {
-                    '--light-x': `${x}%`,
-                    '--light-y': `${y}%`,
-                  } as CSSProperties
-                }
-              />
-            </Fragment>
+            <span
+              key={key}
+              className="nutrient-light"
+              style={
+                {
+                  '--light-color': definition.color,
+                  '--light-x': `${x}%`,
+                  '--light-y': `${y}%`,
+                  '--light-size': `${size}%`,
+                  '--light-opacity': 0.3 + proportion * 0.66,
+                  '--light-blur': `${13 + (1 - proportion) * 20}px`,
+                } as CSSProperties
+              }
+            />
           );
         })}
-      </div>
+      </button>
 
-      <div
-        className={`nutrient-reading ${activeValue ? 'visible' : ''}`}
-        aria-live="polite"
-      >
-        {activeDefinition && activeValue && activeNutrient ? (
-          <>
-            <strong>{activeDefinition.label}</strong>
-            <span>
-              {activeValue.amount} {activeDefinition.unit}
-            </span>
-            <span>
-              {measurementLabel(activeNutrient, activeValue.dvPercent)}
-            </span>
-            <small>{activeValue.guidance}</small>
-          </>
-        ) : null}
+      <div className="nutrient-reading" id={readingId}>
+        {nutrientKeys.map((key) => {
+          const definition = nutrientByKey[key];
+          const value = meal.nutrients[key];
+          return (
+            <div className="nutrient-reading-row" key={key}>
+              <i style={{ background: definition.color }} aria-hidden="true" />
+              <strong>{definition.label}</strong>
+              <span>
+                {value.amount} {definition.unit}
+              </span>
+              <small>{measurementLabel(key, value.dvPercent)}</small>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

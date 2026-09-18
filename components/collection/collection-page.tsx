@@ -48,7 +48,7 @@ const initialNutrient: NutrientKey = 'protein';
 const initialSpectrumPosition =
   collectionSpectrumSegments.find(
     (segment) => segment.nutrient.key === initialNutrient,
-  )?.center ?? 0;
+  )?.start ?? 0;
 
 export default function CollectionPage({ config }: CollectionPageProps) {
   const connected = storageConfigured(config);
@@ -61,8 +61,6 @@ export default function CollectionPage({ config }: CollectionPageProps) {
   const [selectedMealId, setSelectedMealId] = useState<string | null>(null);
   const [detailMealId, setDetailMealId] = useState<string | null>(null);
   const [isChoosingColor, setIsChoosingColor] = useState(false);
-  const [storageCount, setStorageCount] = useState(0);
-  const [displayableCount, setDisplayableCount] = useState(0);
   const [loading, setLoading] = useState(connected);
   const [message, setMessage] = useState('');
   const mealsRef = useRef<CollectionMeal[]>([]);
@@ -143,8 +141,6 @@ export default function CollectionPage({ config }: CollectionPageProps) {
         mealsRef.current = knownMeals;
         setResolvedMeals(knownMeals);
         setSelectedMealId(initiallyOrdered[0]?.id ?? null);
-        setStorageCount(knownPaths.length);
-        setDisplayableCount(knownMeals.length);
         setLoading(false);
       }
 
@@ -178,8 +174,6 @@ export default function CollectionPage({ config }: CollectionPageProps) {
           });
         }
 
-        setStorageCount(result.storageCount);
-        setDisplayableCount(result.meals.length);
         if (!result.meals.length) {
           setMessage(
             'The 265 bucket is connected, but none of its JPG filenames match the nutrition dataset.',
@@ -207,13 +201,16 @@ export default function CollectionPage({ config }: CollectionPageProps) {
     ? resolvedMeals.find((meal) => meal.id === detailMealId)
     : undefined;
 
-  function commitNutrient(nutrient: NutrientKey, position: number) {
+  function commitNutrient(
+    nutrient: NutrientKey,
+    position: number,
+    selectedIndex = 0,
+  ) {
+    const nutrientOrder = sortMealsByNutrient(resolvedMeals, nutrient);
     setSpectrumPosition(position);
     setSelectedNutrient(nutrient);
     setIsChoosingColor(false);
-    setSelectedMealId(
-      sortMealsByNutrient(resolvedMeals, nutrient)[0]?.id ?? null,
-    );
+    setSelectedMealId(nutrientOrder[selectedIndex]?.id ?? null);
     setDetailMealId(null);
   }
 
@@ -222,14 +219,23 @@ export default function CollectionPage({ config }: CollectionPageProps) {
       position,
       collectionSpectrumSegments,
     );
-    commitNutrient(definition.key, position);
+    const segment = collectionSpectrumSegments.find(
+      (candidate) => candidate.nutrient.key === definition.key,
+    );
+    const progress = segment
+      ? Math.min(1, Math.max(0, (position - segment.start) / segment.width))
+      : 0;
+    const selectedIndex = Math.round(
+      progress * Math.max(0, resolvedMeals.length - 1),
+    );
+    commitNutrient(definition.key, position, selectedIndex);
   }
 
   function selectNutrient(nutrient: NutrientKey) {
     const segment = collectionSpectrumSegments.find(
       (candidate) => candidate.nutrient.key === nutrient,
     );
-    commitNutrient(nutrient, segment?.center ?? 0);
+    commitNutrient(nutrient, segment?.start ?? 0);
   }
 
   return (
@@ -265,14 +271,6 @@ export default function CollectionPage({ config }: CollectionPageProps) {
           onOpen={(meal) => setDetailMealId(meal.id)}
         />
       )}
-
-      <footer>
-        <span>265ThesisBrainstormCollectionEvaLI</span>
-        <span>
-          {resolvedMeals.length} ANALYZED MEALS · {displayableCount} MATCHED JPG
-          IMAGES · {storageCount} STORAGE OBJECTS
-        </span>
-      </footer>
     </main>
   );
 }
