@@ -72,8 +72,6 @@ input:focus-visible {
 
 .spectrum-section {
   padding: 15px 0 22px;
-  border-top: 1px solid #ededed;
-  border-bottom: 1px solid #ededed;
 }
 
 .spectrum-labels {
