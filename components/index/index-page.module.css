@@ -73,41 +73,31 @@
   margin: 0 auto;
   padding: 38px clamp(30px, 6vw, 96px) 90px;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  grid-auto-flow: dense;
-  grid-auto-rows: 5px;
-  column-gap: clamp(24px, 2.8vw, 42px);
-  row-gap: 3px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-rows: clamp(230px, 23vw, 310px);
+  column-gap: clamp(24px, 3vw, 44px);
+  row-gap: clamp(30px, 3.5vw, 52px);
+  align-items: center;
 }
 
 .card {
   min-width: 0;
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
-  padding: 14px 0;
+  padding: 18px 8px;
   border: 0;
   background: transparent;
   perspective: 1200px;
 }
 
-.portrait {
-  grid-row: span 32;
-}
-
-.tall {
-  grid-row: span 38;
-}
-
-.square {
-  grid-row: span 24;
-}
-
-.landscape {
-  grid-row: span 18;
-}
-
+.portrait,
+.tall,
+.square,
+.landscape,
 .wide {
-  grid-column: span 2;
-  grid-row: span 30;
+  grid-column: span 1;
+  grid-row: span 1;
 }
 
 .cardInner {
@@ -214,7 +204,8 @@
 
 @media (max-width: 980px) {
   .indexGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: clamp(220px, 31vw, 290px);
   }
 }
 
@@ -240,30 +231,9 @@
   .indexGrid {
     padding: 24px 18px 60px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 5px;
+    grid-auto-rows: clamp(210px, 58vw, 280px);
     column-gap: 16px;
-    row-gap: 3px;
-  }
-
-  .wide {
-    grid-column: span 2;
-  }
-
-  .portrait {
-    grid-row: span 32;
-  }
-
-  .tall {
-    grid-row: span 38;
-  }
-
-  .square {
-    grid-row: span 24;
-  }
-
-  .landscape,
-  .wide {
-    grid-row: span 22;
+    row-gap: 24px;
   }
 }
 
