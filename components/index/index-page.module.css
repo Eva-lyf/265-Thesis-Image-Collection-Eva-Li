@@ -68,10 +68,121 @@
   transform: scaleX(1);
 }
 
-.indexGrid {
-  width: min(100%, 1440px);
+.indexBody {
+  width: min(100%, 1540px);
   margin: 0 auto;
-  padding: 38px clamp(30px, 6vw, 96px) 90px;
+  display: grid;
+  grid-template-columns: clamp(118px, 11vw, 154px) minmax(0, 1fr);
+  align-items: start;
+}
+
+.nutrientBrowser {
+  position: sticky;
+  top: 98px;
+  z-index: 20;
+  padding: 40px 0 80px clamp(22px, 4.2vw, 68px);
+}
+
+.showAll,
+.nutrientFilter {
+  border: 0;
+  background: transparent;
+  font: inherit;
+}
+
+.showAll {
+  position: relative;
+  padding: 0 0 5px;
+  color: #a9a9a9;
+  font-size: 9px;
+  letter-spacing: 0.95px;
+  transition: color 260ms ease;
+}
+
+.showAll:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.showAll.filterActive {
+  color: #202020;
+}
+
+.showAll.filterActive:after {
+  transform: scaleX(1);
+}
+
+.nutrientLines {
+  width: 92px;
+  margin-top: 26px;
+  display: grid;
+  gap: 13px;
+}
+
+.nutrientFilter {
+  width: 100%;
+  padding: 0;
+  display: grid;
+  gap: 5px;
+  text-align: left;
+  color: #777;
+  opacity: 1;
+  transition:
+    opacity 300ms ease,
+    color 300ms ease,
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nutrientFilter span {
+  font-size: 8px;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+}
+
+.nutrientFilter i {
+  width: 100%;
+  height: 5px;
+  display: block;
+  border-radius: 999px;
+  background: var(--filter-color);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--filter-color) 17%, transparent);
+  transition:
+    height 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms ease;
+}
+
+.nutrientLines.hasSelection .nutrientFilter:not(.filterActive) {
+  opacity: 0.18;
+}
+
+.nutrientFilter.filterActive {
+  color: #202020;
+  transform: translateX(3px);
+}
+
+.nutrientFilter.filterActive i {
+  height: 7px;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--filter-color) 36%, transparent);
+}
+
+.nutrientFilter:hover,
+.nutrientFilter:focus-visible {
+  opacity: 1 !important;
+  color: #202020;
+}
+
+.indexGrid {
+  width: 100%;
+  min-width: 0;
+  padding: 38px clamp(30px, 5vw, 82px) 90px clamp(20px, 3vw, 46px);
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-auto-rows: clamp(230px, 23vw, 310px);
@@ -81,6 +192,8 @@
 }
 
 .card {
+  position: relative;
+  z-index: 0;
   min-width: 0;
   width: 100%;
   height: 100%;
@@ -89,6 +202,14 @@
   border: 0;
   background: transparent;
   perspective: 1200px;
+  transform-origin: center;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover,
+.card:focus-visible {
+  z-index: 10;
+  transform: scale(1.075);
 }
 
 .portrait,
@@ -106,13 +227,14 @@
   height: 100%;
   display: block;
   transform-style: preserve-3d;
-  transition: transform 700ms cubic-bezier(0.2, 0.75, 0.2, 1);
+  transition: transform 920ms cubic-bezier(0.2, 0.75, 0.2, 1) 480ms;
 }
 
 .card:hover .cardInner,
 .card:focus-visible .cardInner,
 .card.flipped .cardInner {
   transform: rotateY(180deg);
+  transition-delay: 0ms;
 }
 
 .cardFace {
@@ -489,6 +611,18 @@
 }
 
 @media (max-width: 980px) {
+  .indexBody {
+    grid-template-columns: 110px minmax(0, 1fr);
+  }
+
+  .nutrientBrowser {
+    padding-left: 22px;
+  }
+
+  .nutrientLines {
+    width: 76px;
+  }
+
   .indexGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-auto-rows: clamp(220px, 31vw, 290px);
@@ -512,6 +646,62 @@
 
   .collectionLink {
     font-size: 8px;
+  }
+
+  .indexBody {
+    display: block;
+  }
+
+  .nutrientBrowser {
+    position: sticky;
+    top: 68px;
+    padding: 13px 18px 11px;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    background: #fffffff2;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .showAll {
+    flex: 0 0 auto;
+    margin-bottom: 1px;
+  }
+
+  .nutrientLines {
+    width: auto;
+    min-width: 0;
+    margin-top: 0;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(9, minmax(18px, 1fr));
+    gap: 5px;
+  }
+
+  .nutrientFilter {
+    gap: 4px;
+  }
+
+  .nutrientFilter span {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 6px;
+    letter-spacing: 0;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+
+  .nutrientFilter i {
+    height: 4px;
+  }
+
+  .nutrientFilter.filterActive {
+    transform: translateY(-2px);
+  }
+
+  .nutrientFilter.filterActive i {
+    height: 6px;
   }
 
   .indexGrid {

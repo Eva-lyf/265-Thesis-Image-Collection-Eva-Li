@@ -4,13 +4,14 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type CSSProperties,
 } from 'react';
 import { knownImageStoragePaths } from '@/lib/image-colors';
 import type { CollectionMeal } from '@/lib/meals';
-import { nutrientByKey, nutrientKeys } from '@/lib/nutrients';
+import { nutrientByKey, nutrientKeys, type NutrientKey } from '@/lib/nutrients';
 import {
   loadStorageImageUrl,
   mealsForStoragePaths,
@@ -321,6 +322,9 @@ function IndexOrb({ meal }: { meal: CollectionMeal }) {
 export default function IndexPage({ config }: IndexPageProps) {
   const [mode, setMode] = useState<IndexMode>('photos');
   const [flippedId, setFlippedId] = useState<string | null>(null);
+  const [selectedNutrient, setSelectedNutrient] = useState<NutrientKey | null>(
+    null,
+  );
   const [collection, setCollection] = useState<CollectionMeal[]>(() =>
     mealsForStoragePaths(knownImageStoragePaths()),
   );
@@ -328,6 +332,20 @@ export default function IndexPage({ config }: IndexPageProps) {
   const gridRef = useRef<HTMLDivElement>(null);
   const requests = useRef(new Set<string>());
   const connected = storageConfigured(config);
+  const orderedCollection = useMemo(() => {
+    if (!selectedNutrient) return collection;
+
+    const originalOrder = new Map(
+      collection.map((meal, index) => [meal.id, index]),
+    );
+    return [...collection].sort(
+      (first, second) =>
+        second.orbVisualPercent[selectedNutrient] -
+          first.orbVisualPercent[selectedNutrient] ||
+        (originalOrder.get(first.id) ?? 0) -
+          (originalOrder.get(second.id) ?? 0),
+    );
+  }, [collection, selectedNutrient]);
 
   const requestImages = useCallback(
     async (mealIds: readonly string[]) => {
@@ -399,6 +417,11 @@ export default function IndexPage({ config }: IndexPageProps) {
     setFlippedId(null);
   }
 
+  function selectNutrient(nextNutrient: NutrientKey | null) {
+    setSelectedNutrient(nextNutrient);
+    setFlippedId(null);
+  }
+
   return (
     <main className={styles.indexShell}>
       <header className={styles.topBar}>
@@ -428,29 +451,88 @@ export default function IndexPage({ config }: IndexPageProps) {
         </a>
       </header>
 
-      <section
-        className={styles.indexGrid}
-        ref={gridRef}
-        aria-label={
-          mode === 'photos' ? 'All meal photographs' : 'All nutrient color orbs'
-        }
-      >
-        {collection.map((meal, index) => {
-          const showPhotoFirst = mode === 'photos';
-          const flipped = flippedId === meal.id;
-          return (
-            <button
-              type="button"
-              key={meal.id}
-              data-meal-id={meal.id}
-              className={`${styles.card} ${styles[gridPattern[index % gridPattern.length]]} ${flipped ? styles.flipped : ''}`}
-              aria-label={`${showPhotoFirst ? 'Reveal color orb for' : 'Reveal photograph of'} ${meal.title}`}
-              onClick={() => setFlippedId(flipped ? null : meal.id)}
-            >
-              <span className={styles.cardInner}>
-                <span className={`${styles.cardFace} ${styles.cardFront}`}>
-                  {showPhotoFirst ? (
-                    meal.imageUrl ? (
+      <div className={styles.indexBody}>
+        <aside
+          className={styles.nutrientBrowser}
+          aria-label="Browse by nutrient"
+        >
+          <button
+            type="button"
+            className={`${styles.showAll} ${selectedNutrient === null ? styles.filterActive : ''}`}
+            aria-pressed={selectedNutrient === null}
+            onClick={() => selectNutrient(null)}
+          >
+            SHOW ALL
+          </button>
+          <div
+            className={`${styles.nutrientLines} ${selectedNutrient ? styles.hasSelection : ''}`}
+          >
+            {nutrientKeys.map((key) => {
+              const nutrient = nutrientByKey[key];
+              const active = selectedNutrient === key;
+              return (
+                <button
+                  type="button"
+                  key={key}
+                  className={`${styles.nutrientFilter} ${active ? styles.filterActive : ''}`}
+                  style={{ '--filter-color': nutrient.color } as CSSProperties}
+                  aria-pressed={active}
+                  aria-label={`Order meals by ${nutrient.label}, highest percentage first`}
+                  onClick={() => selectNutrient(key)}
+                >
+                  <span>{nutrient.shortLabel}</span>
+                  <i aria-hidden="true" />
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        <section
+          className={styles.indexGrid}
+          ref={gridRef}
+          aria-label={
+            mode === 'photos'
+              ? 'All meal photographs'
+              : 'All nutrient color orbs'
+          }
+        >
+          {orderedCollection.map((meal, index) => {
+            const showPhotoFirst = mode === 'photos';
+            const flipped = flippedId === meal.id;
+            return (
+              <button
+                type="button"
+                key={meal.id}
+                data-meal-id={meal.id}
+                className={`${styles.card} ${styles[gridPattern[index % gridPattern.length]]} ${flipped ? styles.flipped : ''}`}
+                aria-label={`${showPhotoFirst ? 'Reveal color orb for' : 'Reveal photograph of'} ${meal.title}`}
+                onClick={() => setFlippedId(flipped ? null : meal.id)}
+              >
+                <span className={styles.cardInner}>
+                  <span className={`${styles.cardFace} ${styles.cardFront}`}>
+                    {showPhotoFirst ? (
+                      meal.imageUrl ? (
+                        <img
+                          src={meal.imageUrl}
+                          alt={meal.image.alt}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : (
+                        <span
+                          className={styles.placeholder}
+                          aria-hidden="true"
+                        />
+                      )
+                    ) : (
+                      <IndexOrb meal={meal} />
+                    )}
+                  </span>
+                  <span className={`${styles.cardFace} ${styles.cardBack}`}>
+                    {showPhotoFirst ? (
+                      <IndexOrb meal={meal} />
+                    ) : meal.imageUrl ? (
                       <img
                         src={meal.imageUrl}
                         alt={meal.image.alt}
@@ -459,30 +541,14 @@ export default function IndexPage({ config }: IndexPageProps) {
                       />
                     ) : (
                       <span className={styles.placeholder} aria-hidden="true" />
-                    )
-                  ) : (
-                    <IndexOrb meal={meal} />
-                  )}
+                    )}
+                  </span>
                 </span>
-                <span className={`${styles.cardFace} ${styles.cardBack}`}>
-                  {showPhotoFirst ? (
-                    <IndexOrb meal={meal} />
-                  ) : meal.imageUrl ? (
-                    <img
-                      src={meal.imageUrl}
-                      alt={meal.image.alt}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  ) : (
-                    <span className={styles.placeholder} aria-hidden="true" />
-                  )}
-                </span>
-              </span>
-            </button>
-          );
-        })}
-      </section>
+              </button>
+            );
+          })}
+        </section>
+      </div>
     </main>
   );
 }
