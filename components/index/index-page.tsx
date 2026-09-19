@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { knownImageStoragePaths } from '@/lib/image-colors';
 import type { CollectionMeal } from '@/lib/meals';
-import { nutrientByKey, nutrientKeys, type NutrientKey } from '@/lib/nutrients';
+import { nutrientByKey, nutrientKeys } from '@/lib/nutrients';
 import {
   loadStorageImageUrl,
   mealsForStoragePaths,
@@ -40,30 +40,108 @@ const gridPattern = [
   'portrait',
 ] as const;
 
-const blobPositions: Record<NutrientKey, readonly [number, number]> = {
-  protein: [30, 30],
-  carbohydrate: [68, 35],
-  totalFat: [60, 70],
-  fiber: [21, 67],
-  sugar: [36, 78],
-  sodium: [80, 55],
-  potassium: [17, 45],
-  calcium: [57, 17],
-  iron: [78, 80],
-};
-
-const orbShapes = [
-  '67% 33% 61% 39% / 43% 66% 34% 57%',
-  '39% 61% 32% 68% / 63% 41% 59% 37%',
-  '61% 39% 70% 30% / 36% 64% 42% 58%',
-  '34% 66% 43% 57% / 69% 38% 62% 31%',
+const compositionNames = [
+  'central-pool',
+  'edge-current',
+  'rising-diagonal',
+  'falling-diagonal',
+  'vertical-tide',
+  'horizontal-tide',
+  'off-center-vortex',
 ] as const;
 
+const motionClasses = [
+  styles.fieldMotionA,
+  styles.fieldMotionB,
+  styles.fieldMotionC,
+  styles.fieldMotionD,
+  styles.fieldMotionE,
+  styles.fieldMotionF,
+] as const;
+
+function hashString(value: string) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function seededUnit(seed: number, salt: number) {
+  let value = seed ^ Math.imul(salt + 1, 0x9e3779b1);
+  value = Math.imul(value ^ (value >>> 16), 0x21f0aaad);
+  value = Math.imul(value ^ (value >>> 15), 0x735a2d97);
+  return ((value ^ (value >>> 15)) >>> 0) / 4294967295;
+}
+
+function seededRange(
+  seed: number,
+  salt: number,
+  minimum: number,
+  maximum: number,
+) {
+  return minimum + seededUnit(seed, salt) * (maximum - minimum);
+}
+
 function mealHash(meal: CollectionMeal) {
-  return Array.from(meal.storagePath).reduce(
-    (hash, character) => (hash * 31 + character.charCodeAt(0)) >>> 0,
-    0,
+  return hashString(meal.storagePath);
+}
+
+function organicRadius(seed: number, offset = 0) {
+  const values = Array.from({ length: 8 }, (_, index) =>
+    Math.round(seededRange(seed, offset + index, 31, 69)),
   );
+  return `${values[0]}% ${values[1]}% ${values[2]}% ${values[3]}% / ${values[4]}% ${values[5]}% ${values[6]}% ${values[7]}%`;
+}
+
+function compositionPoint(mealSeed: number, nutrientSeed: number) {
+  const compositionIndex = mealSeed % compositionNames.length;
+  const u = seededUnit(nutrientSeed, 4);
+  const v = seededUnit(nutrientSeed, 5);
+  const jitterX = seededRange(nutrientSeed, 6, -11, 11);
+  const jitterY = seededRange(nutrientSeed, 7, -11, 11);
+  const mealAngle = seededRange(mealSeed, 2, 0, Math.PI * 2);
+
+  switch (compositionIndex) {
+    case 0: {
+      const anchorX = seededRange(mealSeed, 7, 37, 63);
+      const anchorY = seededRange(mealSeed, 8, 37, 63);
+      return [anchorX + (u - 0.5) * 48, anchorY + (v - 0.5) * 48] as const;
+    }
+    case 1: {
+      const angle = mealAngle + u * Math.PI * 2;
+      const radius = 29 + v * 23;
+      return [
+        50 + Math.cos(angle) * radius + jitterX * 0.25,
+        50 + Math.sin(angle) * radius + jitterY * 0.25,
+      ] as const;
+    }
+    case 2:
+      return [14 + u * 72 + jitterX * 0.4, 82 - u * 64 + jitterY] as const;
+    case 3:
+      return [14 + u * 72 + jitterX * 0.4, 18 + u * 64 + jitterY] as const;
+    case 4:
+      return [
+        (u > 0.5 ? 67 : 33) + jitterX,
+        14 + v * 72 + jitterY * 0.35,
+      ] as const;
+    case 5:
+      return [
+        14 + u * 72 + jitterX * 0.35,
+        (v > 0.5 ? 67 : 33) + jitterY,
+      ] as const;
+    default: {
+      const angle = mealAngle + u * Math.PI * 1.7;
+      const radius = 10 + v * 42;
+      const anchorX = seededRange(mealSeed, 10, 40, 60);
+      const anchorY = seededRange(mealSeed, 11, 40, 60);
+      return [
+        anchorX + Math.cos(angle) * radius,
+        anchorY + Math.sin(angle) * radius,
+      ] as const;
+    }
+  }
 }
 
 function orbStyle(meal: CollectionMeal) {
@@ -75,14 +153,43 @@ function orbStyle(meal: CollectionMeal) {
     1.13,
     Math.max(0.96, 0.96 + (meal.calories / 1600) * 0.17),
   );
+  const scaleX = seededRange(hash, 31, 0.91, 1.08);
+  const scaleY = seededRange(hash, 32, 0.91, 1.08);
+  const breatheX = seededRange(hash, 35, 0.975, 1.035);
+  const breatheY = seededRange(hash, 36, 0.975, 1.035);
+  const driftX = seededRange(hash, 33, -4, 4);
+  const driftY = seededRange(hash, 34, -4, 4);
+  const rotation = seededRange(hash, 30, -8, 8);
 
   return {
     '--index-orb-dominant': nutrientByKey[strongest].color,
-    '--index-orb-radius': orbShapes[hash % orbShapes.length],
-    '--index-orb-rotation': `${(hash % 9) - 4}deg`,
-    '--index-orb-scale-x': 0.94 + (hash % 7) * 0.018,
-    '--index-orb-scale-y': 0.95 + ((hash >>> 3) % 7) * 0.016,
-    '--index-orb-intensity': intensity,
+    '--index-orb-radius': organicRadius(hash, 20),
+    '--index-orb-rotation': `${rotation.toFixed(2)}deg`,
+    '--index-orb-rotation-mid': `${(rotation + seededRange(hash, 39, -4.8, 4.8)).toFixed(2)}deg`,
+    '--index-orb-rotation-end': `${(rotation + seededRange(hash, 40, -3.4, 3.4)).toFixed(2)}deg`,
+    '--index-orb-scale-x': scaleX.toFixed(3),
+    '--index-orb-scale-y': scaleY.toFixed(3),
+    '--index-orb-scale-x-mid': (scaleX * breatheX).toFixed(3),
+    '--index-orb-scale-y-mid': (scaleY * breatheY).toFixed(3),
+    '--index-orb-scale-x-end': (scaleX * breatheY).toFixed(3),
+    '--index-orb-scale-y-end': (scaleY * breatheX).toFixed(3),
+    '--index-orb-intensity': intensity.toFixed(3),
+    '--orb-drift-x': `${driftX.toFixed(2)}%`,
+    '--orb-drift-y': `${driftY.toFixed(2)}%`,
+    '--orb-drift-x-end': `${(-driftX * 0.55).toFixed(2)}%`,
+    '--orb-drift-y-end': `${(-driftY * 0.55).toFixed(2)}%`,
+    '--orb-duration': `${seededRange(hash, 37, 34, 68).toFixed(2)}s`,
+    '--orb-delay': `${(-seededRange(hash, 38, 0, 60)).toFixed(2)}s`,
+    '--orb-direction':
+      seededUnit(hash, 41) > 0.5 ? 'alternate' : 'alternate-reverse',
+    '--orb-mask-x': `${seededRange(hash, 42, 46, 54).toFixed(2)}%`,
+    '--orb-mask-y': `${seededRange(hash, 43, 46, 54).toFixed(2)}%`,
+    '--orb-mask-rx': `${seededRange(hash, 44, 57, 64).toFixed(2)}%`,
+    '--orb-mask-ry': `${seededRange(hash, 45, 56, 64).toFixed(2)}%`,
+    '--orb-light-x': `${seededRange(hash, 46, 22, 46).toFixed(2)}%`,
+    '--orb-light-y': `${seededRange(hash, 47, 18, 43).toFixed(2)}%`,
+    '--orb-glow-x': `${seededRange(hash, 48, 55, 82).toFixed(2)}%`,
+    '--orb-glow-y': `${seededRange(hash, 49, 57, 84).toFixed(2)}%`,
   } as CSSProperties;
 }
 
@@ -95,30 +202,115 @@ function orbLayers(meal: CollectionMeal) {
   return nutrientKeys
     .map((key) => {
       const percent = (meal.orbVisualPercent[key] / total) * 100;
-      const proportion = Math.sqrt(percent / 100);
-      const [x, y] = blobPositions[key];
+      const nutrientSeed = hashString(`${meal.storagePath}:${key}`);
+      const mealSeed = mealHash(meal);
+      const [rawX, rawY] = compositionPoint(mealSeed, nutrientSeed);
+      const x = Math.min(92, Math.max(8, rawX));
+      const y = Math.min(92, Math.max(8, rawY));
+      const baseSize = Math.sqrt(percent) * 14.8;
+      const isAccent = percent < 8;
+      const aspect = isAccent
+        ? seededRange(nutrientSeed, 11, 0.34, 2.94)
+        : seededRange(nutrientSeed, 11, 0.55, 1.82);
+      const width = baseSize * Math.sqrt(aspect);
+      const height = baseSize / Math.sqrt(aspect);
+      const amplitude = seededRange(
+        nutrientSeed,
+        12,
+        isAccent ? 5 : 8,
+        isAccent ? 13 : 20,
+      );
+      const direction = seededRange(nutrientSeed, 13, 0, Math.PI * 2);
+      const crossDirection =
+        direction + seededRange(nutrientSeed, 14, 0.7, 2.15);
+      const duration = isAccent
+        ? seededRange(nutrientSeed, 15, 30, 59)
+        : percent >= 18
+          ? seededRange(nutrientSeed, 15, 17, 39)
+          : seededRange(nutrientSeed, 15, 22, 50);
+      const motionIndex = Math.floor(
+        seededUnit(nutrientSeed, 16) * motionClasses.length,
+      );
+      const prominence = Math.min(0.93, 0.49 + Math.sqrt(percent / 100) * 0.65);
+      const blur = Math.max(4.7, 11.2 - Math.sqrt(percent) * 0.78);
+      const depth = Math.floor(seededRange(nutrientSeed, 17, 1, 20));
       return {
         key,
         percent,
+        motionClass: motionClasses[motionIndex],
+        depth,
         style: {
           '--blob-color': nutrientByKey[key].color,
-          '--blob-x': `${x}%`,
-          '--blob-y': `${y}%`,
-          '--blob-size': `${Math.max(22, proportion * 145)}%`,
-          '--blob-opacity': Math.min(1, 0.72 + proportion * 0.42),
-          '--blob-blur': `${Math.max(1.5, 6 - proportion * 7)}px`,
+          '--blob-x': `${x.toFixed(2)}%`,
+          '--blob-y': `${y.toFixed(2)}%`,
+          '--blob-width': `${width.toFixed(2)}%`,
+          '--blob-height': `${height.toFixed(2)}%`,
+          '--blob-opacity': prominence.toFixed(3),
+          '--blob-opacity-low': Math.max(0.34, prominence - 0.16).toFixed(3),
+          '--blob-blur': `${blur.toFixed(2)}px`,
+          '--blob-blur-alt': `${(blur + seededRange(nutrientSeed, 18, 0.8, 3.4)).toFixed(2)}px`,
+          '--blob-radius': organicRadius(nutrientSeed, 40),
+          '--blob-radius-1': organicRadius(nutrientSeed, 50),
+          '--blob-radius-2': organicRadius(nutrientSeed, 60),
+          '--blob-angle': `${seededRange(nutrientSeed, 19, -175, 175).toFixed(2)}deg`,
+          '--blob-focus-x': `${seededRange(nutrientSeed, 20, 30, 70).toFixed(2)}%`,
+          '--blob-focus-y': `${seededRange(nutrientSeed, 21, 30, 70).toFixed(2)}%`,
+          '--blob-duration': `${duration.toFixed(2)}s`,
+          '--blob-delay': `${(-seededRange(nutrientSeed, 22, 0, duration)).toFixed(2)}s`,
+          '--blob-direction':
+            seededUnit(nutrientSeed, 31) > 0.5
+              ? 'alternate'
+              : 'alternate-reverse',
+          '--blob-ease':
+            seededUnit(nutrientSeed, 23) > 0.5
+              ? 'cubic-bezier(0.37, 0, 0.63, 1)'
+              : 'cubic-bezier(0.45, 0.05, 0.55, 0.95)',
+          '--drift-x1': `${(Math.cos(direction) * amplitude).toFixed(2)}%`,
+          '--drift-y1': `${(Math.sin(direction) * amplitude).toFixed(2)}%`,
+          '--drift-x2': `${(Math.cos(crossDirection) * amplitude * 0.78).toFixed(2)}%`,
+          '--drift-y2': `${(Math.sin(crossDirection) * amplitude * 0.78).toFixed(2)}%`,
+          '--drift-x3': `${(Math.cos(direction + Math.PI) * amplitude * 0.56).toFixed(2)}%`,
+          '--drift-y3': `${(Math.sin(direction + Math.PI) * amplitude * 0.56).toFixed(2)}%`,
+          '--blob-rotate-1': `${seededRange(nutrientSeed, 24, -22, 22).toFixed(2)}deg`,
+          '--blob-rotate-2': `${seededRange(nutrientSeed, 25, -38, 38).toFixed(2)}deg`,
+          '--blob-scale-x1': seededRange(nutrientSeed, 26, 0.88, 1.14).toFixed(
+            3,
+          ),
+          '--blob-scale-y1': seededRange(nutrientSeed, 27, 0.88, 1.14).toFixed(
+            3,
+          ),
+          '--blob-scale-x2': seededRange(nutrientSeed, 28, 0.9, 1.12).toFixed(
+            3,
+          ),
+          '--blob-scale-y2': seededRange(nutrientSeed, 29, 0.9, 1.12).toFixed(
+            3,
+          ),
+          '--blob-skew': `${seededRange(nutrientSeed, 30, -8, 8).toFixed(2)}deg`,
+          zIndex: depth,
         } as CSSProperties,
       };
     })
-    .sort((first, second) => second.percent - first.percent);
+    .sort((first, second) => first.depth - second.depth);
 }
 
 function IndexOrb({ meal }: { meal: CollectionMeal }) {
+  const seed = mealHash(meal);
   return (
     <span className={styles.orbWrap} aria-hidden="true">
-      <span className={styles.orb} style={orbStyle(meal)}>
-        {orbLayers(meal).map(({ key, style }) => (
-          <span className={styles.orbBlob} key={key} style={style} />
+      <span
+        className={styles.orb}
+        style={orbStyle(meal)}
+        data-orb-seed={seed}
+        data-composition={compositionNames[seed % compositionNames.length]}
+      >
+        {orbLayers(meal).map(({ key, percent, motionClass, style }) => (
+          <span
+            className={`${styles.orbBlob} ${motionClass}`}
+            key={key}
+            data-nutrient={key}
+            data-percent={percent.toFixed(2)}
+            style={style}
+          />
         ))}
         <span className={styles.orbLight} />
       </span>
@@ -184,6 +376,9 @@ export default function IndexPage({ config }: IndexPageProps) {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.flatMap((entry) => {
+          (entry.target as HTMLElement).dataset.orbActive = entry.isIntersecting
+            ? 'true'
+            : 'false';
           if (!entry.isIntersecting) return [];
           const id = (entry.target as HTMLElement).dataset.mealId;
           return id ? [id] : [];

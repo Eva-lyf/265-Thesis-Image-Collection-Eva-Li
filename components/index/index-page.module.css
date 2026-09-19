@@ -161,19 +161,20 @@
 
 .orb {
   position: relative;
-  width: min(78%, 238px);
+  width: min(86%, 252px);
   aspect-ratio: 1;
   display: block;
   overflow: hidden;
   isolation: isolate;
   border-radius: var(--index-orb-radius);
-  background: color-mix(in srgb, var(--index-orb-dominant) 8%, transparent);
-  filter: brightness(var(--index-orb-intensity)) saturate(1.65) contrast(1.06)
+  background: color-mix(in srgb, var(--index-orb-dominant) 12%, transparent);
+  filter: brightness(var(--index-orb-intensity)) saturate(1.42) contrast(0.96)
     drop-shadow(
       0 12px 24px color-mix(in srgb, var(--index-orb-dominant) 11%, transparent)
     );
   mask-image: radial-gradient(
-    ellipse 61% 59% at 50% 50%,
+    ellipse var(--orb-mask-rx) var(--orb-mask-ry) at var(--orb-mask-x)
+      var(--orb-mask-y),
     #000 0 57%,
     #000f 67%,
     #000a 78%,
@@ -181,7 +182,8 @@
     transparent 100%
   );
   -webkit-mask-image: radial-gradient(
-    ellipse 61% 59% at 50% 50%,
+    ellipse var(--orb-mask-rx) var(--orb-mask-ry) at var(--orb-mask-x)
+      var(--orb-mask-y),
     #000 0 57%,
     #000f 67%,
     #000a 78%,
@@ -190,27 +192,69 @@
   );
   transform: rotate(var(--index-orb-rotation))
     scale(var(--index-orb-scale-x), var(--index-orb-scale-y));
+  animation: orbBodyDrift var(--orb-duration) ease-in-out var(--orb-delay)
+    infinite var(--orb-direction);
+  animation-play-state: paused;
 }
 
 .orbBlob {
   position: absolute;
-  z-index: 1;
   left: var(--blob-x);
   top: var(--blob-y);
-  width: var(--blob-size);
-  aspect-ratio: 1;
-  border-radius: 48% 52% 58% 42% / 55% 45% 55% 45%;
+  width: var(--blob-width);
+  height: var(--blob-height);
+  border-radius: var(--blob-radius);
   background: radial-gradient(
-    ellipse at 50% 50%,
-    var(--blob-color) 0 32%,
-    color-mix(in srgb, var(--blob-color) 92%, transparent) 48%,
-    color-mix(in srgb, var(--blob-color) 58%, transparent) 68%,
+    ellipse at var(--blob-focus-x) var(--blob-focus-y),
+    color-mix(in srgb, var(--blob-color) 91%, white) 0,
+    color-mix(in srgb, var(--blob-color) 96%, transparent) 31%,
+    color-mix(in srgb, var(--blob-color) 72%, transparent) 64%,
     transparent 100%
   );
   opacity: var(--blob-opacity);
-  filter: blur(var(--blob-blur)) saturate(1.18);
+  filter: blur(var(--blob-blur)) saturate(1.2);
   mix-blend-mode: normal;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(var(--blob-angle));
+  transform-origin: var(--blob-focus-x) var(--blob-focus-y);
+  animation-duration: var(--blob-duration);
+  animation-delay: var(--blob-delay);
+  animation-timing-function: var(--blob-ease);
+  animation-iteration-count: infinite;
+  animation-direction: var(--blob-direction);
+  animation-play-state: paused;
+}
+
+.card[data-orb-active='true'] .orb,
+.card[data-orb-active='true'] .orbBlob {
+  animation-play-state: running;
+}
+
+.card[data-orb-active='true'] .orbBlob {
+  will-change: transform, filter, opacity;
+}
+
+.fieldMotionA {
+  animation-name: fieldFlowA, fieldMorph;
+}
+
+.fieldMotionB {
+  animation-name: fieldFlowB, fieldMorph;
+}
+
+.fieldMotionC {
+  animation-name: fieldFlowC, fieldMorph;
+}
+
+.fieldMotionD {
+  animation-name: fieldFlowD, fieldMorph;
+}
+
+.fieldMotionE {
+  animation-name: fieldFlowE, fieldMorph;
+}
+
+.fieldMotionF {
+  animation-name: fieldFlowF, fieldMorph;
 }
 
 .orbLight {
@@ -219,10 +263,216 @@
   inset: 0;
   border-radius: inherit;
   background:
-    radial-gradient(circle at 31% 24%, #ffffff54 0 5%, transparent 19%),
-    radial-gradient(circle at 68% 74%, #ffffff1f 0, transparent 27%);
+    radial-gradient(
+      circle at var(--orb-light-x) var(--orb-light-y),
+      #ffffff4d 0 3%,
+      transparent 23%
+    ),
+    radial-gradient(
+      circle at var(--orb-glow-x) var(--orb-glow-y),
+      #ffffff26 0,
+      transparent 31%
+    );
   mix-blend-mode: screen;
-  opacity: 0.2;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+@keyframes orbBodyDrift {
+  0% {
+    border-radius: var(--index-orb-radius);
+    transform: rotate(var(--index-orb-rotation))
+      scale(var(--index-orb-scale-x), var(--index-orb-scale-y));
+  }
+  47% {
+    transform: translate(var(--orb-drift-x), var(--orb-drift-y))
+      rotate(var(--index-orb-rotation-mid))
+      scale(var(--index-orb-scale-x-mid), var(--index-orb-scale-y-mid));
+  }
+  100% {
+    transform: translate(var(--orb-drift-x-end), var(--orb-drift-y-end))
+      rotate(var(--index-orb-rotation-end))
+      scale(var(--index-orb-scale-x-end), var(--index-orb-scale-y-end));
+  }
+}
+
+@keyframes fieldMorph {
+  0%,
+  100% {
+    border-radius: var(--blob-radius);
+  }
+  33% {
+    border-radius: var(--blob-radius-1);
+  }
+  68% {
+    border-radius: var(--blob-radius-2);
+  }
+}
+
+@keyframes fieldFlowA {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--blob-angle));
+    filter: blur(var(--blob-blur)) saturate(1.3);
+    opacity: var(--blob-opacity);
+  }
+  34% {
+    transform: translate(
+        calc(-50% + var(--drift-x1)),
+        calc(-50% + var(--drift-y1))
+      )
+      rotate(calc(var(--blob-angle) + var(--blob-rotate-1)))
+      scale(var(--blob-scale-x1), var(--blob-scale-y1)) skewX(var(--blob-skew));
+  }
+  71% {
+    transform: translate(
+        calc(-50% + var(--drift-x2)),
+        calc(-50% + var(--drift-y2))
+      )
+      rotate(calc(var(--blob-angle) + var(--blob-rotate-2)))
+      scale(var(--blob-scale-x2), var(--blob-scale-y2));
+    filter: blur(var(--blob-blur-alt)) saturate(1.42);
+    opacity: var(--blob-opacity-low);
+  }
+}
+
+@keyframes fieldFlowB {
+  0% {
+    transform: translate(
+        calc(-50% + var(--drift-x3)),
+        calc(-50% + var(--drift-y3))
+      )
+      rotate(var(--blob-angle))
+      scale(var(--blob-scale-x2), var(--blob-scale-y2));
+    filter: blur(var(--blob-blur-alt)) saturate(1.2);
+    opacity: var(--blob-opacity-low);
+  }
+  42% {
+    transform: translate(
+        calc(-50% + var(--drift-x1)),
+        calc(-50% + var(--drift-y2))
+      )
+      rotate(calc(var(--blob-angle) - var(--blob-rotate-1)))
+      scale(var(--blob-scale-x1), var(--blob-scale-y2)) skewY(var(--blob-skew));
+    opacity: var(--blob-opacity);
+  }
+  78% {
+    transform: translate(
+        calc(-50% + var(--drift-x2)),
+        calc(-50% + var(--drift-y1))
+      )
+      rotate(calc(var(--blob-angle) + var(--blob-rotate-2)));
+    filter: blur(var(--blob-blur)) saturate(1.42);
+  }
+}
+
+@keyframes fieldFlowC {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--blob-angle))
+      scale(var(--blob-scale-x1), var(--blob-scale-y2));
+  }
+  28% {
+    transform: translate(
+        calc(-50% + var(--drift-x2)),
+        calc(-50% + var(--drift-y3))
+      )
+      rotate(calc(var(--blob-angle) + var(--blob-rotate-1)))
+      scale(var(--blob-scale-x2), var(--blob-scale-y1));
+    filter: blur(var(--blob-blur-alt)) saturate(1.36);
+    opacity: var(--blob-opacity-low);
+  }
+  66% {
+    transform: translate(
+        calc(-50% + var(--drift-x3)),
+        calc(-50% + var(--drift-y1))
+      )
+      rotate(calc(var(--blob-angle) - var(--blob-rotate-2)))
+      skewX(var(--blob-skew));
+    opacity: var(--blob-opacity);
+  }
+}
+
+@keyframes fieldFlowD {
+  0% {
+    transform: translate(
+        calc(-50% + var(--drift-x1)),
+        calc(-50% + var(--drift-y3))
+      )
+      rotate(var(--blob-angle));
+  }
+  38% {
+    transform: translate(
+        calc(-50% + var(--drift-x3)),
+        calc(-50% + var(--drift-y2))
+      )
+      rotate(calc(var(--blob-angle) + var(--blob-rotate-2)))
+      scale(var(--blob-scale-x1), var(--blob-scale-y1));
+    filter: blur(var(--blob-blur-alt)) saturate(1.46);
+  }
+  74% {
+    transform: translate(
+        calc(-50% + var(--drift-x2)),
+        calc(-50% + var(--drift-y1))
+      )
+      rotate(calc(var(--blob-angle) - var(--blob-rotate-1)))
+      skewY(var(--blob-skew));
+    opacity: var(--blob-opacity-low);
+  }
+}
+
+@keyframes fieldFlowE {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--blob-angle))
+      skewX(var(--blob-skew));
+    filter: blur(var(--blob-blur-alt)) saturate(1.28);
+  }
+  31% {
+    transform: translate(
+        calc(-50% + var(--drift-x3)),
+        calc(-50% + var(--drift-y2))
+      )
+      rotate(calc(var(--blob-angle) + var(--blob-rotate-1)))
+      scale(var(--blob-scale-x2), var(--blob-scale-y1));
+    opacity: var(--blob-opacity-low);
+  }
+  69% {
+    transform: translate(
+        calc(-50% + var(--drift-x1)),
+        calc(-50% + var(--drift-y1))
+      )
+      rotate(calc(var(--blob-angle) + var(--blob-rotate-2)))
+      scale(var(--blob-scale-x1), var(--blob-scale-y2));
+    filter: blur(var(--blob-blur)) saturate(1.44);
+    opacity: var(--blob-opacity);
+  }
+}
+
+@keyframes fieldFlowF {
+  0% {
+    transform: translate(
+        calc(-50% + var(--drift-x2)),
+        calc(-50% + var(--drift-y1))
+      )
+      rotate(var(--blob-angle))
+      scale(var(--blob-scale-x2), var(--blob-scale-y1));
+  }
+  45% {
+    transform: translate(
+        calc(-50% + var(--drift-x1)),
+        calc(-50% + var(--drift-y3))
+      )
+      rotate(calc(var(--blob-angle) - var(--blob-rotate-2)))
+      skewX(var(--blob-skew));
+    filter: blur(var(--blob-blur-alt)) saturate(1.48);
+    opacity: var(--blob-opacity-low);
+  }
+  82% {
+    transform: translate(
+        calc(-50% + var(--drift-x3)),
+        calc(-50% + var(--drift-y2))
+      )
+      rotate(calc(var(--blob-angle) + var(--blob-rotate-1)))
+      scale(var(--blob-scale-x1), var(--blob-scale-y2));
+  }
 }
 
 @keyframes imageReveal {
@@ -276,5 +526,10 @@
 @media (prefers-reduced-motion: reduce) {
   .cardInner {
     transition: none;
+  }
+
+  .orb,
+  .orbBlob {
+    animation: none;
   }
 }
