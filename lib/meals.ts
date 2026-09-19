@@ -1,12 +1,6 @@
 import nutritionDataset from '@/data/meal-nutrition.json';
 import orbVisualDataset from '@/data/nutrient-orb-v2.json';
-import {
-  nutrientByKey,
-  nutrientKeys,
-  nutrients,
-  type NutrientKey,
-  type SpectrumSegment,
-} from './nutrients';
+import { nutrientByKey, nutrientKeys, type NutrientKey } from './nutrients';
 
 type NutritionAmounts = {
   caloriesKcal: number;
@@ -155,52 +149,3 @@ export const meals: readonly Meal[] = sourceRecords.map((record) => {
 export const mealsByImageFilename = new Map(
   meals.map((meal) => [meal.image.storagePath, meal]),
 );
-
-const dominantMealCounts = Object.fromEntries(
-  nutrients.map((definition) => [definition.key, 0]),
-) as Record<NutrientKey, number>;
-
-for (const record of sourceRecords) {
-  const dominantNutrient = nutrients.reduce((strongest, candidate) => {
-    const strongestReference = strongest.dailyValue ?? sugarP90Grams;
-    const candidateReference = candidate.dailyValue ?? sugarP90Grams;
-    const strongestScore =
-      record.nutrition[strongest.amountField] / strongestReference;
-    const candidateScore =
-      record.nutrition[candidate.amountField] / candidateReference;
-    return candidateScore > strongestScore ? candidate : strongest;
-  });
-  dominantMealCounts[dominantNutrient.key] += 1;
-}
-
-const minimumSpectrumWidth = 6.5;
-const distributableSpectrumWidth =
-  100 - minimumSpectrumWidth * nutrients.length;
-
-let spectrumCursor = 0;
-export const collectionSpectrumSegments: readonly SpectrumSegment[] =
-  nutrients.map((nutrient, index) => {
-    const score = dominantMealCounts[nutrient.key];
-    const width =
-      index === nutrients.length - 1
-        ? 100 - spectrumCursor
-        : minimumSpectrumWidth +
-          (score / sourceRecords.length) * distributableSpectrumWidth;
-    const start = spectrumCursor;
-    const end = start + width;
-    spectrumCursor = end;
-    return { nutrient, score, width, start, end, center: (start + end) / 2 };
-  });
-
-export function sortMealsByNutrient(
-  collection: readonly CollectionMeal[],
-  nutrient: NutrientKey,
-) {
-  return [...collection].sort((a, b) => {
-    const amountDifference =
-      b.nutrients[nutrient].amount - a.nutrients[nutrient].amount;
-    return (
-      amountDifference || a.image.storagePath.localeCompare(b.image.storagePath)
-    );
-  });
-}

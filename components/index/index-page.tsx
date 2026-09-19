@@ -61,6 +61,10 @@ const motionClasses = [
   styles.fieldMotionF,
 ] as const;
 
+const nutrientGradient = `linear-gradient(90deg, ${nutrientKeys
+  .map((key) => nutrientByKey[key].color)
+  .join(', ')})`;
+
 function hashString(value: string) {
   let hash = 2166136261;
   for (let index = 0; index < value.length; index += 1) {
@@ -449,49 +453,47 @@ export default function IndexPage({ config }: IndexPageProps) {
 
   return (
     <main className={styles.indexShell}>
-      <header className={styles.topBar}>
-        <a className={styles.indexTitle} href="/index">
-          265 INDEX
-        </a>
-        <div className={styles.viewSwitch} aria-label="Index view">
-          <button
-            type="button"
-            className={mode === 'photos' ? styles.active : undefined}
-            aria-pressed={mode === 'photos'}
-            onClick={() => selectMode('photos')}
-          >
-            ALL PHOTOS
-          </button>
-          <button
-            type="button"
-            className={mode === 'orbs' ? styles.active : undefined}
-            aria-pressed={mode === 'orbs'}
-            onClick={() => selectMode('orbs')}
-          >
-            COLOR ORBS
-          </button>
-        </div>
-        <a className={styles.collectionLink} href="/">
-          NUTRIENT VIEW ↗
-        </a>
-      </header>
-
       <div className={styles.indexBody}>
         <aside
           className={styles.nutrientBrowser}
           aria-label="Browse by nutrient"
         >
-          <button
-            type="button"
-            className={`${styles.showAll} ${selectedNutrient === null ? styles.filterActive : ''}`}
-            aria-pressed={selectedNutrient === null}
-            onClick={() => selectNutrient(null)}
-          >
-            SHOW ALL
-          </button>
+          <div className={styles.viewSwitch} aria-label="Index view">
+            <button
+              type="button"
+              className={mode === 'photos' ? styles.active : undefined}
+              aria-pressed={mode === 'photos'}
+              onClick={() => selectMode('photos')}
+            >
+              PHOTO
+            </button>
+            <button
+              type="button"
+              className={mode === 'orbs' ? styles.active : undefined}
+              aria-pressed={mode === 'orbs'}
+              onClick={() => selectMode('orbs')}
+            >
+              ORBS
+            </button>
+          </div>
+
           <div
-            className={`${styles.nutrientLines} ${selectedNutrient ? styles.hasSelection : ''}`}
+            className={`${styles.filterStack} ${selectedNutrient ? styles.hasSelection : ''}`}
           >
+            <button
+              type="button"
+              className={`${styles.filterButton} ${selectedNutrient === null ? styles.filterActive : ''}`}
+              style={
+                {
+                  '--filter-background': nutrientGradient,
+                } as CSSProperties
+              }
+              aria-pressed={selectedNutrient === null}
+              onClick={() => selectNutrient(null)}
+            >
+              <span>SHOW ALL</span>
+              <i aria-hidden="true" />
+            </button>
             {nutrientKeys.map((key) => {
               const nutrient = nutrientByKey[key];
               const active = selectedNutrient === key;
@@ -499,8 +501,12 @@ export default function IndexPage({ config }: IndexPageProps) {
                 <button
                   type="button"
                   key={key}
-                  className={`${styles.nutrientFilter} ${active ? styles.filterActive : ''}`}
-                  style={{ '--filter-color': nutrient.color } as CSSProperties}
+                  className={`${styles.filterButton} ${active ? styles.filterActive : ''}`}
+                  style={
+                    {
+                      '--filter-background': nutrient.color,
+                    } as CSSProperties
+                  }
                   aria-pressed={active}
                   aria-label={`Order meals by ${nutrient.label}, highest percentage first`}
                   onClick={() => selectNutrient(key)}

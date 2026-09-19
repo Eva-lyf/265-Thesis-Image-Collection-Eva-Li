@@ -122,26 +122,3 @@ export const nutrients: readonly NutrientDefinition[] = [
 export const nutrientByKey = Object.fromEntries(
   nutrients.map((nutrient) => [nutrient.key, nutrient]),
 ) as Record<NutrientKey, NutrientDefinition>;
-
-export type SpectrumSegment = {
-  nutrient: NutrientDefinition;
-  score: number;
-  width: number;
-  start: number;
-  end: number;
-  center: number;
-};
-
-export function nutrientForSpectrumPosition(
-  position: number,
-  segments: readonly SpectrumSegment[],
-) {
-  const bounded = Math.min(100, Math.max(0, position));
-  return (
-    segments.find((segment, index) =>
-      index === segments.length - 1
-        ? bounded <= segment.end
-        : bounded < segment.end,
-    ) ?? segments[segments.length - 1]
-  ).nutrient;
-}
