@@ -492,7 +492,9 @@ input:focus-visible {
     transparent 78%
   );
   opacity: var(--light-opacity);
-  filter: blur(var(--light-blur));
+  filter: blur(var(--light-blur)) saturate(var(--light-saturation))
+    brightness(var(--light-brightness))
+    drop-shadow(0 0 var(--light-glow-radius) var(--light-glow-color));
   transform: translate(-50%, -50%) scale(1.06);
   mix-blend-mode: normal;
   transition:

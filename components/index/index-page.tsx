@@ -11,6 +11,7 @@ import {
 } from 'react';
 import { knownImageStoragePaths } from '@/lib/image-colors';
 import type { CollectionMeal } from '@/lib/meals';
+import { nutrientNeonProfile } from '@/lib/nutrient-visuals';
 import { nutrientByKey, nutrientKeys, type NutrientKey } from '@/lib/nutrients';
 import {
   loadStorageImageUrl,
@@ -203,12 +204,22 @@ function orbLayers(meal: CollectionMeal) {
   return nutrientKeys
     .map((key) => {
       const percent = (meal.orbVisualPercent[key] / total) * 100;
+      const neon = nutrientNeonProfile(
+        key,
+        meal.nutrients[key].normalizedPercent,
+      );
+      const displayColor =
+        neon.strength > 0.04 && neon.color
+          ? neon.color
+          : nutrientByKey[key].color;
       const nutrientSeed = hashString(`${meal.storagePath}:${key}`);
       const mealSeed = mealHash(meal);
       const [rawX, rawY] = compositionPoint(mealSeed, nutrientSeed);
       const x = Math.min(92, Math.max(8, rawX));
       const y = Math.min(92, Math.max(8, rawY));
-      const baseSize = Math.sqrt(percent) * 14.8;
+      const specialSizeBoost =
+        1 + neon.strength * (key === 'sugar' ? 0.85 : 0.65);
+      const baseSize = Math.sqrt(percent) * 14.8 * specialSizeBoost;
       const isAccent = percent < 8;
       const aspect = isAccent
         ? seededRange(nutrientSeed, 11, 0.34, 2.94)
@@ -232,16 +243,23 @@ function orbLayers(meal: CollectionMeal) {
       const motionIndex = Math.floor(
         seededUnit(nutrientSeed, 16) * motionClasses.length,
       );
-      const prominence = Math.min(0.93, 0.49 + Math.sqrt(percent / 100) * 0.65);
-      const blur = Math.max(4.7, 11.2 - Math.sqrt(percent) * 0.78);
+      const prominence = Math.min(
+        0.99,
+        0.49 + Math.sqrt(percent / 100) * 0.65 + neon.strength * 0.12,
+      );
+      const blur = Math.max(
+        3.8,
+        11.2 - Math.sqrt(percent) * 0.78 - neon.strength * 2.2,
+      );
       const depth = Math.floor(seededRange(nutrientSeed, 17, 1, 20));
+      const visualDepth = depth + Math.round(neon.strength * 30);
       return {
         key,
         percent,
         motionClass: motionClasses[motionIndex],
         depth,
         style: {
-          '--blob-color': nutrientByKey[key].color,
+          '--blob-color': displayColor,
           '--blob-x': `${x.toFixed(2)}%`,
           '--blob-y': `${y.toFixed(2)}%`,
           '--blob-width': `${width.toFixed(2)}%`,
@@ -250,6 +268,13 @@ function orbLayers(meal: CollectionMeal) {
           '--blob-opacity-low': Math.max(0.34, prominence - 0.16).toFixed(3),
           '--blob-blur': `${blur.toFixed(2)}px`,
           '--blob-blur-alt': `${(blur + seededRange(nutrientSeed, 18, 0.8, 3.4)).toFixed(2)}px`,
+          '--blob-saturation': (1.2 + neon.strength * 0.95).toFixed(3),
+          '--blob-brightness': (1 + neon.strength * 0.24).toFixed(3),
+          '--blob-glow-radius': `${(neon.strength * 18).toFixed(2)}px`,
+          '--blob-glow-color':
+            neon.strength > 0.02 && neon.color
+              ? `color-mix(in srgb, ${neon.color} ${(28 + neon.strength * 46).toFixed(1)}%, transparent)`
+              : 'transparent',
           '--blob-radius': organicRadius(nutrientSeed, 40),
           '--blob-radius-1': organicRadius(nutrientSeed, 50),
           '--blob-radius-2': organicRadius(nutrientSeed, 60),
@@ -287,7 +312,7 @@ function orbLayers(meal: CollectionMeal) {
             3,
           ),
           '--blob-skew': `${seededRange(nutrientSeed, 30, -8, 8).toFixed(2)}deg`,
-          zIndex: depth,
+          zIndex: visualDepth,
         } as CSSProperties,
       };
     })

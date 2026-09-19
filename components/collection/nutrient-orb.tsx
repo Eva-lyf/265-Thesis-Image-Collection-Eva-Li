@@ -2,6 +2,7 @@
 
 import { type CSSProperties } from 'react';
 import type { Meal } from '@/lib/meals';
+import { nutrientNeonProfile } from '@/lib/nutrient-visuals';
 import { nutrientByKey, nutrientKeys, type NutrientKey } from '@/lib/nutrients';
 
 type NutrientOrbProps = {
@@ -43,12 +44,20 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
       .slice(0, index)
       .reduce((sum, previousShare) => sum + previousShare, 0);
     const end = index === nutrientKeys.length - 1 ? 100 : start + share;
-    return { key, index, share, start, end };
+    const neon = nutrientNeonProfile(
+      key,
+      meal.nutrients[key].normalizedPercent,
+    );
+    const displayColor =
+      neon.strength > 0.04 && neon.color
+        ? neon.color
+        : nutrientByKey[key].color;
+    return { key, index, share, start, end, neon, displayColor };
   });
   const orbSpectrum = `conic-gradient(from -90deg, ${composition
-    .flatMap(({ key, start, end }) => [
-      `${nutrientByKey[key].color} ${start}%`,
-      `${nutrientByKey[key].color} ${end}%`,
+    .flatMap(({ displayColor, start, end }) => [
+      `${displayColor} ${start}%`,
+      `${displayColor} ${end}%`,
     ])
     .join(', ')})`;
   const layers = [...composition].sort((a, b) => b.share - a.share);
@@ -70,23 +79,34 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
           } as CSSProperties
         }
       >
-        {layers.map(({ key, index, share }) => {
+        {layers.map(({ key, index, share, neon, displayColor }) => {
           const [x, y] = positions[index];
-          const definition = nutrientByKey[key];
           const proportion = Math.sqrt(share / 100);
-          const size = 30 + proportion * 108;
+          const specialSizeBoost =
+            1 + neon.strength * (key === 'sugar' ? 0.85 : 0.65);
+          const size = (30 + proportion * 108) * specialSizeBoost;
           return (
             <span
               key={key}
               className="nutrient-light"
               style={
                 {
-                  '--light-color': definition.color,
+                  '--light-color': displayColor,
                   '--light-x': `${x}%`,
                   '--light-y': `${y}%`,
                   '--light-size': `${size}%`,
-                  '--light-opacity': 0.3 + proportion * 0.66,
-                  '--light-blur': `${13 + (1 - proportion) * 20}px`,
+                  '--light-opacity': Math.min(
+                    0.99,
+                    0.3 + proportion * 0.66 + neon.strength * 0.14,
+                  ),
+                  '--light-blur': `${Math.max(8, 13 + (1 - proportion) * 20 - neon.strength * 9)}px`,
+                  '--light-saturation': 1.15 + neon.strength * 1.1,
+                  '--light-brightness': 1 + neon.strength * 0.22,
+                  '--light-glow-radius': `${neon.strength * 28}px`,
+                  '--light-glow-color':
+                    neon.strength > 0.02 && neon.color
+                      ? `color-mix(in srgb, ${neon.color} ${(28 + neon.strength * 46).toFixed(1)}%, transparent)`
+                      : 'transparent',
                 } as CSSProperties
               }
             />

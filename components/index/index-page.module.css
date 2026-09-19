@@ -334,7 +334,9 @@
     transparent 100%
   );
   opacity: var(--blob-opacity);
-  filter: blur(var(--blob-blur)) saturate(1.2);
+  filter: blur(var(--blob-blur)) saturate(var(--blob-saturation))
+    brightness(var(--blob-brightness))
+    drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
   mix-blend-mode: normal;
   transform: translate(-50%, -50%) rotate(var(--blob-angle));
   transform-origin: var(--blob-focus-x) var(--blob-focus-y);
@@ -434,7 +436,9 @@
 @keyframes fieldFlowA {
   0% {
     transform: translate(-50%, -50%) rotate(var(--blob-angle));
-    filter: blur(var(--blob-blur)) saturate(1.3);
+    filter: blur(var(--blob-blur)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
     opacity: var(--blob-opacity);
   }
   34% {
@@ -452,7 +456,9 @@
       )
       rotate(calc(var(--blob-angle) + var(--blob-rotate-2)))
       scale(var(--blob-scale-x2), var(--blob-scale-y2));
-    filter: blur(var(--blob-blur-alt)) saturate(1.42);
+    filter: blur(var(--blob-blur-alt)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
     opacity: var(--blob-opacity-low);
   }
 }
@@ -465,7 +471,9 @@
       )
       rotate(var(--blob-angle))
       scale(var(--blob-scale-x2), var(--blob-scale-y2));
-    filter: blur(var(--blob-blur-alt)) saturate(1.2);
+    filter: blur(var(--blob-blur-alt)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
     opacity: var(--blob-opacity-low);
   }
   42% {
@@ -483,7 +491,9 @@
         calc(-50% + var(--drift-y1))
       )
       rotate(calc(var(--blob-angle) + var(--blob-rotate-2)));
-    filter: blur(var(--blob-blur)) saturate(1.42);
+    filter: blur(var(--blob-blur)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
   }
 }
 
@@ -499,7 +509,9 @@
       )
       rotate(calc(var(--blob-angle) + var(--blob-rotate-1)))
       scale(var(--blob-scale-x2), var(--blob-scale-y1));
-    filter: blur(var(--blob-blur-alt)) saturate(1.36);
+    filter: blur(var(--blob-blur-alt)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
     opacity: var(--blob-opacity-low);
   }
   66% {
@@ -528,7 +540,9 @@
       )
       rotate(calc(var(--blob-angle) + var(--blob-rotate-2)))
       scale(var(--blob-scale-x1), var(--blob-scale-y1));
-    filter: blur(var(--blob-blur-alt)) saturate(1.46);
+    filter: blur(var(--blob-blur-alt)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
   }
   74% {
     transform: translate(
@@ -545,7 +559,9 @@
   0% {
     transform: translate(-50%, -50%) rotate(var(--blob-angle))
       skewX(var(--blob-skew));
-    filter: blur(var(--blob-blur-alt)) saturate(1.28);
+    filter: blur(var(--blob-blur-alt)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
   }
   31% {
     transform: translate(
@@ -563,7 +579,9 @@
       )
       rotate(calc(var(--blob-angle) + var(--blob-rotate-2)))
       scale(var(--blob-scale-x1), var(--blob-scale-y2));
-    filter: blur(var(--blob-blur)) saturate(1.44);
+    filter: blur(var(--blob-blur)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
     opacity: var(--blob-opacity);
   }
 }
@@ -584,7 +602,9 @@
       )
       rotate(calc(var(--blob-angle) - var(--blob-rotate-2)))
       skewX(var(--blob-skew));
-    filter: blur(var(--blob-blur-alt)) saturate(1.48);
+    filter: blur(var(--blob-blur-alt)) saturate(var(--blob-saturation))
+      brightness(var(--blob-brightness))
+      drop-shadow(0 0 var(--blob-glow-radius) var(--blob-glow-color));
     opacity: var(--blob-opacity-low);
   }
   82% {
