@@ -20,12 +20,6 @@ const positions = [
   [65, 49],
 ] as const;
 
-function visualWeight(normalizedPercent: number) {
-  return Math.pow(Math.max(0, normalizedPercent), 2);
-}
-
-const minimumVisibleShare = 1.5;
-
 function measurementLabel(key: NutrientKey, dvPercent: number | null) {
   if (key === 'sugar') return 'Relative to collection P90';
   return `${dvPercent}% Daily Value`;
@@ -37,19 +31,12 @@ export function NutrientOrb({ meal }: NutrientOrbProps) {
     Math.max(0.84, 0.84 + (meal.calories / 4000) * 0.28),
   );
   const nutrientTotal = nutrientKeys.reduce(
-    (sum, key) => sum + visualWeight(meal.nutrients[key].normalizedPercent),
+    (sum, key) => sum + meal.orbVisualPercent[key],
     0,
   );
-  const distributableShare = 100 - minimumVisibleShare * nutrientKeys.length;
-  const shares = nutrientKeys.map((key) => {
-    const proportionalShare =
-      nutrientTotal > 0
-        ? (visualWeight(meal.nutrients[key].normalizedPercent) /
-            nutrientTotal) *
-          distributableShare
-        : distributableShare / nutrientKeys.length;
-    return minimumVisibleShare + proportionalShare;
-  });
+  const shares = nutrientKeys.map(
+    (key) => (meal.orbVisualPercent[key] / nutrientTotal) * 100,
+  );
   const composition = nutrientKeys.map((key, index) => {
     const share = shares[index];
     const start = shares

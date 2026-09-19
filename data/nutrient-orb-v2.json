@@ -1,0 +1,1078 @@
+{
+  "sourceDocument": "265_67_meals_nutrient_orb_v2.pdf",
+  "description": "Static Orb Visual percentages extracted from the 67-meal nutrient orb reference V2.",
+  "records": [
+    {
+      "imageFilename": "2EF31F95-D801-4A30-B799-334534FF4476.jpg",
+      "caloriesKcal": 1150,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 10.3,
+        "carbohydrate": 45.7,
+        "totalFat": 27.9,
+        "fiber": 1.3,
+        "sugar": 1.7,
+        "sodium": 7.4,
+        "potassium": 1.6,
+        "calcium": 1.3,
+        "iron": 2.8
+      }
+    },
+    {
+      "imageFilename": "C6196600-F6C0-45AE-A139-026F9B0EDE91.jpg",
+      "caloriesKcal": 980,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 16.3,
+        "carbohydrate": 31.3,
+        "totalFat": 36.7,
+        "fiber": 1.4,
+        "sugar": 1.3,
+        "sodium": 6.7,
+        "potassium": 1.8,
+        "calcium": 1.8,
+        "iron": 2.7
+      }
+    },
+    {
+      "imageFilename": "E0D7B526-64D1-423A-8921-B737C136B907.jpg",
+      "caloriesKcal": 720,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 16.1,
+        "carbohydrate": 24.6,
+        "totalFat": 41.6,
+        "fiber": 2.4,
+        "sugar": 2.3,
+        "sodium": 6.5,
+        "potassium": 2.1,
+        "calcium": 1.6,
+        "iron": 2.8
+      }
+    },
+    {
+      "imageFilename": "IMG_0043.jpg",
+      "caloriesKcal": 760,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 20.2,
+        "carbohydrate": 24.3,
+        "totalFat": 39.5,
+        "fiber": 1.6,
+        "sugar": 1.3,
+        "sodium": 6.0,
+        "potassium": 2.8,
+        "calcium": 1.9,
+        "iron": 2.4
+      }
+    },
+    {
+      "imageFilename": "IMG_0045.jpg",
+      "caloriesKcal": 620,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 12.9,
+        "carbohydrate": 37.6,
+        "totalFat": 32.7,
+        "fiber": 1.3,
+        "sugar": 2.4,
+        "sodium": 5.8,
+        "potassium": 2.3,
+        "calcium": 1.9,
+        "iron": 3.0
+      }
+    },
+    {
+      "imageFilename": "IMG_0373.jpg",
+      "caloriesKcal": 780,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 10.2,
+        "carbohydrate": 35.9,
+        "totalFat": 34.9,
+        "fiber": 2.2,
+        "sugar": 3.7,
+        "sodium": 5.4,
+        "potassium": 2.6,
+        "calcium": 2.0,
+        "iron": 3.1
+      }
+    },
+    {
+      "imageFilename": "IMG_1165.jpg",
+      "caloriesKcal": 690,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 18.8,
+        "carbohydrate": 38.6,
+        "totalFat": 26.7,
+        "fiber": 1.5,
+        "sugar": 1.3,
+        "sodium": 7.1,
+        "potassium": 2.1,
+        "calcium": 1.2,
+        "iron": 2.7
+      }
+    },
+    {
+      "imageFilename": "IMG_1605.jpg",
+      "caloriesKcal": 720,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 18.3,
+        "carbohydrate": 44.3,
+        "totalFat": 21.6,
+        "fiber": 1.0,
+        "sugar": 1.8,
+        "sodium": 7.4,
+        "potassium": 2.1,
+        "calcium": 0.9,
+        "iron": 2.6
+      }
+    },
+    {
+      "imageFilename": "IMG_1711.jpg",
+      "caloriesKcal": 980,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 14.4,
+        "carbohydrate": 37.6,
+        "totalFat": 32.3,
+        "fiber": 1.2,
+        "sugar": 1.5,
+        "sodium": 7.3,
+        "potassium": 1.6,
+        "calcium": 1.9,
+        "iron": 2.2
+      }
+    },
+    {
+      "imageFilename": "IMG_1948.jpg",
+      "caloriesKcal": 780,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 22.3,
+        "carbohydrate": 14.6,
+        "totalFat": 47.3,
+        "fiber": 1.7,
+        "sugar": 1.1,
+        "sodium": 4.8,
+        "potassium": 3.0,
+        "calcium": 1.6,
+        "iron": 3.7
+      }
+    },
+    {
+      "imageFilename": "IMG_1975.jpg",
+      "caloriesKcal": 1080,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 11.9,
+        "carbohydrate": 32.0,
+        "totalFat": 37.7,
+        "fiber": 2.0,
+        "sugar": 3.4,
+        "sodium": 7.0,
+        "potassium": 2.1,
+        "calcium": 1.4,
+        "iron": 2.6
+      }
+    },
+    {
+      "imageFilename": "IMG_2031.jpg",
+      "caloriesKcal": 1250,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 10.0,
+        "carbohydrate": 38.0,
+        "totalFat": 34.2,
+        "fiber": 1.3,
+        "sugar": 3.4,
+        "sodium": 7.0,
+        "potassium": 1.9,
+        "calcium": 1.9,
+        "iron": 2.3
+      }
+    },
+    {
+      "imageFilename": "IMG_2076.jpg",
+      "caloriesKcal": 470,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 28.4,
+        "carbohydrate": 20.4,
+        "totalFat": 32.8,
+        "fiber": 2.6,
+        "sugar": 2.7,
+        "sodium": 4.6,
+        "potassium": 4.0,
+        "calcium": 1.7,
+        "iron": 2.8
+      }
+    },
+    {
+      "imageFilename": "IMG_2298.jpg",
+      "caloriesKcal": 920,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 21.1,
+        "carbohydrate": 22.3,
+        "totalFat": 41.5,
+        "fiber": 1.3,
+        "sugar": 0.7,
+        "sodium": 5.6,
+        "potassium": 2.6,
+        "calcium": 1.1,
+        "iron": 3.7
+      }
+    },
+    {
+      "imageFilename": "IMG_2311.jpg",
+      "caloriesKcal": 880,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 8.1,
+        "carbohydrate": 48.7,
+        "totalFat": 24.9,
+        "fiber": 1.3,
+        "sugar": 3.9,
+        "sodium": 6.9,
+        "potassium": 1.9,
+        "calcium": 1.9,
+        "iron": 2.4
+      }
+    },
+    {
+      "imageFilename": "IMG_2559.jpg",
+      "caloriesKcal": 760,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 10.4,
+        "carbohydrate": 33.9,
+        "totalFat": 37.2,
+        "fiber": 2.8,
+        "sugar": 2.6,
+        "sodium": 5.2,
+        "potassium": 3.0,
+        "calcium": 2.1,
+        "iron": 2.8
+      }
+    },
+    {
+      "imageFilename": "IMG_3143.jpg",
+      "caloriesKcal": 720,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 18.6,
+        "carbohydrate": 33.5,
+        "totalFat": 31.4,
+        "fiber": 1.9,
+        "sugar": 1.6,
+        "sodium": 5.8,
+        "potassium": 2.9,
+        "calcium": 1.7,
+        "iron": 2.7
+      }
+    },
+    {
+      "imageFilename": "IMG_3251.jpg",
+      "caloriesKcal": 380,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 5.5,
+        "carbohydrate": 45.4,
+        "totalFat": 24.7,
+        "fiber": 2.0,
+        "sugar": 9.4,
+        "sodium": 2.7,
+        "potassium": 3.8,
+        "calcium": 3.2,
+        "iron": 3.4
+      }
+    },
+    {
+      "imageFilename": "IMG_3296.jpg",
+      "caloriesKcal": 850,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 16.8,
+        "carbohydrate": 42.0,
+        "totalFat": 25.2,
+        "fiber": 1.6,
+        "sugar": 1.4,
+        "sodium": 6.6,
+        "potassium": 2.1,
+        "calcium": 1.3,
+        "iron": 3.1
+      }
+    },
+    {
+      "imageFilename": "IMG_3392.jpg",
+      "caloriesKcal": 780,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 9.9,
+        "carbohydrate": 39.6,
+        "totalFat": 34.9,
+        "fiber": 1.3,
+        "sugar": 1.3,
+        "sodium": 5.7,
+        "potassium": 2.1,
+        "calcium": 2.7,
+        "iron": 2.6
+      }
+    },
+    {
+      "imageFilename": "IMG_3438.jpg",
+      "caloriesKcal": 620,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 23.9,
+        "carbohydrate": 20.0,
+        "totalFat": 39.9,
+        "fiber": 1.9,
+        "sugar": 1.2,
+        "sodium": 5.0,
+        "potassium": 3.0,
+        "calcium": 1.7,
+        "iron": 3.4
+      }
+    },
+    {
+      "imageFilename": "IMG_3445.jpg",
+      "caloriesKcal": 890,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 21.8,
+        "carbohydrate": 28.5,
+        "totalFat": 34.7,
+        "fiber": 1.2,
+        "sugar": 0.7,
+        "sodium": 5.1,
+        "potassium": 2.8,
+        "calcium": 1.6,
+        "iron": 3.5
+      }
+    },
+    {
+      "imageFilename": "IMG_3475.jpg",
+      "caloriesKcal": 760,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 21.2,
+        "carbohydrate": 22.1,
+        "totalFat": 40.5,
+        "fiber": 1.6,
+        "sugar": 1.6,
+        "sodium": 7.1,
+        "potassium": 2.2,
+        "calcium": 1.4,
+        "iron": 2.4
+      }
+    },
+    {
+      "imageFilename": "IMG_3788.jpg",
+      "caloriesKcal": 790,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 14.8,
+        "carbohydrate": 37.2,
+        "totalFat": 32.4,
+        "fiber": 1.3,
+        "sugar": 1.3,
+        "sodium": 7.8,
+        "potassium": 1.7,
+        "calcium": 1.2,
+        "iron": 2.3
+      }
+    },
+    {
+      "imageFilename": "IMG_3811.jpg",
+      "caloriesKcal": 880,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 13.3,
+        "carbohydrate": 36.6,
+        "totalFat": 33.4,
+        "fiber": 1.9,
+        "sugar": 1.7,
+        "sodium": 6.6,
+        "potassium": 2.4,
+        "calcium": 1.5,
+        "iron": 2.5
+      }
+    },
+    {
+      "imageFilename": "IMG_3823.jpg",
+      "caloriesKcal": 690,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 14.2,
+        "carbohydrate": 23.1,
+        "totalFat": 47.5,
+        "fiber": 1.2,
+        "sugar": 0.9,
+        "sodium": 7.0,
+        "potassium": 1.7,
+        "calcium": 1.8,
+        "iron": 2.5
+      }
+    },
+    {
+      "imageFilename": "IMG_3856.jpg",
+      "caloriesKcal": 660,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 17.5,
+        "carbohydrate": 41.3,
+        "totalFat": 25.5,
+        "fiber": 1.3,
+        "sugar": 1.4,
+        "sodium": 7.5,
+        "potassium": 2.0,
+        "calcium": 1.0,
+        "iron": 2.6
+      }
+    },
+    {
+      "imageFilename": "IMG_3882.jpg",
+      "caloriesKcal": 980,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 19.2,
+        "carbohydrate": 23.7,
+        "totalFat": 40.8,
+        "fiber": 1.9,
+        "sugar": 1.3,
+        "sodium": 7.0,
+        "potassium": 2.1,
+        "calcium": 1.5,
+        "iron": 2.5
+      }
+    },
+    {
+      "imageFilename": "IMG_3949.jpg",
+      "caloriesKcal": 760,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 18.6,
+        "carbohydrate": 31.1,
+        "totalFat": 33.9,
+        "fiber": 2.0,
+        "sugar": 1.3,
+        "sodium": 5.9,
+        "potassium": 2.7,
+        "calcium": 1.4,
+        "iron": 3.1
+      }
+    },
+    {
+      "imageFilename": "IMG_3979.jpg",
+      "caloriesKcal": 1050,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 20.4,
+        "carbohydrate": 21.7,
+        "totalFat": 42.3,
+        "fiber": 1.1,
+        "sugar": 1.5,
+        "sodium": 6.3,
+        "potassium": 2.3,
+        "calcium": 1.1,
+        "iron": 3.4
+      }
+    },
+    {
+      "imageFilename": "IMG_4066.jpg",
+      "caloriesKcal": 980,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 13.3,
+        "carbohydrate": 41.2,
+        "totalFat": 29.9,
+        "fiber": 1.2,
+        "sugar": 1.3,
+        "sodium": 8.0,
+        "potassium": 1.8,
+        "calcium": 1.1,
+        "iron": 2.2
+      }
+    },
+    {
+      "imageFilename": "IMG_4105.jpg",
+      "caloriesKcal": 920,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 15.5,
+        "carbohydrate": 38.7,
+        "totalFat": 28.2,
+        "fiber": 2.6,
+        "sugar": 1.9,
+        "sodium": 6.6,
+        "potassium": 2.3,
+        "calcium": 1.6,
+        "iron": 2.6
+      }
+    },
+    {
+      "imageFilename": "IMG_4186.jpg",
+      "caloriesKcal": 1050,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 15.3,
+        "carbohydrate": 33.6,
+        "totalFat": 35.2,
+        "fiber": 1.3,
+        "sugar": 1.6,
+        "sodium": 6.9,
+        "potassium": 1.8,
+        "calcium": 1.9,
+        "iron": 2.5
+      }
+    },
+    {
+      "imageFilename": "IMG_4194.jpg",
+      "caloriesKcal": 1150,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 21.9,
+        "carbohydrate": 17.6,
+        "totalFat": 45.2,
+        "fiber": 1.4,
+        "sugar": 0.9,
+        "sodium": 6.7,
+        "potassium": 2.1,
+        "calcium": 1.3,
+        "iron": 3.0
+      }
+    },
+    {
+      "imageFilename": "IMG_4242.jpg",
+      "caloriesKcal": 720,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 9.8,
+        "carbohydrate": 46.4,
+        "totalFat": 26.1,
+        "fiber": 2.2,
+        "sugar": 2.3,
+        "sodium": 5.8,
+        "potassium": 2.6,
+        "calcium": 1.7,
+        "iron": 2.9
+      }
+    },
+    {
+      "imageFilename": "IMG_4255.jpg",
+      "caloriesKcal": 1100,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 23.3,
+        "carbohydrate": 14.0,
+        "totalFat": 47.5,
+        "fiber": 1.1,
+        "sugar": 1.0,
+        "sodium": 6.1,
+        "potassium": 2.4,
+        "calcium": 1.2,
+        "iron": 3.4
+      }
+    },
+    {
+      "imageFilename": "IMG_4277.jpg",
+      "caloriesKcal": 520,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 5.2,
+        "carbohydrate": 44.2,
+        "totalFat": 26.2,
+        "fiber": 0.9,
+        "sugar": 10.5,
+        "sodium": 2.7,
+        "potassium": 2.6,
+        "calcium": 4.8,
+        "iron": 2.9
+      }
+    },
+    {
+      "imageFilename": "IMG_4326.jpg",
+      "caloriesKcal": 610,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 14.6,
+        "carbohydrate": 30.2,
+        "totalFat": 37.6,
+        "fiber": 2.2,
+        "sugar": 2.4,
+        "sodium": 5.9,
+        "potassium": 2.3,
+        "calcium": 1.9,
+        "iron": 2.9
+      }
+    },
+    {
+      "imageFilename": "IMG_4379.jpg",
+      "caloriesKcal": 780,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 15.5,
+        "carbohydrate": 35.4,
+        "totalFat": 33.0,
+        "fiber": 1.7,
+        "sugar": 1.3,
+        "sodium": 6.9,
+        "potassium": 1.7,
+        "calcium": 1.9,
+        "iron": 2.4
+      }
+    },
+    {
+      "imageFilename": "IMG_4472.jpg",
+      "caloriesKcal": 760,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 20.6,
+        "carbohydrate": 39.4,
+        "totalFat": 24.2,
+        "fiber": 1.3,
+        "sugar": 1.5,
+        "sodium": 6.6,
+        "potassium": 2.5,
+        "calcium": 1.0,
+        "iron": 2.8
+      }
+    },
+    {
+      "imageFilename": "IMG_4516.jpg",
+      "caloriesKcal": 790,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 22.0,
+        "carbohydrate": 21.1,
+        "totalFat": 41.6,
+        "fiber": 1.3,
+        "sugar": 0.8,
+        "sodium": 4.8,
+        "potassium": 3.1,
+        "calcium": 1.1,
+        "iron": 4.2
+      }
+    },
+    {
+      "imageFilename": "IMG_4619.jpg",
+      "caloriesKcal": 1120,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 13.5,
+        "carbohydrate": 31.5,
+        "totalFat": 39.2,
+        "fiber": 1.2,
+        "sugar": 1.6,
+        "sodium": 6.7,
+        "potassium": 1.8,
+        "calcium": 1.9,
+        "iron": 2.7
+      }
+    },
+    {
+      "imageFilename": "IMG_4684.jpg",
+      "caloriesKcal": 780,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 18.0,
+        "carbohydrate": 37.7,
+        "totalFat": 27.9,
+        "fiber": 1.9,
+        "sugar": 1.4,
+        "sodium": 6.0,
+        "potassium": 3.0,
+        "calcium": 1.1,
+        "iron": 2.9
+      }
+    },
+    {
+      "imageFilename": "IMG_4749.jpg",
+      "caloriesKcal": 460,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 24.0,
+        "carbohydrate": 15.5,
+        "totalFat": 42.8,
+        "fiber": 2.8,
+        "sugar": 1.9,
+        "sodium": 5.3,
+        "potassium": 3.3,
+        "calcium": 1.3,
+        "iron": 3.1
+      }
+    },
+    {
+      "imageFilename": "IMG_4751.jpg",
+      "caloriesKcal": 880,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 14.2,
+        "carbohydrate": 31.5,
+        "totalFat": 38.8,
+        "fiber": 1.2,
+        "sugar": 1.3,
+        "sodium": 7.3,
+        "potassium": 1.8,
+        "calcium": 1.7,
+        "iron": 2.2
+      }
+    },
+    {
+      "imageFilename": "IMG_4764.jpg",
+      "caloriesKcal": 920,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 17.4,
+        "carbohydrate": 23.7,
+        "totalFat": 43.4,
+        "fiber": 0.9,
+        "sugar": 1.5,
+        "sodium": 6.3,
+        "potassium": 1.7,
+        "calcium": 2.2,
+        "iron": 2.9
+      }
+    },
+    {
+      "imageFilename": "IMG_4903.jpg",
+      "caloriesKcal": 720,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 16.1,
+        "carbohydrate": 34.2,
+        "totalFat": 34.2,
+        "fiber": 1.2,
+        "sugar": 1.2,
+        "sodium": 7.5,
+        "potassium": 1.3,
+        "calcium": 2.4,
+        "iron": 2.0
+      }
+    },
+    {
+      "imageFilename": "IMG_5014.jpg",
+      "caloriesKcal": 1080,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 13.3,
+        "carbohydrate": 24.6,
+        "totalFat": 46.2,
+        "fiber": 1.4,
+        "sugar": 1.4,
+        "sodium": 6.7,
+        "potassium": 2.3,
+        "calcium": 1.8,
+        "iron": 2.2
+      }
+    },
+    {
+      "imageFilename": "IMG_5148.jpg",
+      "caloriesKcal": 900,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 11.4,
+        "carbohydrate": 42.7,
+        "totalFat": 29.0,
+        "fiber": 1.8,
+        "sugar": 1.9,
+        "sodium": 6.1,
+        "potassium": 1.8,
+        "calcium": 2.6,
+        "iron": 2.5
+      }
+    },
+    {
+      "imageFilename": "IMG_5161.jpg",
+      "caloriesKcal": 760,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 17.3,
+        "carbohydrate": 34.7,
+        "totalFat": 32.0,
+        "fiber": 1.6,
+        "sugar": 1.3,
+        "sodium": 7.1,
+        "potassium": 1.7,
+        "calcium": 2.0,
+        "iron": 2.3
+      }
+    },
+    {
+      "imageFilename": "IMG_5719.jpg",
+      "caloriesKcal": 790,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 16.5,
+        "carbohydrate": 34.8,
+        "totalFat": 33.2,
+        "fiber": 1.3,
+        "sugar": 1.1,
+        "sodium": 7.3,
+        "potassium": 1.5,
+        "calcium": 1.9,
+        "iron": 2.3
+      }
+    },
+    {
+      "imageFilename": "IMG_5834.jpg",
+      "caloriesKcal": 860,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 15.4,
+        "carbohydrate": 35.5,
+        "totalFat": 33.7,
+        "fiber": 1.2,
+        "sugar": 1.2,
+        "sodium": 7.7,
+        "potassium": 1.8,
+        "calcium": 1.4,
+        "iron": 2.2
+      }
+    },
+    {
+      "imageFilename": "IMG_5975.jpg",
+      "caloriesKcal": 680,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 11.7,
+        "carbohydrate": 41.7,
+        "totalFat": 29.5,
+        "fiber": 2.4,
+        "sugar": 1.6,
+        "sodium": 6.3,
+        "potassium": 2.3,
+        "calcium": 1.9,
+        "iron": 2.6
+      }
+    },
+    {
+      "imageFilename": "IMG_6774.jpg",
+      "caloriesKcal": 760,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 17.6,
+        "carbohydrate": 37.8,
+        "totalFat": 28.7,
+        "fiber": 1.5,
+        "sugar": 1.3,
+        "sodium": 7.3,
+        "potassium": 2.1,
+        "calcium": 1.0,
+        "iron": 2.6
+      }
+    },
+    {
+      "imageFilename": "IMG_6956.jpg",
+      "caloriesKcal": 1050,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 10.9,
+        "carbohydrate": 36.8,
+        "totalFat": 33.7,
+        "fiber": 1.2,
+        "sugar": 4.2,
+        "sodium": 6.5,
+        "potassium": 2.3,
+        "calcium": 1.8,
+        "iron": 2.5
+      }
+    },
+    {
+      "imageFilename": "IMG_7208.jpg",
+      "caloriesKcal": 590,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 11.5,
+        "carbohydrate": 28.6,
+        "totalFat": 42.1,
+        "fiber": 3.3,
+        "sugar": 1.4,
+        "sodium": 4.7,
+        "potassium": 3.4,
+        "calcium": 1.8,
+        "iron": 3.2
+      }
+    },
+    {
+      "imageFilename": "IMG_7266.jpg",
+      "caloriesKcal": 650,
+      "dominantBody": "totalFat",
+      "orbVisualPercent": {
+        "protein": 10.2,
+        "carbohydrate": 28.1,
+        "totalFat": 44.9,
+        "fiber": 2.0,
+        "sugar": 1.7,
+        "sodium": 6.1,
+        "potassium": 2.5,
+        "calcium": 1.9,
+        "iron": 2.5
+      }
+    },
+    {
+      "imageFilename": "IMG_7571.jpg",
+      "caloriesKcal": 720,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 16.0,
+        "carbohydrate": 34.8,
+        "totalFat": 32.8,
+        "fiber": 1.9,
+        "sugar": 1.4,
+        "sodium": 7.0,
+        "potassium": 1.8,
+        "calcium": 1.9,
+        "iron": 2.3
+      }
+    },
+    {
+      "imageFilename": "IMG_7783.jpg",
+      "caloriesKcal": 820,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 15.2,
+        "carbohydrate": 40.2,
+        "totalFat": 28.6,
+        "fiber": 1.4,
+        "sugar": 1.5,
+        "sodium": 5.7,
+        "potassium": 2.0,
+        "calcium": 2.1,
+        "iron": 3.2
+      }
+    },
+    {
+      "imageFilename": "IMG_7785.jpg",
+      "caloriesKcal": 1050,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 14.3,
+        "carbohydrate": 37.4,
+        "totalFat": 31.4,
+        "fiber": 1.0,
+        "sugar": 3.0,
+        "sodium": 7.6,
+        "potassium": 1.5,
+        "calcium": 1.7,
+        "iron": 2.2
+      }
+    },
+    {
+      "imageFilename": "IMG_7884.jpg",
+      "caloriesKcal": 920,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 12.8,
+        "carbohydrate": 35.0,
+        "totalFat": 34.5,
+        "fiber": 2.7,
+        "sugar": 1.9,
+        "sodium": 5.7,
+        "potassium": 2.6,
+        "calcium": 2.0,
+        "iron": 2.7
+      }
+    },
+    {
+      "imageFilename": "IMG_8192.jpg",
+      "caloriesKcal": 780,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 11.7,
+        "carbohydrate": 45.0,
+        "totalFat": 26.3,
+        "fiber": 2.1,
+        "sugar": 1.9,
+        "sodium": 6.4,
+        "potassium": 2.5,
+        "calcium": 1.7,
+        "iron": 2.5
+      }
+    },
+    {
+      "imageFilename": "IMG_8390.jpg",
+      "caloriesKcal": 1080,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 16.2,
+        "carbohydrate": 38.9,
+        "totalFat": 28.0,
+        "fiber": 2.0,
+        "sugar": 1.9,
+        "sodium": 6.8,
+        "potassium": 2.2,
+        "calcium": 1.4,
+        "iron": 2.6
+      }
+    },
+    {
+      "imageFilename": "IMG_9228.jpg",
+      "caloriesKcal": 1100,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 11.9,
+        "carbohydrate": 38.2,
+        "totalFat": 32.2,
+        "fiber": 2.1,
+        "sugar": 2.5,
+        "sodium": 6.8,
+        "potassium": 2.3,
+        "calcium": 1.6,
+        "iron": 2.4
+      }
+    },
+    {
+      "imageFilename": "IMG_9349.jpg",
+      "caloriesKcal": 740,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 13.8,
+        "carbohydrate": 42.7,
+        "totalFat": 27.0,
+        "fiber": 1.8,
+        "sugar": 1.7,
+        "sodium": 7.0,
+        "potassium": 2.2,
+        "calcium": 1.2,
+        "iron": 2.7
+      }
+    },
+    {
+      "imageFilename": "IMG_9757.jpg",
+      "caloriesKcal": 1180,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 13.4,
+        "carbohydrate": 37.6,
+        "totalFat": 30.7,
+        "fiber": 0.7,
+        "sugar": 4.6,
+        "sodium": 7.3,
+        "potassium": 1.6,
+        "calcium": 1.8,
+        "iron": 2.4
+      }
+    },
+    {
+      "imageFilename": "IMG_9786.jpg",
+      "caloriesKcal": 980,
+      "dominantBody": "carbohydrate",
+      "orbVisualPercent": {
+        "protein": 11.5,
+        "carbohydrate": 44.5,
+        "totalFat": 28.0,
+        "fiber": 1.3,
+        "sugar": 1.6,
+        "sodium": 6.4,
+        "potassium": 1.8,
+        "calcium": 2.2,
+        "iron": 2.6
+      }
+    }
+  ]
+}

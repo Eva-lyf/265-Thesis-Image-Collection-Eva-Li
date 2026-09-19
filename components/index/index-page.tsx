@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { knownImageStoragePaths } from '@/lib/image-colors';
 import type { CollectionMeal } from '@/lib/meals';
-import { nutrientByKey, nutrientKeys } from '@/lib/nutrients';
+import { nutrientByKey, nutrientKeys, type NutrientKey } from '@/lib/nutrients';
 import {
   loadStorageImageUrl,
   mealsForStoragePaths,
@@ -40,44 +40,88 @@ const gridPattern = [
   'portrait',
 ] as const;
 
-function orbStyle(meal: CollectionMeal) {
-  const minimumVisibleShare = 1.5;
-  const weighted = nutrientKeys.map((key) =>
-    Math.pow(Math.max(0, meal.nutrients[key].normalizedPercent), 2),
-  );
-  const total = weighted.reduce((sum, value) => sum + value, 0);
-  const distributable = 100 - minimumVisibleShare * nutrientKeys.length;
-  const shares = weighted.map(
-    (value) =>
-      minimumVisibleShare +
-      (total > 0
-        ? (value / total) * distributable
-        : distributable / weighted.length),
-  );
-  const stops = shares.flatMap((share, index) => {
-    const start = shares
-      .slice(0, index)
-      .reduce((sum, previous) => sum + previous, 0);
-    const end = index === shares.length - 1 ? 100 : start + share;
-    const color = nutrientByKey[nutrientKeys[index]].color;
-    return [`${color} ${start}%`, `${color} ${end}%`];
-  });
-  const strongestIndex = weighted.reduce(
-    (strongest, value, index) =>
-      value > weighted[strongest] ? index : strongest,
+const blobPositions: Record<NutrientKey, readonly [number, number]> = {
+  protein: [30, 30],
+  carbohydrate: [68, 35],
+  totalFat: [60, 70],
+  fiber: [21, 67],
+  sugar: [36, 78],
+  sodium: [80, 55],
+  potassium: [17, 45],
+  calcium: [57, 17],
+  iron: [78, 80],
+};
+
+const orbShapes = [
+  '67% 33% 61% 39% / 43% 66% 34% 57%',
+  '39% 61% 32% 68% / 63% 41% 59% 37%',
+  '61% 39% 70% 30% / 36% 64% 42% 58%',
+  '34% 66% 43% 57% / 69% 38% 62% 31%',
+] as const;
+
+function mealHash(meal: CollectionMeal) {
+  return Array.from(meal.storagePath).reduce(
+    (hash, character) => (hash * 31 + character.charCodeAt(0)) >>> 0,
     0,
+  );
+}
+
+function orbStyle(meal: CollectionMeal) {
+  const strongest = nutrientKeys.reduce((current, key) =>
+    meal.orbVisualPercent[key] > meal.orbVisualPercent[current] ? key : current,
+  );
+  const hash = mealHash(meal);
+  const intensity = Math.min(
+    1.13,
+    Math.max(0.96, 0.96 + (meal.calories / 1600) * 0.17),
   );
 
   return {
-    '--index-orb-spectrum': `conic-gradient(from -90deg, ${stops.join(', ')})`,
-    '--index-orb-dominant': nutrientByKey[nutrientKeys[strongestIndex]].color,
+    '--index-orb-dominant': nutrientByKey[strongest].color,
+    '--index-orb-radius': orbShapes[hash % orbShapes.length],
+    '--index-orb-rotation': `${(hash % 9) - 4}deg`,
+    '--index-orb-scale-x': 0.94 + (hash % 7) * 0.018,
+    '--index-orb-scale-y': 0.95 + ((hash >>> 3) % 7) * 0.016,
+    '--index-orb-intensity': intensity,
   } as CSSProperties;
+}
+
+function orbLayers(meal: CollectionMeal) {
+  const total = nutrientKeys.reduce(
+    (sum, key) => sum + meal.orbVisualPercent[key],
+    0,
+  );
+
+  return nutrientKeys
+    .map((key) => {
+      const percent = (meal.orbVisualPercent[key] / total) * 100;
+      const proportion = Math.sqrt(percent / 100);
+      const [x, y] = blobPositions[key];
+      return {
+        key,
+        percent,
+        style: {
+          '--blob-color': nutrientByKey[key].color,
+          '--blob-x': `${x}%`,
+          '--blob-y': `${y}%`,
+          '--blob-size': `${Math.max(22, proportion * 145)}%`,
+          '--blob-opacity': Math.min(1, 0.72 + proportion * 0.42),
+          '--blob-blur': `${Math.max(1.5, 6 - proportion * 7)}px`,
+        } as CSSProperties,
+      };
+    })
+    .sort((first, second) => second.percent - first.percent);
 }
 
 function IndexOrb({ meal }: { meal: CollectionMeal }) {
   return (
     <span className={styles.orbWrap} aria-hidden="true">
-      <span className={styles.orb} style={orbStyle(meal)} />
+      <span className={styles.orb} style={orbStyle(meal)}>
+        {orbLayers(meal).map(({ key, style }) => (
+          <span className={styles.orbBlob} key={key} style={style} />
+        ))}
+        <span className={styles.orbLight} />
+      </span>
     </span>
   );
 }

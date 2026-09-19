@@ -1,4 +1,5 @@
 import nutritionDataset from '@/data/meal-nutrition.json';
+import orbVisualDataset from '@/data/nutrient-orb-v2.json';
 import {
   nutrientByKey,
   nutrientKeys,
@@ -51,6 +52,7 @@ export type Meal = {
   ingredients: string[];
   estimatedFoods: { name: string; estimatedGrams: number }[];
   nutrients: Record<NutrientKey, NutrientValue>;
+  orbVisualPercent: Record<NutrientKey, number>;
   confidence: number;
   estimationBasis: string;
   notes: string;
@@ -63,6 +65,20 @@ export type CollectionMeal = Meal & {
 };
 
 const sourceRecords = nutritionDataset.records as NutritionRecord[];
+
+type OrbVisualRecord = {
+  imageFilename: string;
+  caloriesKcal: number;
+  dominantBody: NutrientKey;
+  orbVisualPercent: Record<NutrientKey, number>;
+};
+
+const orbVisualByImageFilename = new Map(
+  (orbVisualDataset.records as OrbVisualRecord[]).map((record) => [
+    record.imageFilename,
+    record,
+  ]),
+);
 
 function percentile(values: readonly number[], percentileValue: number) {
   const sorted = [...values].sort((a, b) => a - b);
@@ -92,6 +108,12 @@ function guidanceFor(key: NutrientKey, normalizedPercent: number) {
 }
 
 export const meals: readonly Meal[] = sourceRecords.map((record) => {
+  const orbVisual = orbVisualByImageFilename.get(record.imageFilename);
+  if (!orbVisual) {
+    throw new Error(
+      `Missing Orb Visual percentages for ${record.imageFilename}`,
+    );
+  }
   const entries = nutrientKeys.map((key) => {
     const definition = nutrientByKey[key];
     const amount = record.nutrition[definition.amountField];
@@ -123,6 +145,7 @@ export const meals: readonly Meal[] = sourceRecords.map((record) => {
       NutrientKey,
       NutrientValue
     >,
+    orbVisualPercent: orbVisual.orbVisualPercent,
     confidence: record.confidence,
     estimationBasis: record.estimationBasis,
     notes: record.notes,

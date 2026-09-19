@@ -160,33 +160,69 @@
 }
 
 .orb {
-  width: min(74%, 230px);
+  position: relative;
+  width: min(78%, 238px);
   aspect-ratio: 1;
   display: block;
-  border-radius: 50%;
-  background:
-    radial-gradient(
-      circle at 50% 52%,
-      color-mix(in srgb, var(--index-orb-dominant) 96%, transparent) 0%,
-      color-mix(in srgb, var(--index-orb-dominant) 72%, transparent) 48%,
-      color-mix(in srgb, var(--index-orb-dominant) 18%, transparent) 82%,
-      transparent 100%
-    ),
-    linear-gradient(
-      color-mix(in srgb, var(--index-orb-dominant) 22%, transparent),
-      color-mix(in srgb, var(--index-orb-dominant) 22%, transparent)
-    ),
-    var(--index-orb-spectrum);
-  filter: saturate(2.15) contrast(1.08);
-  mask-image: radial-gradient(circle, #000 0 58%, #000e 67%, transparent 75%);
-  -webkit-mask-image: radial-gradient(
-    circle,
-    #000 0 58%,
-    #000e 67%,
-    transparent 75%
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--index-orb-radius);
+  background: color-mix(in srgb, var(--index-orb-dominant) 8%, transparent);
+  filter: brightness(var(--index-orb-intensity)) saturate(1.65) contrast(1.06)
+    drop-shadow(
+      0 12px 24px color-mix(in srgb, var(--index-orb-dominant) 11%, transparent)
+    );
+  mask-image: radial-gradient(
+    ellipse 61% 59% at 50% 50%,
+    #000 0 57%,
+    #000f 67%,
+    #000a 78%,
+    #0003 89%,
+    transparent 100%
   );
-  box-shadow: 0 22px 65px
-    color-mix(in srgb, var(--index-orb-dominant) 22%, transparent);
+  -webkit-mask-image: radial-gradient(
+    ellipse 61% 59% at 50% 50%,
+    #000 0 57%,
+    #000f 67%,
+    #000a 78%,
+    #0003 89%,
+    transparent 100%
+  );
+  transform: rotate(var(--index-orb-rotation))
+    scale(var(--index-orb-scale-x), var(--index-orb-scale-y));
+}
+
+.orbBlob {
+  position: absolute;
+  z-index: 1;
+  left: var(--blob-x);
+  top: var(--blob-y);
+  width: var(--blob-size);
+  aspect-ratio: 1;
+  border-radius: 48% 52% 58% 42% / 55% 45% 55% 45%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    var(--blob-color) 0 32%,
+    color-mix(in srgb, var(--blob-color) 92%, transparent) 48%,
+    color-mix(in srgb, var(--blob-color) 58%, transparent) 68%,
+    transparent 100%
+  );
+  opacity: var(--blob-opacity);
+  filter: blur(var(--blob-blur)) saturate(1.18);
+  mix-blend-mode: normal;
+  transform: translate(-50%, -50%);
+}
+
+.orbLight {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 31% 24%, #ffffff54 0 5%, transparent 19%),
+    radial-gradient(circle at 68% 74%, #ffffff1f 0, transparent 27%);
+  mix-blend-mode: screen;
+  opacity: 0.2;
 }
 
 @keyframes imageReveal {
