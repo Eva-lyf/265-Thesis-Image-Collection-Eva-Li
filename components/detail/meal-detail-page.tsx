@@ -101,7 +101,7 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
                 <dd>{insight.dominant}</dd>
               </div>
               <div>
-                <dt>High by Daily Value context</dt>
+                <dt>High by DV / collection context</dt>
                 <dd>{insight.high}</dd>
               </div>
               <div>
@@ -114,9 +114,17 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
               </div>
             </dl>
             <p className={styles.referenceNote}>
-              General context uses the FDA guide: 20% DV or more is high and 5%
-              DV or less is low. Total sugar uses this collection’s static
-              reference because it is not added sugar.
+              General context uses the{' '}
+              <a
+                href="https://www.fda.gov/food/nutrition-facts-label/daily-value-nutrition-and-supplement-facts-labels"
+                target="_blank"
+                rel="noreferrer"
+              >
+                FDA guide
+              </a>
+              : 20% DV or more is high and 5% DV or less is low. Total sugar
+              uses this collection’s static reference because it is not added
+              sugar.
             </p>
           </div>
           {imageFailed ? (
@@ -130,7 +138,10 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
             <NutrientOrbVisual meal={meal} detail active />
           </div>
           <div className={styles.nutrientReadout}>
-            <span className={styles.eyebrow}>NUTRIENT DISTRIBUTION</span>
+            <div className={styles.readoutHeading}>
+              <span className={styles.eyebrow}>NUTRIENT DISTRIBUTION</span>
+              <span>{meal.calories.toLocaleString('en-US')} KCAL</span>
+            </div>
             <div className={styles.nutrientRows}>
               {nutrientRows.map((key) => {
                 const nutrient = nutrientByKey[key];

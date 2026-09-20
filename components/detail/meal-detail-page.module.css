@@ -150,6 +150,11 @@
   line-height: 1.5;
 }
 
+.referenceNote a {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
 .photoPanel:hover .photoFrame,
 .photoPanel:focus-visible .photoFrame {
   filter: blur(22px) saturate(0.65) brightness(1.14);
@@ -191,6 +196,19 @@
   margin-top: 17px;
   display: grid;
   gap: clamp(8px, 1.2vh, 13px);
+}
+
+.readoutHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.readoutHeading > span:last-child {
+  color: #777;
+  font-size: 8px;
+  letter-spacing: 1px;
 }
 
 .nutrientRow {
