@@ -10,7 +10,7 @@ import {
   type CSSProperties,
 } from 'react';
 import { knownImageStoragePaths } from '@/lib/image-colors';
-import type { CollectionMeal } from '@/lib/meals';
+import type { CollectionMeal, Meal } from '@/lib/meals';
 import { nutrientNeonProfile } from '@/lib/nutrient-visuals';
 import { nutrientByKey, nutrientKeys, type NutrientKey } from '@/lib/nutrients';
 import {
@@ -90,8 +90,8 @@ function seededRange(
   return minimum + seededUnit(seed, salt) * (maximum - minimum);
 }
 
-function mealHash(meal: CollectionMeal) {
-  return hashString(meal.storagePath);
+function mealHash(meal: Meal) {
+  return hashString(meal.image.storagePath);
 }
 
 function organicRadius(seed: number, offset = 0) {
@@ -150,7 +150,7 @@ function compositionPoint(mealSeed: number, nutrientSeed: number) {
   }
 }
 
-function orbStyle(meal: CollectionMeal) {
+function orbStyle(meal: Meal) {
   const strongest = nutrientKeys.reduce((current, key) =>
     meal.orbVisualPercent[key] > meal.orbVisualPercent[current] ? key : current,
   );
@@ -199,7 +199,7 @@ function orbStyle(meal: CollectionMeal) {
   } as CSSProperties;
 }
 
-function orbLayers(meal: CollectionMeal) {
+function orbLayers(meal: Meal) {
   const total = nutrientKeys.reduce(
     (sum, key) => sum + meal.orbVisualPercent[key],
     0,
@@ -216,7 +216,7 @@ function orbLayers(meal: CollectionMeal) {
         neon.strength > 0.04 && neon.color
           ? neon.color
           : nutrientByKey[key].color;
-      const nutrientSeed = hashString(`${meal.storagePath}:${key}`);
+      const nutrientSeed = hashString(`${meal.image.storagePath}:${key}`);
       const mealSeed = mealHash(meal);
       const [rawX, rawY] = compositionPoint(mealSeed, nutrientSeed);
       const x = Math.min(92, Math.max(8, rawX));
@@ -323,10 +323,21 @@ function orbLayers(meal: CollectionMeal) {
     .sort((first, second) => first.depth - second.depth);
 }
 
-function IndexOrb({ meal }: { meal: CollectionMeal }) {
+export function NutrientOrbVisual({
+  meal,
+  detail = false,
+  active = false,
+}: {
+  meal: Meal;
+  detail?: boolean;
+  active?: boolean;
+}) {
   const seed = mealHash(meal);
   return (
-    <span className={styles.orbWrap} aria-hidden="true">
+    <span
+      className={`${styles.orbWrap} ${detail ? styles.orbDetail : ''} ${active ? styles.orbActive : ''}`}
+      aria-hidden="true"
+    >
       <span
         className={styles.orb}
         style={orbStyle(meal)}
@@ -350,7 +361,6 @@ function IndexOrb({ meal }: { meal: CollectionMeal }) {
 
 export default function IndexPage({ config }: IndexPageProps) {
   const [mode, setMode] = useState<IndexMode>('photos');
-  const [flippedId, setFlippedId] = useState<string | null>(null);
   const [selectedNutrient, setSelectedNutrient] = useState<NutrientKey | null>(
     null,
   );
@@ -443,12 +453,10 @@ export default function IndexPage({ config }: IndexPageProps) {
 
   function selectMode(nextMode: IndexMode) {
     setMode(nextMode);
-    setFlippedId(null);
   }
 
   function selectNutrient(nextNutrient: NutrientKey | null) {
     setSelectedNutrient(nextNutrient);
-    setFlippedId(null);
   }
 
   return (
@@ -530,15 +538,13 @@ export default function IndexPage({ config }: IndexPageProps) {
         >
           {orderedCollection.map((meal, index) => {
             const showPhotoFirst = mode === 'photos';
-            const flipped = flippedId === meal.id;
             return (
-              <button
-                type="button"
+              <a
+                href={`/meal/${meal.id}`}
                 key={meal.id}
                 data-meal-id={meal.id}
-                className={`${styles.card} ${styles[gridPattern[index % gridPattern.length]]} ${flipped ? styles.flipped : ''}`}
-                aria-label={`${showPhotoFirst ? 'Reveal color orb for' : 'Reveal photograph of'} ${meal.title}`}
-                onClick={() => setFlippedId(flipped ? null : meal.id)}
+                className={`${styles.card} ${styles[gridPattern[index % gridPattern.length]]}`}
+                aria-label={`View nutrition details for ${meal.title}`}
               >
                 <span className={styles.cardInner}>
                   <span className={`${styles.cardFace} ${styles.cardFront}`}>
@@ -557,12 +563,12 @@ export default function IndexPage({ config }: IndexPageProps) {
                         />
                       )
                     ) : (
-                      <IndexOrb meal={meal} />
+                      <NutrientOrbVisual meal={meal} />
                     )}
                   </span>
                   <span className={`${styles.cardFace} ${styles.cardBack}`}>
                     {showPhotoFirst ? (
-                      <IndexOrb meal={meal} />
+                      <NutrientOrbVisual meal={meal} />
                     ) : meal.imageUrl ? (
                       <img
                         src={meal.imageUrl}
@@ -575,7 +581,7 @@ export default function IndexPage({ config }: IndexPageProps) {
                     )}
                   </span>
                 </span>
-              </button>
+              </a>
             );
           })}
         </section>

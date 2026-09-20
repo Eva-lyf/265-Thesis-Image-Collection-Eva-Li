@@ -157,6 +157,9 @@
   padding: 18px 8px;
   border: 0;
   background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
   perspective: 1200px;
   transform-origin: center;
   transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -187,8 +190,7 @@
 }
 
 .card:hover .cardInner,
-.card:focus-visible .cardInner,
-.card.flipped .cardInner {
+.card:focus-visible .cardInner {
   transform: rotateY(180deg);
   transition-delay: 0ms;
 }
@@ -275,6 +277,10 @@
   animation-play-state: paused;
 }
 
+.orbDetail .orb {
+  width: min(86%, 520px);
+}
+
 .orbBlob {
   position: absolute;
   left: var(--blob-x);
@@ -305,7 +311,9 @@
 }
 
 .card[data-orb-active='true'] .orb,
-.card[data-orb-active='true'] .orbBlob {
+.card[data-orb-active='true'] .orbBlob,
+.orbActive .orb,
+.orbActive .orbBlob {
   animation-play-state: running;
 }
 

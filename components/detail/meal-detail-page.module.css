@@ -1,0 +1,354 @@
+.detailShell {
+  min-height: 100svh;
+  padding: 24px clamp(24px, 4vw, 68px) 30px;
+  overflow: hidden;
+  background: #fff;
+  color: #222;
+}
+
+.detailHeader {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #999;
+  font-size: 9px;
+  letter-spacing: 1.2px;
+}
+
+.detailHeader button {
+  padding: 7px 12px 7px 9px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 7px 22px #00000010;
+  color: #292929;
+  letter-spacing: 0.9px;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.detailHeader button:hover {
+  transform: translateX(-2px);
+  box-shadow: 0 9px 28px #00000018;
+}
+
+.detailHeader button span {
+  margin-right: 7px;
+}
+
+.detailGrid {
+  min-height: calc(100svh - 90px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: clamp(32px, 6vw, 100px);
+}
+
+.photoPanel,
+.orbPanel {
+  position: relative;
+  width: min(100%, 560px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  outline: none;
+}
+
+.photoFrame {
+  position: absolute;
+  inset: 3%;
+  display: grid;
+  place-items: center;
+  transition:
+    filter 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 520ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.photoFrame img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.imagePlaceholder {
+  width: 76%;
+  height: 88%;
+  background: linear-gradient(110deg, #f2f2ef 25%, #fafaf8 48%, #f2f2ef 70%);
+  background-size: 220% 100%;
+  animation: loading 1.7s ease-in-out infinite;
+}
+
+.photoReading {
+  position: absolute;
+  z-index: 2;
+  inset: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition:
+    opacity 420ms ease 80ms,
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1) 80ms;
+}
+
+.eyebrow {
+  color: #8b8b8b;
+  font-size: 8px;
+  letter-spacing: 1.55px;
+}
+
+.photoReading h1 {
+  max-width: 500px;
+  margin: 12px 0 24px;
+  font-size: clamp(17px, 1.65vw, 25px);
+  font-weight: 450;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+}
+
+.photoReading dl {
+  margin: 0;
+  display: grid;
+  gap: 13px;
+}
+
+.photoReading dl div {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.8fr) minmax(0, 1.2fr);
+  gap: 18px;
+}
+
+.photoReading dt,
+.photoReading dd {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.photoReading dt {
+  color: #777;
+  font-size: 9px;
+}
+
+.photoReading dd {
+  color: #1e1e1e;
+  font-size: 10px;
+  font-weight: 550;
+}
+
+.referenceNote {
+  max-width: 470px;
+  margin: 23px 0 0;
+  color: #888;
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.photoPanel:hover .photoFrame,
+.photoPanel:focus-visible .photoFrame {
+  filter: blur(22px) saturate(0.65) brightness(1.14);
+  opacity: 0.2;
+  transform: scale(1.025);
+}
+
+.photoPanel:hover .photoReading,
+.photoPanel:focus-visible .photoReading {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.orbVisual {
+  position: absolute;
+  inset: 0;
+  transition:
+    filter 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 520ms ease,
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nutrientReadout {
+  position: absolute;
+  z-index: 3;
+  inset: 8% 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition:
+    opacity 460ms ease 100ms,
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;
+}
+
+.nutrientRows {
+  margin-top: 17px;
+  display: grid;
+  gap: clamp(8px, 1.2vh, 13px);
+}
+
+.nutrientRow {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 7px minmax(28px, 1fr) minmax(72px, 0.75fr) 58px 66px;
+  align-items: center;
+  gap: 9px;
+}
+
+.nutrientRow i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--nutrient-color);
+  box-shadow: 0 0 10px
+    color-mix(in srgb, var(--nutrient-color) 48%, transparent);
+}
+
+.dashedLine {
+  height: 1px;
+  border-top: 1px dashed var(--nutrient-color);
+  opacity: 0.78;
+}
+
+.nutrientRow strong {
+  color: #242424;
+  font-size: 10px;
+  font-weight: 560;
+}
+
+.nutrientRow > span:not(.dashedLine) {
+  color: #222;
+  font-size: 9px;
+  font-weight: 560;
+  text-align: right;
+}
+
+.nutrientRow small {
+  color: #888;
+  font-size: 8px;
+  text-align: right;
+}
+
+.orbPanel:hover .orbVisual,
+.orbPanel:focus-visible .orbVisual {
+  filter: blur(18px) saturate(0.68) brightness(1.12);
+  opacity: 0.16;
+  transform: scale(1.025);
+}
+
+.orbPanel:hover .nutrientReadout,
+.orbPanel:focus-visible .nutrientReadout {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.interactionHint {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  margin: 0;
+  color: #aaa;
+  font-size: 7px;
+  letter-spacing: 1.35px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  transition: opacity 220ms ease;
+}
+
+.photoPanel:hover .interactionHint,
+.photoPanel:focus-visible .interactionHint,
+.orbPanel:hover .interactionHint,
+.orbPanel:focus-visible .interactionHint {
+  opacity: 0;
+}
+
+.imageError {
+  position: absolute;
+  margin: 0;
+  color: #999;
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.missing {
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  gap: 15px;
+  text-align: center;
+}
+
+.missing p {
+  margin: 0;
+}
+
+.missing a {
+  color: #222;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+@keyframes loading {
+  to {
+    background-position: -220% 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .detailShell {
+    overflow: visible;
+  }
+
+  .detailGrid {
+    padding: 30px 0 55px;
+    grid-template-columns: 1fr;
+    gap: 54px;
+  }
+
+  .photoPanel,
+  .orbPanel {
+    width: min(92vw, 520px);
+  }
+
+  .photoReading dl div {
+    grid-template-columns: minmax(115px, 0.75fr) minmax(0, 1.25fr);
+  }
+}
+
+@media (max-width: 430px) {
+  .detailShell {
+    padding-inline: 15px;
+  }
+
+  .nutrientRow {
+    grid-template-columns: 7px minmax(20px, 1fr) minmax(68px, 0.8fr) 53px 58px;
+    gap: 6px;
+  }
+
+  .photoReading {
+    inset: 4%;
+  }
+
+  .photoReading h1 {
+    margin-bottom: 16px;
+  }
+
+  .photoReading dl {
+    gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photoFrame,
+  .photoReading,
+  .orbVisual,
+  .nutrientReadout {
+    transition: none;
+  }
+}
