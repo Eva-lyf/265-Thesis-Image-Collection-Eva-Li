@@ -57,7 +57,7 @@ export function mealInsight(meal: Meal): MealInsight {
     balanceCues.push('favor lower-sodium choices');
   }
   if (meal.nutrients.sugar.normalizedPercent >= 75) {
-    balanceCues.push('keep added sweets and sweet drinks lighter');
+    balanceCues.push('consider a less sweet drink or dessert');
   }
   if ((meal.nutrients.totalFat.dvPercent ?? 0) >= 20) {
     balanceCues.push('choose a lighter cooking method or leaner protein');

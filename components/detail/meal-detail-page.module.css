@@ -50,7 +50,7 @@
 .photoPanel,
 .orbPanel {
   position: relative;
-  width: min(100%, 560px);
+  width: min(100%, 500px);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -59,7 +59,7 @@
 
 .photoFrame {
   position: absolute;
-  inset: 3%;
+  inset: 7%;
   display: grid;
   place-items: center;
   transition:
@@ -170,11 +170,16 @@
 
 .orbVisual {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  width: min(82%, 450px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
   transition:
-    filter 720ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 520ms ease,
-    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+    filter 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 380ms ease,
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .nutrientReadout {
@@ -214,7 +219,10 @@
 .nutrientRow {
   min-width: 0;
   display: grid;
-  grid-template-columns: 7px minmax(28px, 1fr) minmax(72px, 0.75fr) 58px 66px;
+  grid-template-columns: 7px clamp(34px, 5vw, 64px) minmax(
+      72px,
+      0.75fr
+    ) 58px 66px;
   align-items: center;
   gap: 9px;
 }
@@ -253,15 +261,13 @@
   text-align: right;
 }
 
-.orbPanel:hover .orbVisual,
-.orbPanel:focus-visible .orbVisual {
+.orbVisual:hover {
   filter: blur(18px) saturate(0.68) brightness(1.12);
   opacity: 0.16;
-  transform: scale(1.025);
+  transform: translate(-50%, -50%) scale(1.025);
 }
 
-.orbPanel:hover .nutrientReadout,
-.orbPanel:focus-visible .nutrientReadout {
+.orbVisual:hover + .nutrientReadout {
   opacity: 1;
   transform: translateY(0);
 }
@@ -280,9 +286,7 @@
 }
 
 .photoPanel:hover .interactionHint,
-.photoPanel:focus-visible .interactionHint,
-.orbPanel:hover .interactionHint,
-.orbPanel:focus-visible .interactionHint {
+.photoPanel:focus-visible .interactionHint {
   opacity: 0;
 }
 
@@ -331,7 +335,7 @@
 
   .photoPanel,
   .orbPanel {
-    width: min(92vw, 520px);
+    width: min(88vw, 480px);
   }
 
   .photoReading dl div {
@@ -345,7 +349,7 @@
   }
 
   .nutrientRow {
-    grid-template-columns: 7px minmax(20px, 1fr) minmax(68px, 0.8fr) 53px 58px;
+    grid-template-columns: 7px 34px minmax(68px, 0.8fr) 53px 58px;
     gap: 6px;
   }
 
@@ -359,6 +363,18 @@
 
   .photoReading dl {
     gap: 8px;
+  }
+}
+
+@media (hover: none) {
+  .orbVisual {
+    filter: blur(18px) saturate(0.68) brightness(1.12);
+    opacity: 0.16;
+  }
+
+  .nutrientReadout {
+    opacity: 1;
+    transform: none;
   }
 }
 

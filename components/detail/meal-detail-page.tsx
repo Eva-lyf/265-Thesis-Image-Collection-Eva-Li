@@ -2,6 +2,7 @@
 /* oxlint-disable next/no-img-element, next/no-html-link-for-pages -- Supabase image URLs are signed at runtime; a plain fallback link avoids vinext Link hydration issues */
 
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import InfoPopover from '@/components/info-popover';
 import { NutrientOrbVisual } from '@/components/index/index-page';
 import { knownImageStoragePaths } from '@/lib/image-colors';
 import { mealInsight } from '@/lib/meal-insights';
@@ -168,9 +169,52 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
               })}
             </div>
           </div>
-          <p className={styles.interactionHint}>HOVER TO READ ALL NUTRIENTS</p>
         </article>
       </section>
+      <InfoPopover label="About the nutrition calculations and guidance">
+        <p>
+          <strong>Daily Value percentage</strong>
+          %DV is calculated as the estimated nutrient amount in the pictured
+          meal divided by the FDA Daily Value, multiplied by 100. The FDA uses
+          5% DV or less as a general low threshold and 20% DV or more as a high
+          threshold.
+        </p>
+        <p>
+          <strong>Total sugar and Orb color</strong>
+          Total sugar has no FDA Daily Value, so this project compares it with
+          the collection’s static 90th-percentile total-sugar reference. Orb
+          color area comes from the pre-analyzed relative share of the nine
+          normalized nutrients; it is different from grams and from %DV.
+        </p>
+        <p>
+          <strong>Meal guidance</strong>
+          The next-meal note is a rule-based balancing cue from this static
+          dataset, not an individualized meal prescription. FDA guidance uses
+          %DV to balance higher- and lower-nutrient choices across the day; USDA
+          MyPlate encourages fruits, vegetables, whole grains, and varied
+          protein foods. There is no single required nutrient ratio for every
+          meal. The total-sugar estimate cannot distinguish added from natural
+          sugar.
+        </p>
+        <p>
+          Sources:{' '}
+          <a
+            href="https://www.fda.gov/food/nutrition-facts-label/daily-value-nutrition-and-supplement-facts-labels"
+            target="_blank"
+            rel="noreferrer"
+          >
+            FDA Daily Value
+          </a>{' '}
+          ·{' '}
+          <a
+            href="https://www.myplate.gov/sites/default/files/2024-05/create-your-own-myplate-menu.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            USDA MyPlate
+          </a>
+        </p>
+      </InfoPopover>
     </main>
   );
 }

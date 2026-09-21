@@ -1,0 +1,92 @@
+.infoPopover {
+  position: fixed;
+  z-index: 100;
+  left: clamp(14px, 2vw, 30px);
+  bottom: clamp(14px, 2vw, 26px);
+}
+
+.infoPopover summary {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 8px 24px #00000014,
+    0 2px 7px #0000000a;
+  color: #3c3c3c;
+  cursor: pointer;
+  font-size: 11px;
+  list-style: none;
+  transition:
+    transform 240ms ease,
+    box-shadow 240ms ease;
+}
+
+.infoPopover summary::-webkit-details-marker {
+  display: none;
+}
+
+.infoPopover summary:hover,
+.infoPopover[open] summary {
+  transform: translateY(-2px);
+  box-shadow:
+    0 11px 28px #0000001a,
+    0 3px 9px #0000000d;
+}
+
+.infoPopover[open] summary {
+  color: #fff;
+  background: #252525;
+}
+
+.infoPanel {
+  position: absolute;
+  left: 0;
+  bottom: 39px;
+  width: min(390px, calc(100vw - 30px));
+  max-height: min(520px, calc(100svh - 90px));
+  overflow: auto;
+  padding: 24px 25px;
+  border: 1px solid #0000000a;
+  border-radius: 2px;
+  background: #fffffff7;
+  box-shadow: 0 22px 60px #00000017;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #3f3f3f;
+  font-size: 10px;
+  line-height: 1.55;
+  animation: infoEnter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.infoPanel p {
+  margin: 0;
+}
+
+.infoPanel p + p {
+  margin-top: 17px;
+}
+
+.infoPanel strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #202020;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.infoPanel a {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
+@keyframes infoEnter {
+  from {
+    opacity: 0;
+    transform: translateY(7px) scale(0.985);
+  }
+}

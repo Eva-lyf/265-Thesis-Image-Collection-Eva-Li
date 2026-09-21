@@ -9,6 +9,7 @@ import {
   useState,
   type CSSProperties,
 } from 'react';
+import InfoPopover from '@/components/info-popover';
 import { knownImageStoragePaths } from '@/lib/image-colors';
 import type { CollectionMeal, Meal } from '@/lib/meals';
 import { nutrientNeonProfile } from '@/lib/nutrient-visuals';
@@ -586,6 +587,20 @@ export default function IndexPage({ config }: IndexPageProps) {
           })}
         </section>
       </div>
+      <InfoPopover label="About this nutrient index">
+        <p>
+          Each color represents a type of nutrient. Every meal has its own
+          color. Click on one meal/orb to see detailed nutrient composition.
+        </p>
+        <p>
+          <strong>Browse by nutrient</strong>
+          Meals are organized by the relative proportion of each nutrient within
+          the meal’s overall nutritional profile, rather than by its absolute
+          amount. A meal with less protein in grams may therefore rank higher if
+          protein makes up a larger share of that meal’s overall nutritional
+          composition.
+        </p>
+      </InfoPopover>
     </main>
   );
 }
