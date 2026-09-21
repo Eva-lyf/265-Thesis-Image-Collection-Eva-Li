@@ -274,7 +274,6 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
           {imageFailed ? (
             <p className={styles.imageError}>IMAGE UNAVAILABLE</p>
           ) : null}
-          <p className={styles.interactionHint}>HOVER TO READ THE MEAL</p>
         </article>
         {connectors.length > 0 ? (
           <svg
@@ -313,6 +312,12 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
         ) : null}
       </section>
       <InfoPopover label="About the nutrition calculations and guidance">
+        <p>
+          <strong>Hover to read</strong>
+          Hover over the Orb to see its nutrient breakdown over the photo. Hover
+          over the photo to read the meal suggestion over the Orb. On a touch
+          screen, tap either one.
+        </p>
         <p>
           <strong>Daily Value percentage</strong>
           %DV is calculated as the estimated nutrient amount in the pictured
