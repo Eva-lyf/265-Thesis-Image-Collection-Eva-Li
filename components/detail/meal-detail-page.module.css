@@ -39,12 +39,14 @@
 }
 
 .detailGrid {
+  position: relative;
   min-height: calc(100svh - 90px);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
   justify-items: center;
   gap: clamp(32px, 6vw, 100px);
+  transform: translateY(-clamp(24px, 5vh, 56px));
 }
 
 .photoPanel,
@@ -62,6 +64,10 @@
   inset: 7%;
   display: grid;
   place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   transition:
     filter 620ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 520ms ease,
@@ -155,15 +161,13 @@
   text-underline-offset: 2px;
 }
 
-.photoPanel:hover .photoFrame,
-.photoPanel:focus-visible .photoFrame {
+[data-active='nutrients'] .photoFrame {
   filter: blur(22px) saturate(0.65) brightness(1.14);
   opacity: 0.2;
   transform: scale(1.025);
 }
 
-.photoPanel:hover .photoReading,
-.photoPanel:focus-visible .photoReading {
+[data-active='meal'] .photoReading {
   opacity: 1;
   transform: translateY(0);
 }
@@ -174,7 +178,13 @@
   left: 50%;
   width: min(82%, 450px);
   aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
   transform: translate(-50%, -50%);
   transition:
     filter 380ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -195,6 +205,22 @@
   transition:
     opacity 460ms ease 100ms,
     transform 680ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;
+}
+
+.nutrientConnectors {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  overflow: visible;
+  transition: opacity 460ms ease 100ms;
+}
+
+[data-active='nutrients'] .nutrientConnectors {
+  opacity: 0.84;
 }
 
 .nutrientRows {
@@ -219,27 +245,9 @@
 .nutrientRow {
   min-width: 0;
   display: grid;
-  grid-template-columns: 7px clamp(34px, 5vw, 64px) minmax(
-      72px,
-      0.75fr
-    ) 58px 66px;
+  grid-template-columns: minmax(72px, 1fr) 58px 66px;
   align-items: center;
   gap: 9px;
-}
-
-.nutrientRow i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--nutrient-color);
-  box-shadow: 0 0 10px
-    color-mix(in srgb, var(--nutrient-color) 48%, transparent);
-}
-
-.dashedLine {
-  height: 1px;
-  border-top: 1px dashed var(--nutrient-color);
-  opacity: 0.78;
 }
 
 .nutrientRow strong {
@@ -261,15 +269,21 @@
   text-align: right;
 }
 
-.orbVisual:hover {
+[data-active='meal'] .orbVisual {
   filter: blur(18px) saturate(0.68) brightness(1.12);
   opacity: 0.16;
   transform: translate(-50%, -50%) scale(1.025);
 }
 
-.orbVisual:hover + .nutrientReadout {
+[data-active='nutrients'] .nutrientReadout {
   opacity: 1;
   transform: translateY(0);
+}
+
+.orbVisual:focus-visible,
+.photoFrame:focus-visible {
+  outline: 1px solid #2b2b2b;
+  outline-offset: 7px;
 }
 
 .interactionHint {
@@ -285,8 +299,7 @@
   transition: opacity 220ms ease;
 }
 
-.photoPanel:hover .interactionHint,
-.photoPanel:focus-visible .interactionHint {
+[data-active='meal'] .interactionHint {
   opacity: 0;
 }
 
@@ -331,6 +344,11 @@
     padding: 30px 0 55px;
     grid-template-columns: 1fr;
     gap: 54px;
+    transform: none;
+  }
+
+  .nutrientConnectors {
+    display: none;
   }
 
   .photoPanel,
@@ -349,7 +367,7 @@
   }
 
   .nutrientRow {
-    grid-template-columns: 7px 34px minmax(68px, 0.8fr) 53px 58px;
+    grid-template-columns: minmax(68px, 1fr) 53px 58px;
     gap: 6px;
   }
 
@@ -366,23 +384,12 @@
   }
 }
 
-@media (hover: none) {
-  .orbVisual {
-    filter: blur(18px) saturate(0.68) brightness(1.12);
-    opacity: 0.16;
-  }
-
-  .nutrientReadout {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .photoFrame,
   .photoReading,
   .orbVisual,
-  .nutrientReadout {
+  .nutrientReadout,
+  .nutrientConnectors {
     transition: none;
   }
 }

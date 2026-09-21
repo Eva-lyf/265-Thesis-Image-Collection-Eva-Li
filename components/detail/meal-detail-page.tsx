@@ -1,7 +1,14 @@
 'use client';
 /* oxlint-disable next/no-img-element, next/no-html-link-for-pages -- Supabase image URLs are signed at runtime; a plain fallback link avoids vinext Link hydration issues */
 
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent,
+} from 'react';
 import InfoPopover from '@/components/info-popover';
 import { NutrientOrbVisual } from '@/components/index/index-page';
 import { knownImageStoragePaths } from '@/lib/image-colors';
@@ -19,6 +26,15 @@ type MealDetailPageProps = {
   config: SupabaseStorageConfig;
 };
 
+type ActiveReading = 'nutrients' | 'meal' | null;
+type NutrientConnector = {
+  key: (typeof nutrientKeys)[number];
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+};
+
 function formatAmount(amount: number, unit: 'g' | 'mg') {
   const fractionDigits = amount < 10 ? 1 : 0;
   return `${amount.toLocaleString('en-US', { maximumFractionDigits: fractionDigits })} ${unit}`;
@@ -27,6 +43,12 @@ function formatAmount(amount: number, unit: 'g' | 'mg') {
 export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
   const [imageUrl, setImageUrl] = useState('');
   const [imageFailed, setImageFailed] = useState(false);
+  const [activeReading, setActiveReading] = useState<ActiveReading>(null);
+  const [connectorSize, setConnectorSize] = useState({ width: 0, height: 0 });
+  const [connectors, setConnectors] = useState<NutrientConnector[]>([]);
+  const gridRef = useRef<HTMLElement>(null);
+  const orbRef = useRef<HTMLButtonElement>(null);
+  const readoutRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!meal) return;
@@ -61,6 +83,60 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
     [meal],
   );
 
+  useLayoutEffect(() => {
+    const grid = gridRef.current;
+    const orb = orbRef.current;
+    const readout = readoutRef.current;
+    if (!grid || !orb || !readout || !meal) return;
+
+    const updateConnectors = () => {
+      const gridBox = grid.getBoundingClientRect();
+      const orbBox = orb.getBoundingClientRect();
+      const centerX = orbBox.left - gridBox.left + orbBox.width / 2;
+      const centerY = orbBox.top - gridBox.top + orbBox.height / 2;
+      const radius = orbBox.width * 0.43;
+      const rows = Array.from(
+        readout.querySelectorAll<HTMLElement>('[data-nutrient-row]'),
+      );
+
+      setConnectorSize({ width: gridBox.width, height: gridBox.height });
+      setConnectors(
+        rows.map((row, index) => {
+          const label = row.querySelector('strong')?.getBoundingClientRect();
+          const rowBox = row.getBoundingClientRect();
+          const angle =
+            ((-72 + (144 * index) / Math.max(rows.length - 1, 1)) * Math.PI) /
+            180;
+          return {
+            key: nutrientRows[index],
+            startX: centerX + Math.cos(angle) * radius,
+            startY: centerY + Math.sin(angle) * radius,
+            endX: (label?.left ?? rowBox.left) - gridBox.left - 10,
+            endY: rowBox.top - gridBox.top + rowBox.height / 2,
+          };
+        }),
+      );
+    };
+
+    updateConnectors();
+    const observer = new ResizeObserver(updateConnectors);
+    observer.observe(grid);
+    observer.observe(orb);
+    observer.observe(readout);
+    return () => observer.disconnect();
+  }, [meal, nutrientRows]);
+
+  function activateOnPointer(
+    event: PointerEvent<HTMLButtonElement>,
+    reading: Exclude<ActiveReading, null>,
+  ) {
+    if (event.pointerType !== 'touch') setActiveReading(reading);
+  }
+
+  function activateOnTouch(reading: Exclude<ActiveReading, null>) {
+    if (window.matchMedia('(hover: none)').matches) setActiveReading(reading);
+  }
+
   function goBack() {
     if (window.history.length > 1) window.history.back();
     else window.location.href = '/';
@@ -84,15 +160,31 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
         <span>{meal.id.replace('meal-', 'MEAL ')}</span>
       </header>
 
-      <section className={styles.detailGrid} aria-label={meal.title}>
-        <article className={styles.photoPanel}>
-          <div className={styles.photoFrame}>
-            {imageUrl ? (
-              <img src={imageUrl} alt={meal.image.alt} decoding="async" />
-            ) : (
-              <span className={styles.imagePlaceholder} aria-hidden="true" />
-            )}
-          </div>
+      <section
+        ref={gridRef}
+        className={styles.detailGrid}
+        aria-label={meal.title}
+        data-active={activeReading ?? undefined}
+      >
+        <article className={styles.orbPanel}>
+          <button
+            ref={orbRef}
+            type="button"
+            className={styles.orbVisual}
+            aria-label="Show nutrient distribution"
+            onPointerEnter={(event) => activateOnPointer(event, 'nutrients')}
+            onPointerLeave={(event) => {
+              if (event.pointerType !== 'touch') setActiveReading(null);
+            }}
+            onFocus={(event) => {
+              if (event.currentTarget.matches(':focus-visible'))
+                setActiveReading('nutrients');
+            }}
+            onBlur={() => setActiveReading(null)}
+            onClick={() => activateOnTouch('nutrients')}
+          >
+            <NutrientOrbVisual meal={meal} detail active />
+          </button>
           <div className={styles.photoReading}>
             <span className={styles.eyebrow}>MEAL READING</span>
             <h1>{meal.title}</h1>
@@ -128,17 +220,31 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
               sugar.
             </p>
           </div>
-          {imageFailed ? (
-            <p className={styles.imageError}>IMAGE UNAVAILABLE</p>
-          ) : null}
-          <p className={styles.interactionHint}>HOVER TO READ THE MEAL</p>
         </article>
 
-        <article className={styles.orbPanel}>
-          <div className={styles.orbVisual}>
-            <NutrientOrbVisual meal={meal} detail active />
-          </div>
-          <div className={styles.nutrientReadout}>
+        <article className={styles.photoPanel}>
+          <button
+            type="button"
+            className={styles.photoFrame}
+            aria-label="Show meal reading"
+            onPointerEnter={(event) => activateOnPointer(event, 'meal')}
+            onPointerLeave={(event) => {
+              if (event.pointerType !== 'touch') setActiveReading(null);
+            }}
+            onFocus={(event) => {
+              if (event.currentTarget.matches(':focus-visible'))
+                setActiveReading('meal');
+            }}
+            onBlur={() => setActiveReading(null)}
+            onClick={() => activateOnTouch('meal')}
+          >
+            {imageUrl ? (
+              <img src={imageUrl} alt={meal.image.alt} decoding="async" />
+            ) : (
+              <span className={styles.imagePlaceholder} aria-hidden="true" />
+            )}
+          </button>
+          <div ref={readoutRef} className={styles.nutrientReadout}>
             <div className={styles.readoutHeading}>
               <span className={styles.eyebrow}>NUTRIENT DISTRIBUTION</span>
               <span>{meal.calories.toLocaleString('en-US')} KCAL</span>
@@ -155,12 +261,8 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
                   <div
                     className={styles.nutrientRow}
                     key={key}
-                    style={
-                      { '--nutrient-color': nutrient.color } as CSSProperties
-                    }
+                    data-nutrient-row={key}
                   >
-                    <i aria-hidden="true" />
-                    <span className={styles.dashedLine} aria-hidden="true" />
                     <strong>{nutrient.label}</strong>
                     <span>{percent}</span>
                     <small>{formatAmount(value.amount, nutrient.unit)}</small>
@@ -169,7 +271,46 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
               })}
             </div>
           </div>
+          {imageFailed ? (
+            <p className={styles.imageError}>IMAGE UNAVAILABLE</p>
+          ) : null}
+          <p className={styles.interactionHint}>HOVER TO READ THE MEAL</p>
         </article>
+        {connectors.length > 0 ? (
+          <svg
+            className={styles.nutrientConnectors}
+            viewBox={`0 0 ${connectorSize.width} ${connectorSize.height}`}
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            {connectors.map((connector) => {
+              const color = nutrientByKey[connector.key].color;
+              const middleX =
+                connector.startX + (connector.endX - connector.startX) * 0.56;
+              return (
+                <g key={connector.key}>
+                  <path
+                    d={`M ${connector.startX} ${connector.startY} C ${middleX} ${connector.startY}, ${middleX} ${connector.endY}, ${connector.endX} ${connector.endY}`}
+                    stroke={color}
+                    strokeWidth="1.2"
+                    strokeDasharray="4 5"
+                    fill="none"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <circle
+                    cx={connector.startX}
+                    cy={connector.startY}
+                    r="5"
+                    fill={color}
+                    stroke="white"
+                    strokeWidth="1.8"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </g>
+              );
+            })}
+          </svg>
+        ) : null}
       </section>
       <InfoPopover label="About the nutrition calculations and guidance">
         <p>
