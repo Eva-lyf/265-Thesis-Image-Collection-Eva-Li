@@ -164,7 +164,6 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
         <button type="button" onClick={goBack} aria-label="Back to index">
           <span aria-hidden="true">←</span> BACK
         </button>
-        <span>{meal.id.replace('meal-', 'MEAL ')}</span>
       </header>
 
       <section
