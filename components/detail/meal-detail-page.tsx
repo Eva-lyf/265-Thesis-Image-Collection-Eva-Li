@@ -92,9 +92,9 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
     const updateConnectors = () => {
       const gridBox = grid.getBoundingClientRect();
       const orbBox = orb.getBoundingClientRect();
-      const centerX = orbBox.left - gridBox.left + orbBox.width / 2;
       const centerY = orbBox.top - gridBox.top + orbBox.height / 2;
-      // Keep each color marker just outside the Orb's soft, uneven edge.
+      const orbRight = orbBox.right - gridBox.left;
+      // Place markers in an irregular arc outside the Orb's right edge.
       const radius = orbBox.width * 0.59;
       const rows = Array.from(
         readout.querySelectorAll<HTMLElement>('[data-nutrient-row]'),
@@ -110,10 +110,16 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
             180;
           return {
             key: nutrientRows[index],
-            startX: centerX + Math.cos(angle) * radius,
+            startX:
+              orbRight -
+              orbBox.width * 0.15 +
+              Math.cos(angle) * orbBox.width * 0.29,
             startY: centerY + Math.sin(angle) * radius,
             endX: (label?.left ?? rowBox.left) - gridBox.left - 10,
-            endY: rowBox.top - gridBox.top + rowBox.height / 2,
+            endY:
+              (label?.top ?? rowBox.top) -
+              gridBox.top +
+              (label?.height ?? rowBox.height) / 2,
           };
         }),
       );
@@ -323,11 +329,18 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
           screen, tap either one.
         </p>
         <p>
-          <strong>Daily Value percentage</strong>
-          %DV is calculated as the estimated nutrient amount in the pictured
-          meal divided by the FDA Daily Value, multiplied by 100. The FDA uses
-          5% DV or less as a general low threshold and 20% DV or more as a high
-          threshold.
+          <strong>
+            %DV shows how much a nutrient in this meal contributes to the FDA’s
+            reference amount for an entire day.
+          </strong>{' '}
+          For example, if the Daily Value for protein is 50 g, a meal containing
+          25 g of protein provides 50% DV; 50 g provides 100% DV.
+        </p>
+        <p>
+          %DV is a daily reference, not a recommended amount for a single meal.
+          A higher percentage does not necessarily mean “better” or “too much.”
+          As a general guide for reading nutrition labels, 5% DV or less is
+          considered low, while 20% DV or more is considered high.
         </p>
         <p>
           <strong>Total sugar and Orb color</strong>

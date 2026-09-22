@@ -601,6 +601,54 @@ export default function IndexPage({ config }: IndexPageProps) {
           protein makes up a larger share of that meal’s overall nutritional
           composition.
         </p>
+        <p>
+          <strong>ORB VISUALIZATION</strong>
+          Each Orb translates the estimated nutritional profile of a meal into a
+          data-informed composition of color. The size and prominence of each
+          color are determined by a set of <b>visual weighting coefficients</b>,
+          rather than by literal nutrient mass or % Daily Value.
+        </p>
+        <p>
+          Protein, carbohydrate, and fat form the primary color body. Their
+          estimated amounts are weighted by factors of 4, 4, and 9. This
+          structure is informed by their relative energy contribution, but is
+          used here as a{' '}
+          <b>design decision rather than a nutritional recommendation</b>. In
+          particular, fat receives greater visual emphasis because of its higher
+          energy density, making fat-rich meals more visually apparent within
+          the collection.
+        </p>
+        <p>
+          Fiber and total sugar form secondary color fields. Fiber is weighted
+          at 2 to remain visible without competing with the primary
+          macronutrients. Total sugar is weighted at 1.5 because sugar is
+          already included within total carbohydrate; the reduced weight allows
+          sugar to appear as an additional signal without giving it the same
+          structural emphasis twice.
+        </p>
+        <p>
+          Sodium, potassium, calcium, and iron are normalized against their
+          reference values and rendered only as accent layers. Together, these
+          minerals are limited to 15% of the total body’s visual weight so that
+          micronutrients cannot visually overpower the principal nutrients.
+        </p>
+        <p>
+          The resulting weights are normalized into a single visual composition.{' '}
+          <b>
+            A larger color field therefore means that a nutrient has greater
+            prominence within this visualization system—not that it literally
+            occupies that percentage of the food.
+          </b>{' '}
+          Calories do not receive their own color; instead, they influence the
+          Orb’s overall luminosity and intensity.
+        </p>
+        <p>
+          <b>
+            Orb Visual % is a design visualization value. It is not % Daily
+            Value, a dietary recommendation, or a literal chemical percentage of
+            the meal.
+          </b>
+        </p>
       </InfoPopover>
     </main>
   );

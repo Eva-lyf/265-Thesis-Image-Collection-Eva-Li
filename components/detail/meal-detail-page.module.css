@@ -63,9 +63,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(82%, 450px);
-  height: min(82%, 450px);
-  aspect-ratio: 1;
+  width: min(100%, 510px);
+  height: min(75svh, 730px);
   display: grid;
   place-items: center;
   min-width: 0;
@@ -101,7 +100,7 @@
 .photoReading {
   position: absolute;
   z-index: 2;
-  inset: 8%;
+  inset: 4% -5% 8% 7%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -115,8 +114,8 @@
 
 .photoReading h1 {
   max-width: 500px;
-  margin: 0 0 26px;
-  font-size: clamp(19px, 1.85vw, 27px);
+  margin: 0 0 clamp(62px, 8vh, 92px);
+  font-size: clamp(22px, 2vw, 31px);
   font-weight: 450;
   line-height: 1.18;
   letter-spacing: -0.025em;
@@ -124,13 +123,15 @@
 
 .photoReading dl {
   margin: 0;
+  margin-left: -20px;
+  width: calc(100% + 20px);
   display: grid;
-  gap: 14px;
+  gap: 17px;
 }
 
 .photoReading dl div {
   display: grid;
-  grid-template-columns: minmax(140px, 0.8fr) minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
   gap: 18px;
 }
 
@@ -142,13 +143,13 @@
 
 .photoReading dt {
   color: #222;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .photoReading dd {
   color: #1e1e1e;
-  font-size: 12px;
-  font-weight: 550;
+  font-size: 13px;
+  font-weight: 650;
 }
 
 .referenceNote {
@@ -198,16 +199,13 @@
 .nutrientReadout {
   position: absolute;
   z-index: 3;
-  inset: 8% 3%;
+  inset: 0 1% 0 6%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(10px);
-  transition:
-    opacity 460ms ease 100ms,
-    transform 680ms cubic-bezier(0.22, 1, 0.36, 1) 100ms;
+  transition: opacity 460ms ease 100ms;
 }
 
 .nutrientConnectors {
@@ -227,7 +225,7 @@
 }
 
 .nutrientRows {
-  margin-top: 32px;
+  margin-top: 105px;
   display: grid;
   gap: clamp(10px, 1.35vh, 14px);
 }
@@ -287,7 +285,6 @@
 
 [data-active='nutrients'] .nutrientReadout {
   opacity: 1;
-  transform: translateY(0);
 }
 
 .orbVisual:focus-visible,
@@ -349,8 +346,38 @@
     width: min(88vw, 480px);
   }
 
+  .photoFrame {
+    width: min(82%, 450px);
+    height: min(82%, 450px);
+    aspect-ratio: 1;
+  }
+
   .photoReading dl div {
     grid-template-columns: minmax(115px, 0.75fr) minmax(0, 1.25fr);
+  }
+
+  .photoReading {
+    inset: 5%;
+  }
+
+  .photoReading h1 {
+    margin-bottom: 24px;
+    font-size: clamp(19px, 5vw, 25px);
+  }
+
+  .photoReading dl {
+    width: 100%;
+    margin-left: 0;
+    gap: 9px;
+  }
+
+  .photoReading dt,
+  .photoReading dd {
+    font-size: 11px;
+  }
+
+  .nutrientRows {
+    margin-top: 38px;
   }
 }
 

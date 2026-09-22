@@ -34,6 +34,16 @@
   transform: translateY(-1px);
 }
 
+.viewSwitch button:hover,
+.viewSwitch button:focus-visible {
+  color: #1d1d1d;
+  background: #fff;
+  box-shadow:
+    0 10px 26px #0000001a,
+    0 3px 9px #0000000e;
+  transform: translateY(-2px) scale(1.045);
+}
+
 .indexBody {
   width: min(100%, 1540px);
   margin: 0 auto;
@@ -63,7 +73,7 @@
 }
 
 .filterHeading {
-  margin: 23px 0 2px;
+  margin: 43px 0 2px;
   color: #555;
   font-size: 11px;
   font-weight: 600;
@@ -675,7 +685,7 @@
 
   .filterHeading {
     grid-column: 1 / -1;
-    margin: 12px 0 0;
+    margin: 20px 0 0;
   }
 
   .filterButton i {
