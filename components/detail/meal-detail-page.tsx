@@ -94,7 +94,8 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
       const orbBox = orb.getBoundingClientRect();
       const centerX = orbBox.left - gridBox.left + orbBox.width / 2;
       const centerY = orbBox.top - gridBox.top + orbBox.height / 2;
-      const radius = orbBox.width * 0.43;
+      // Keep each color marker just outside the Orb's soft, uneven edge.
+      const radius = orbBox.width * 0.59;
       const rows = Array.from(
         readout.querySelectorAll<HTMLElement>('[data-nutrient-row]'),
       );
@@ -284,12 +285,16 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
           >
             {connectors.map((connector) => {
               const color = nutrientByKey[connector.key].color;
-              const middleX =
-                connector.startX + (connector.endX - connector.startX) * 0.56;
+              const straightStartX = Math.max(
+                connector.startX,
+                connector.endX - 38,
+              );
+              const curveX =
+                connector.startX + (straightStartX - connector.startX) * 0.7;
               return (
                 <g key={connector.key}>
                   <path
-                    d={`M ${connector.startX} ${connector.startY} C ${middleX} ${connector.startY}, ${middleX} ${connector.endY}, ${connector.endX} ${connector.endY}`}
+                    d={`M ${connector.startX} ${connector.startY} C ${curveX} ${connector.startY}, ${curveX} ${connector.endY}, ${straightStartX} ${connector.endY} L ${connector.endX} ${connector.endY}`}
                     stroke={color}
                     strokeWidth="1.2"
                     strokeDasharray="4 5"
