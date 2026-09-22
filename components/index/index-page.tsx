@@ -503,6 +503,7 @@ export default function IndexPage({ config }: IndexPageProps) {
               <span>SHOW ALL</span>
               <i aria-hidden="true" />
             </button>
+            <span className={styles.filterHeading}>Search By</span>
             {nutrientKeys.map((key) => {
               const nutrient = nutrientByKey[key];
               const active = selectedNutrient === key;

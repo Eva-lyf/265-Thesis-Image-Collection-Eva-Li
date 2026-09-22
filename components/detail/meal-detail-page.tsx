@@ -187,7 +187,6 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
             <NutrientOrbVisual meal={meal} detail active />
           </button>
           <div className={styles.photoReading}>
-            <span className={styles.eyebrow}>MEAL READING</span>
             <h1>{meal.title}</h1>
             <dl>
               <div>
@@ -247,8 +246,8 @@ export default function MealDetailPage({ meal, config }: MealDetailPageProps) {
           </button>
           <div ref={readoutRef} className={styles.nutrientReadout}>
             <div className={styles.readoutHeading}>
-              <span className={styles.eyebrow}>NUTRIENT DISTRIBUTION</span>
-              <span>{meal.calories.toLocaleString('en-US')} KCAL</span>
+              <span>Total Calorie</span>
+              <strong>{meal.calories.toLocaleString('en-US')} kcal</strong>
             </div>
             <div className={styles.nutrientRows}>
               {nutrientRows.map((key) => {
